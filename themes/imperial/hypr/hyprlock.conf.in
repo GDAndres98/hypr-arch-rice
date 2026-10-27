@@ -4,7 +4,8 @@
 # @VAL@ = font for live values (date, typing), @BIG@ = font for the big clock (Aurebesh in modes 2 and 3).
 # Docs: https://wiki.hypr.land/Hypr-Ecosystem/hyprlock
 # Colors: rgba(RRGGBBAA). Positions: x,y from the anchor, y goes UP. Escape # in text as ##.
-# Glow = shadow_* on a lit lamp. rounding = -1 makes a circle. Widgets draw in file order (later = on top).
+# Glow = shadow_* on a lit lamp. rounding = -1 makes a circle.
+# Stacking is set by zindex (higher = on top): panel layers 1-3, lamps/text 10, dial hub + eye 12.
 #
 # Layout: one tall panel in the middle of the corridor wall (panel 460 x 600)
 #   lamp row:  blue + unlit hexagon ........................ copper dial
@@ -33,6 +34,7 @@ background {
 # --- The panel: gunmetal frame > navy-black face > thin worn trace outline ---
 shape {
     monitor =
+    zindex = 1
     size = 460, 600
     color = rgba(2e2f33ff)
     rounding = 4
@@ -47,6 +49,7 @@ shape {
 }
 shape {
     monitor =
+    zindex = 2
     size = 428, 568
     color = rgba(0e1018ff)
     rounding = 2
@@ -56,6 +59,7 @@ shape {
 }
 shape {
     monitor =
+    zindex = 3
     size = 400, 540
     color = rgba(00000000)
     border_size = 1
@@ -69,6 +73,7 @@ shape {
 # --- Top lamp row: blue (lit) + unlit hexagon, copper dial ---
 label {
     monitor =
+    zindex = 10
     text = <span foreground="##4433ff">⬢</span>
     font_size = 30
     font_family = JetBrainsMono Nerd Font
@@ -81,6 +86,7 @@ label {
 }
 label {
     monitor =
+    zindex = 10
     text = <span foreground="##3c3d40">⬢</span>
     font_size = 30
     font_family = JetBrainsMono Nerd Font
@@ -91,6 +97,7 @@ label {
 # Dial ring
 shape {
     monitor =
+    zindex = 10
     size = 48, 48
     color = rgba(4a2214ff)
     rounding = -1
@@ -103,6 +110,7 @@ shape {
 # Dial hub
 shape {
     monitor =
+    zindex = 12
     size = 16, 16
     color = rgba(050506ff)
     rounding = -1
@@ -116,6 +124,7 @@ shape {
 # --- Second lamp row: white, gap, white white red (all glowing) + blinking red eye ---
 shape {
     monitor =
+    zindex = 10
     size = 26, 26
     color = rgba(f2f2f2ff)
     rounding = 0
@@ -128,6 +137,7 @@ shape {
 }
 shape {
     monitor =
+    zindex = 10
     size = 26, 26
     color = rgba(f2f2f2ff)
     rounding = 0
@@ -140,6 +150,7 @@ shape {
 }
 shape {
     monitor =
+    zindex = 10
     size = 26, 26
     color = rgba(f2f2f2ff)
     rounding = 0
@@ -152,6 +163,7 @@ shape {
 }
 shape {
     monitor =
+    zindex = 10
     size = 26, 26
     color = rgba(ff2a2aff)
     rounding = 0
@@ -165,6 +177,7 @@ shape {
 # The eye's dark housing
 shape {
     monitor =
+    zindex = 10
     size = 34, 34
     color = rgba(1c1d20ff)
     rounding = -1
@@ -177,6 +190,7 @@ shape {
 # The eye: blink.sh prints a lit or dark dot every second
 label {
     monitor =
+    zindex = 12
     text = cmd[update:1000] ~/dotfiles/current/hypr/blink.sh
     font_size = 13
     font_family = JetBrainsMono Nerd Font
@@ -191,6 +205,7 @@ label {
 # --- Title + translation ---
 label {
     monitor =
+    zindex = 10
     text = {{title:IMPERIAL SECURITY BUREAU}}
     color = rgba(ffffffff)
     font_size = 15
@@ -204,6 +219,7 @@ label {
 # Thin trace across the panel
 shape {
     monitor =
+    zindex = 10
     size = 360, 1
     color = rgba(dcdcdc4d)
     rounding = 0
@@ -215,6 +231,7 @@ shape {
 # --- Clock and date ---
 label {
     monitor =
+    zindex = 10
     text = $TIME
     color = rgba(ffffffff)
     font_size = 60
@@ -228,6 +245,7 @@ label {
 }
 label {
     monitor =
+    zindex = 10
     text = cmd[update:60000] date +"%^A %d %^B %Y"
     color = rgba(8a8d93ff)
     font_size = 12
@@ -240,6 +258,7 @@ label {
 # --- Password field: a recessed slot; white while checking, red on a wrong code ---
 input-field {
     monitor =
+    zindex = 10
     size = 320, 44
     outline_thickness = 2
     rounding = 0
@@ -262,6 +281,7 @@ input-field {
 # --- Bottom lamp row: grey red red grey (small), big white lamp ---
 shape {
     monitor =
+    zindex = 10
     size = 18, 18
     color = rgba(8a8d93ff)
     rounding = 0
@@ -271,6 +291,7 @@ shape {
 }
 shape {
     monitor =
+    zindex = 10
     size = 18, 18
     color = rgba(ff2a2aff)
     rounding = 0
@@ -283,6 +304,7 @@ shape {
 }
 shape {
     monitor =
+    zindex = 10
     size = 18, 18
     color = rgba(ff2a2aff)
     rounding = 0
@@ -295,6 +317,7 @@ shape {
 }
 shape {
     monitor =
+    zindex = 10
     size = 18, 18
     color = rgba(8a8d93ff)
     rounding = 0
@@ -305,6 +328,7 @@ shape {
 # Two little grey dots under the row
 shape {
     monitor =
+    zindex = 10
     size = 6, 6
     color = rgba(6a6b6eff)
     rounding = -1
@@ -314,6 +338,7 @@ shape {
 }
 shape {
     monitor =
+    zindex = 10
     size = 6, 6
     color = rgba(6a6b6eff)
     rounding = -1
@@ -323,6 +348,7 @@ shape {
 }
 shape {
     monitor =
+    zindex = 10
     size = 34, 34
     color = rgba(f2f2f2ff)
     rounding = 0
@@ -337,6 +363,7 @@ shape {
 # --- Outside the panel: restricted tag top-right, footer at the bottom ---
 label {
     monitor =
+    zindex = 10
     text = {{title:RESTRICTED}}
     color = rgba(ff2a2aff)
     font_size = 12
@@ -347,6 +374,7 @@ label {
 }
 label {
     monitor =
+    zindex = 10
     text = {{stack:TERMINAL LOCKED // PRESS ENTER}}
     color = rgba(6b7078ff)
     font_size = 10
