@@ -1,0 +1,20 @@
+/* rofi TEMPLATE: calculator (SUPER + SHIFT + C, rofi-calc). Edit this .in file, then run `sw-mode`.
+   Type math (2^10, 15% of 80, 5 km to mi); the readout shows the result big; Enter copies it. */
+@import "config.rasi"
+
+configuration { eh: 1; }
+
+textbox-title   { content: "<span foreground='#f2f2f2'>{{title:TARGETING COMPUTER}}</span>"; }
+entry           { placeholder: "{{pair:ENTER CALCULATION}}"; }
+/* rofi-calc writes the result into rofi's message box: make that the big readout, drop the list */
+mainbox         { children: [ header, inputbar, message, footer ]; }
+message {
+    background-color: #0e1018;
+    border: 0 0 0 4px;
+    border-color: #d81e28;
+    padding: 8px 14px;
+}
+textbox         { font: "@VAL@ 22"; text-color: #f2f2f2; }   /* result: Latin in mode 1, Aurebesh in 2 and 3 */
+element-text    { markup: false; }
+textbox-status  { content: "<span foreground='#ff2a2a'>●</span> {{pair:SOLUTION LOCKED}}"; }
+textbox-keys    { content: "ENTER copy · ESC close"; }

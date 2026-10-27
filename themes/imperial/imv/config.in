@@ -1,0 +1,12 @@
+# imv TEMPLATE: Imperial image viewer. Edit this .in file, then run `sw-mode`. Docs: man 5 imv
+# Colors are hex without #. Press d to toggle the info overlay, q to quit, arrows for next/previous.
+[options]
+background = 050506
+overlay = true
+overlay_font = @BODY@:11
+overlay_text_color = c9ccd1
+overlay_background_color = 161719
+overlay_background_alpha = e6
+overlay_position_bottom = true
+overlay_text = ▶ [$imv_current_index/$imv_file_count]  $imv_current_file   ·   $imv_width×$imv_height   ·   $imv_scale%
+title_text = IMPERIAL ARCHIVE · $imv_current_file

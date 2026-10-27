@@ -9,6 +9,7 @@ dotfiles/
 ├── hypr/                  shared, linked from ~/.config/hypr
 │   ├── hyprland.lua         monitors, input, keybinds, rules, autostart; does require("theme")
 │   ├── hypridle.conf        idle timers
+│   ├── hyprtoolkit.conf ->  ../current/hypr/hyprtoolkit.conf   (look of Hyprland's own small apps)
 │   ├── theme.lua      ->  ../current/hypr/theme.lua
 │   └── hyprlock.conf  ->  ../current/hypr/hyprlock.conf
 ├── kitty/                 shared, linked from ~/.config/kitty
@@ -19,12 +20,17 @@ dotfiles/
     └── halo-ce/
         ├── hypr/theme.lua       borders, shadows, blur, animations, background color
         ├── hypr/hyprlock.conf   lock screen
+        ├── hypr/hyprtoolkit.conf  look of hyprland-run and other hyprtoolkit apps
+        ├── rofi/config.rasi     app finder on SUPER + R (blur/dim/animation: layer rule in theme.lua)
+        ├── rofi/clipboard.rasi  clipboard history on SUPER + SHIFT + V (imports config.rasi)
+        ├── rofi/calc.rasi       calculator on SUPER + SHIFT + C (imports config.rasi)
+        ├── imv/                 image viewer, linked from ~/.config/imv
         ├── waybar/              linked from ~/.config/waybar (through current)
         ├── mako/                linked from ~/.config/mako
         └── eww/                 linked from ~/.config/eww
 ```
 
-`~/.config/waybar`, `mako` and `eww` point at `~/dotfiles/current/...`, so they follow whichever theme is active.
+`~/.config/waybar`, `mako`, `eww` and `imv` point at `~/dotfiles/current/...`, so they follow whichever theme is active.
 
 ## Switch theme
 
@@ -45,14 +51,16 @@ sw-mode      # rebuild with the saved mode (after editing a template)
 ```
 
 The mode is saved in `~/.local/state/sw-mode` and survives reboots.
-Waybar, mako, eww and hyprlock files in `themes/imperial/` are **templates** (`*.in`). `sw-mode` fills in
+Waybar, mako, eww, hyprlock, hyprtoolkit, rofi and imv files in `themes/imperial/` are **templates** (`*.in`). `sw-mode` fills in
 the fonts and writes the real file next to it (git ignores those). **Edit the `.in` file**, then run `sw-mode`.
 Fonts and their licenses: `themes/imperial/fonts/`.
 
 ## New theme
 
 Copy `themes/halo-ce` to `themes/<name>` and edit it. Each theme must provide:
-- `hypr/theme.lua` and `hypr/hyprlock.conf`
+- `hypr/theme.lua`, `hypr/hyprlock.conf` and `hypr/hyprtoolkit.conf`
+- `rofi/config.rasi`, `rofi/clipboard.rasi`, `rofi/calc.rasi` (keybinds run them straight from `current/`, no `~/.config` link)
+- `imv/config`
 - `waybar/`, `mako/config`, `eww/`
 - an eww window named `dashboard` (`hyprland.lua` opens it on empty workspaces)
 - optional executable hooks `enter` / `leave`, run by `theme` when switching to / away from it

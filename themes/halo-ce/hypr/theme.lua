@@ -88,3 +88,15 @@ hl.config({
         background_color        = 0xff03091a, -- Halo CE space navy (ARGB)
     },
 })
+
+-- App finder (rofi, SUPER + R): a HUD panel that pops in over frosted, dimmed glass.
+-- Its look lives in rofi/config.rasi; this is how Hyprland draws it.
+hl.config({ decoration = { dim_around = 0.45 } })   -- how dark the rest of the screen gets
+hl.layer_rule({
+    name         = "launcher-hud",
+    match        = { namespace = "^rofi$" },
+    blur         = true,          -- frost what's behind its translucent background
+    ignore_alpha = 0.2,           -- ...but don't blur fully see-through pixels
+    dim_around   = true,
+    animation    = "popin 85%",   -- grows from 85% size
+})

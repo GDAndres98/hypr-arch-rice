@@ -1,0 +1,24 @@
+# hyprtoolkit TEMPLATE: Imperial console look for Hyprland's own small apps (hyprland-run, guiutils dialogs).
+# Edit this .in file, then run `sw-mode` to rebuild hyprtoolkit.conf.
+# @BODY@ = app names: readable Latin until mode 3. @VAL@ = monospace (math results): Aurebesh from mode 2.
+# Colors: rgba(RRGGBBAA). Opaque and flat: Imperial screens don't blur.
+
+background       = rgba(0b0c0eff)   # console black
+base             = rgba(161719ff)   # search box: corridor wall
+alternate_base   = rgba(1d1f23ff)
+text             = rgba(c9ccd1ff)
+bright_text      = rgba(ffffffff)
+link_text        = rgba(d81e28ff)
+accent           = rgba(d81e28ff)   # selected row: warning red
+accent_secondary = rgba(6b7078ff)   # cold grey
+
+font_family           = @BODY@
+font_family_monospace = @VAL@
+font_size       = 12
+small_font_size = 10
+h1_size = 20
+h2_size = 16
+h3_size = 13
+
+rounding_large = 0   # hard edges
+rounding_small = 0

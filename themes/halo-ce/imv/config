@@ -1,0 +1,12 @@
+# imv: Halo CE image viewer. Docs: man 5 imv
+# Colors are hex without #. Press d to toggle the info overlay, q to quit, arrows for next/previous.
+[options]
+background = 03091a
+overlay = true
+overlay_font = Saira:11
+overlay_text_color = 9ad6ff
+overlay_background_color = 061230
+overlay_background_alpha = d9
+overlay_position_bottom = true
+overlay_text = ◆ [$imv_current_index/$imv_file_count]  $imv_current_file   ·   $imv_width×$imv_height   ·   $imv_scale%
+title_text = UNSC // $imv_current_file

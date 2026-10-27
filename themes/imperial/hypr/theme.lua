@@ -59,3 +59,13 @@ hl.config({
         background_color = 0xff050506, -- console black (ARGB)
     },
 })
+
+-- App finder (rofi, SUPER + R): the screen goes dark and a console panel slides down
+-- like a blast door. Its look lives in rofi/config.rasi.in.
+hl.config({ decoration = { dim_around = 0.7 } })   -- interrogation-room dark
+hl.layer_rule({
+    name       = "launcher-console",
+    match      = { namespace = "^rofi$" },
+    dim_around = true,
+    animation  = "slide top",
+})

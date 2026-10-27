@@ -1,0 +1,156 @@
+/* rofi TEMPLATE: Imperial console app finder (SUPER + R). Edit this .in file, then run `sw-mode`.
+   Codes: {{pair:X}} = X + translation, {{title:X}} = heading font, %name% = the app's name. See sw-mode.
+   Same panel language as the waybar: wall #161719, frame #2e2f33, face #0e1018, warning red #d81e28,
+   lamps white #f2f2f2 / red #ff2a2a / blue #4433ff / unlit #3c3d40.
+   rofi can't draw glows (no shadows): lamps are coloured glyphs, depth comes from frames + gradients.
+   Docs: man rofi-theme   Preview: rofi -show drun -config <this file without .in> */
+
+configuration {
+    modi: "drun";
+    show-icons: true;
+    /* name, translation underneath, then a category tag from the app's GenericName (optional: [ ]) */
+    drun-display-format: "{{stack:%name%}}[  <span font_family='@BODY@' size='x-small' text_transform='uppercase' letter_spacing='1024' foreground='#d81e28'>‹{generic}›</span>]";
+    drun-match-fields: "name,generic,keywords";   /* search the real names, never the markup */
+    display-drun: "";
+    eh: 2;   /* row height in lines: name + translation */
+    matching: "fuzzy";
+    sort: true;
+    sorting-method: "fzf";
+}
+
+* {
+    font: "JetBrainsMono Nerd Font 12";
+    background-color: transparent;
+    text-color: #c9ccd1;
+    border-color: #2e2f33;
+}
+
+/* The console: a gunmetal frame on the corridor wall */
+window {
+    width: 720px;
+    background-color: #161719;
+    border: 2px;
+    padding: 12px;
+}
+
+mainbox {
+    spacing: 8px;
+    children: [ header, inputbar, textbox-current-entry, listview, footer ];
+}
+
+/* Header: stencilled title on the wall, lamp row on the right, red warning rule below */
+header {
+    orientation: horizontal;
+    expand: false;
+    border: 0 0 2px 0;
+    border-color: #d81e28;
+    padding: 0 0 6px 0;
+    children: [ textbox-title, textbox-lamps ];
+}
+textbox-title {
+    content: "<span foreground='#f2f2f2'>{{title:IMPERIAL INDEX}}</span>";
+    markup: true;
+    vertical-align: 0.5;
+}
+textbox-lamps {
+    content: "<span foreground='#4433ff'>■</span> <span foreground='#3c3d40'>■</span>   <span foreground='#f2f2f2'>■ ■</span> <span foreground='#ff2a2a'>■</span>";
+    markup: true;
+    expand: false;
+    vertical-align: 0.5;
+}
+
+/* Search: a framed panel with a red prompt and a row counter */
+inputbar {
+    background-color: #0e1018;
+    border: 2px;
+    padding: 8px 10px;
+    spacing: 10px;
+    children: [ prompt-glyph, entry, num-filtered-rows, textbox-slash, num-rows ];
+}
+prompt-glyph { expand: false; children: [ textbox-prompt ]; }
+textbox-prompt {
+    content: "<span foreground='#ff2a2a'>▶</span>";
+    markup: true;
+    expand: false;
+}
+entry {
+    text-color: #f2f2f2;
+    placeholder: "{{pair:SEARCH THE ARCHIVES}}";
+    placeholder-markup: true;
+    placeholder-color: #6b7078;
+    cursor-color: #ff2a2a;
+}
+num-filtered-rows, textbox-slash, num-rows {
+    font: "@VAL@ 10";
+    text-color: #8a8d93;
+    expand: false;
+    vertical-align: 0.5;
+}
+textbox-slash { content: "/"; }
+
+/* Readout: the selected app, big and stacked (name over translation), behind a red edge.
+   It shows the selected row's text, so it updates as you type. */
+textbox-current-entry {
+    font: "JetBrainsMono Nerd Font 18";
+    markup: true;
+    text-color: #f2f2f2;
+    background-color: #0e1018;
+    border: 0 0 0 4px;
+    border-color: #d81e28;
+    padding: 8px 14px;
+}
+
+/* The list: one dark face, the selected row lit from the left */
+listview {
+    lines: 6;
+    columns: 1;
+    fixed-height: true;
+    scrollbar: false;
+    background-color: #0e1018;
+    border: 2px;
+    padding: 4px;
+    spacing: 2px;
+}
+element {
+    padding: 6px 10px;
+    spacing: 12px;
+    border: 0 0 0 4px;
+    border-color: transparent;
+}
+/* rofi's built-in theme paints rows cream: reset every state to the dark face */
+element normal.normal, element alternate.normal, element normal.active, element alternate.active,
+element normal.urgent, element alternate.urgent {
+    background-color: transparent;
+    text-color: #c9ccd1;
+}
+element selected.normal {
+    background-image: linear-gradient(to right, #8c1a20, #3a0e12, #0e1018);
+    border-color: #ff2a2a;
+}
+element-icon { size: 24px; }
+element-text {
+    markup: true;
+    highlight: bold #ff2a2a;   /* the letters you typed */
+    vertical-align: 0.5;
+    text-color: inherit;
+}
+element selected.normal element-text { text-color: #ffffff; }
+
+/* Footer: status plate */
+footer {
+    orientation: horizontal;
+    expand: false;
+    children: [ textbox-status, textbox-keys ];
+}
+textbox-status {
+    content: "<span foreground='#ff2a2a'>●</span> {{pair:CLEARANCE GRANTED}}";
+    markup: true;
+    font: "JetBrainsMono Nerd Font 9";
+    text-color: #8a8d93;
+}
+textbox-keys {
+    content: "ENTER launch · ESC close";
+    font: "JetBrainsMono Nerd Font 9";
+    text-color: #3c3d40;
+    expand: false;
+}

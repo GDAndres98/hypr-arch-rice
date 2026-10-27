@@ -17,6 +17,7 @@
 #   @VAL@ / @BIG@   font for live values (numbers) / big numbers: Latin in mode 1, Aurebesh in 2 and 3
 #   @BODY@          font for reading text (notification body, window title, tooltips): Aurebesh only in 3
 #   @AUR@ / @DISP@  always Aurebesh / always Oma Tres
+#   %name%          rofi only: becomes {name} AFTER the codes above ({name} would break {{pair:...}})
 
 set -e
 T=~/dotfiles/themes/imperial
@@ -48,10 +49,11 @@ esac
 
 # render FILE.in -> FILE
 render() {
-    nl='\\n'; hash='#'                        # newline as \n (JSON, mako)
+    nl='\\n'; hash='#'; post=                  # newline as \n (JSON, mako)
     case $1 in
         *hyprlock.conf.in) nl='<br/>'; hash='##' ;;   # hyprlock: <br/>, and # must be ##
         *.yuck.in) nl='\n' ;;                          # eww shows \n literally: insert a real line break
+        *.rasi.in) post='s|%name%|{name}|g' ;;          # rofi: app name field
     esac
     m="<span font_family='$main'>\1</span>"
     tm="<span font_family='$tmain'>\1</span>"
@@ -67,6 +69,7 @@ render() {
         -e "s|{{title:\([^}]*\)}}|$title|g" \
         -e "s|@VAL@|$val|g" -e "s|@BIG@|$big|g" \
         -e "s|@BODY@|$body|g" -e "s|@AUR@|$AUR|g" -e "s|@DISP@|$DISP|g" \
+        -e "$post" \
         "$1" > "${1%.in}"
 }
 find "$T" -name '*.in' | while read -r f; do render "$f"; done

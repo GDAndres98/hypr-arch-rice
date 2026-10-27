@@ -1,0 +1,12 @@
+/* rofi TEMPLATE: clipboard history (SUPER + SHIFT + V). Edit this .in file, then run `sw-mode`.
+   Same console as the app finder (imported), with its own title. Rows are plain text: one line each. */
+@import "config.rasi"
+
+configuration { eh: 1; }
+
+textbox-title   { content: "<span foreground='#f2f2f2'>{{title:INTERCEPTED TRANSMISSIONS}}</span>"; }
+entry           { placeholder: "{{pair:SEARCH THE LOG}}"; }
+textbox-current-entry { font: "JetBrainsMono Nerd Font 12"; }   /* preview of the selected clip */
+element-text    { markup: false; }
+textbox-status  { content: "<span foreground='#ff2a2a'>●</span> {{pair:MONITORING}}"; }
+textbox-keys    { content: "ENTER copy · ESC close"; }

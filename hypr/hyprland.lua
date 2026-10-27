@@ -37,7 +37,15 @@ hl.monitor({
 -- Set programs that you use
 local terminal    = "kitty"
 local fileManager = "dolphin"
-local menu        = "hyprlauncher"
+-- App finder: rofi with the active theme's config. Pressing SUPER + R again closes it (pkill finds it).
+local rofiDir     = os.getenv("HOME") .. "/dotfiles/current/rofi/"
+local menu        = "pkill -x rofi || rofi -show drun -config " .. rofiDir .. "config.rasi"
+-- Clipboard history: cliphist lists what you copied, rofi picks one, cliphist decodes it back, wl-copy copies it
+local clipboard   = "pkill -x rofi || cliphist list | rofi -dmenu -display-columns 2 -config " .. rofiDir .. "clipboard.rasi"
+                 .. " | cliphist decode | wl-copy"
+-- Calculator (rofi-calc): Enter copies the result
+local calculator  = "pkill -x rofi || rofi -show calc -modi calc -no-show-match -no-sort -no-history -hint-result ''"
+                 .. " -calc-command \"echo -n '{result}' | wl-copy\" -config " .. rofiDir .. "calc.rasi"
 
 
 -------------------
@@ -196,6 +204,8 @@ hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(menu))
+hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd(clipboard))
+hl.bind(mainMod .. " + SHIFT + C", hl.dsp.exec_cmd(calculator))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))    -- dwindle only
 
@@ -322,6 +332,7 @@ hl.on("hyprland.start", function ()
   hl.exec_cmd("nm-applet")
   hl.exec_cmd("systemctl --user start hyprpolkitagent")
   hl.exec_cmd("hypridle")
+  hl.exec_cmd("wl-paste --watch cliphist store")   -- save every copy to the clipboard history
 end)
 
 -- Lock the screen with mainMod + L

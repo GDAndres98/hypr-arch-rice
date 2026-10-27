@@ -1,0 +1,8 @@
+/* rofi: clipboard history (SUPER + SHIFT + V). Same HUD as the app finder (imported), its own title. */
+@import "config.rasi"
+
+textbox-title  { content: "<span font_family='Michroma' foreground='#9ad6ff'>UNSC  //  COMM LOG</span>"; }
+entry          { placeholder: "Search clipboard…"; }
+element-text   { markup: false; }
+textbox-status { content: "<span foreground='#fff27a'>▲</span> RECORDING"; }
+textbox-keys   { content: "ENTER copy · ESC abort"; }

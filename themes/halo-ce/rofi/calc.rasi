@@ -1,0 +1,16 @@
+/* rofi: calculator (SUPER + SHIFT + C, rofi-calc). Same HUD as the app finder (imported), its own title. */
+@import "config.rasi"
+
+/* rofi-calc writes the result into rofi's message box: make that the big readout, drop the list */
+mainbox        { children: [ header, inputbar, message, footer ]; }
+textbox-title  { content: "<span font_family='Michroma' foreground='#9ad6ff'>UNSC  //  BALLISTICS</span>"; }
+entry          { placeholder: "2^10, 15% of 80, 5 km to mi…"; }
+message {
+    background-color: rgba(6, 18, 48, 85%);
+    border: 0 0 0 3px;
+    padding: 8px 12px;
+}
+textbox        { font: "Michroma 20"; text-color: #fff27a; }   /* the result, big */
+element-text   { markup: false; }
+textbox-status { content: "<span foreground='#fff27a'>▲</span> FIRING SOLUTION"; }
+textbox-keys   { content: "ENTER copy · ESC abort"; }

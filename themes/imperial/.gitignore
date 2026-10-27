@@ -5,3 +5,8 @@ mako/config
 eww/eww.yuck
 eww/eww.css
 hypr/hyprlock.conf
+hypr/hyprtoolkit.conf
+rofi/config.rasi
+rofi/clipboard.rasi
+rofi/calc.rasi
+imv/config

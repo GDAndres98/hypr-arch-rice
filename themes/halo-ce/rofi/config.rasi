@@ -1,0 +1,126 @@
+/* rofi: Halo CE HUD app finder (SUPER + R).
+   Translucent navy over blur (the blur is a layer rule in hypr/theme.lua), shield-blue frame, Michroma headings.
+   Palette: navy #03091a / #061230, shield blue #2f8cff, HUD cyan #9ad6ff, text #dce9f8, Warthog yellow #fff27a.
+   Docs: man rofi-theme   Preview: rofi -show drun -config <this file> */
+
+configuration {
+    modi: "drun";
+    show-icons: true;
+    drun-display-format: "{name}[  <span size='small' foreground='#4da3ff'>{generic}</span>]";
+    drun-match-fields: "name,generic,keywords";
+    display-drun: "";
+    matching: "fuzzy";
+    sort: true;
+    sorting-method: "fzf";
+}
+
+* {
+    font: "Saira 12";
+    background-color: transparent;
+    text-color: #dce9f8;
+    border-color: #2f8cff;
+}
+
+window {
+    width: 720px;
+    background-color: rgba(3, 9, 26, 80%);
+    border: 2px;
+    border-color: rgba(47, 140, 255, 90%);
+    padding: 14px;
+}
+
+mainbox {
+    spacing: 10px;
+    children: [ header, inputbar, listview, footer ];
+}
+
+/* Header: MJOLNIR HUD title + shield meter */
+header {
+    orientation: horizontal;
+    expand: false;
+    children: [ textbox-title, textbox-shield ];
+}
+textbox-title {
+    content: "<span font_family='Michroma' foreground='#9ad6ff'>UNSC  //  INDEX</span>";
+    markup: true;
+    vertical-align: 0.5;
+}
+textbox-shield {
+    content: "<span font_family='Michroma' size='small' foreground='#4da3ff'>SHIELD </span><span foreground='#2f8cff'>▰▰▰▰▰▰▰▰▰▰</span>";
+    markup: true;
+    expand: false;
+    vertical-align: 0.5;
+}
+
+inputbar {
+    background-color: rgba(6, 18, 48, 85%);
+    border: 0 0 2px 0;
+    padding: 8px 10px;
+    spacing: 10px;
+    children: [ textbox-prompt, entry, num-filtered-rows ];
+}
+textbox-prompt {
+    content: "<span foreground='#fff27a'>◆</span>";
+    markup: true;
+    expand: false;
+}
+entry {
+    text-color: #ffffff;
+    placeholder: "Search…";
+    placeholder-color: #4a6a99;
+    cursor-color: #fff27a;
+}
+num-filtered-rows {
+    font: "Michroma 9";
+    text-color: #4da3ff;
+    expand: false;
+    vertical-align: 0.5;
+}
+
+listview {
+    lines: 8;
+    fixed-height: true;
+    scrollbar: false;
+    spacing: 2px;
+}
+element normal.normal, element alternate.normal, element normal.active, element alternate.active,
+element normal.urgent, element alternate.urgent {
+    background-color: transparent;
+    text-color: #dce9f8;
+}
+element {
+    padding: 6px 10px;
+    spacing: 12px;
+    border: 0 0 0 3px;
+    border-color: transparent;
+}
+element selected.normal {
+    background-image: linear-gradient(to right, rgba(47, 140, 255, 55%), rgba(47, 140, 255, 0%));
+    border-color: #9ad6ff;
+    text-color: #ffffff;
+}
+element-icon { size: 24px; }
+element-text {
+    markup: true;
+    vertical-align: 0.5;
+    text-color: inherit;
+    highlight: bold #fff27a;   /* the letters you typed */
+}
+
+footer {
+    orientation: horizontal;
+    expand: false;
+    children: [ textbox-status, textbox-keys ];
+}
+textbox-status {
+    content: "<span foreground='#fff27a'>▲</span> MOTION TRACKER ACTIVE";
+    markup: true;
+    font: "Michroma 8";
+    text-color: #4da3ff;
+}
+textbox-keys {
+    content: "ENTER deploy · ESC abort";
+    font: "Michroma 8";
+    text-color: #2a4f8a;
+    expand: false;
+}
