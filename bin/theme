@@ -1,0 +1,41 @@
+#!/bin/sh
+# theme: list or switch dotfiles themes.
+# Usage: theme          list themes (* = active)
+#        theme NAME     switch to themes/NAME
+# A theme may have executable hooks: `enter` (run after switching to it), `leave` (run before switching away).
+
+D=~/dotfiles
+cur=$(basename "$(readlink "$D/current")")
+
+if [ -z "$1" ]; then
+    for t in "$D"/themes/*/; do
+        n=$(basename "$t")
+        if [ "$n" = "$cur" ]; then echo "* $n"; else echo "  $n"; fi
+    done
+    exit 0
+fi
+
+[ -d "$D/themes/$1" ] || { echo "No theme '$1'. Run 'theme' to list them." >&2; exit 1; }
+
+[ -x "$D/themes/$cur/leave" ] && "$D/themes/$cur/leave"
+# Stop eww BEFORE relinking: eww finds its daemon by config path, so afterwards it can't reach the old one
+eww kill >/dev/null 2>&1
+ln -sfn "themes/$1" "$D/current"
+[ -x "$D/themes/$1/enter" ] && "$D/themes/$1/enter"
+
+# Reload everything that draws the theme
+hyprctl reload >/dev/null
+makoctl reload
+pkill -USR1 -x kitty
+pkill -x waybar
+eww daemon >/dev/null 2>&1   # eww's socket follows the config path, so restart instead of reload
+sleep 0.5
+
+# Same rule as update_mode() in hyprland.lua: empty workspace -> dashboard, else -> waybar
+if hyprctl activeworkspace | grep -q 'windows: 0$'; then
+    eww open dashboard >/dev/null
+else
+    setsid -f waybar >/dev/null 2>&1
+fi
+
+echo "Theme: $1"

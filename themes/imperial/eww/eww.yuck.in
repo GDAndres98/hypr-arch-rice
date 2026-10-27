@@ -1,0 +1,150 @@
+; eww TEMPLATE: Imperial control-panel dashboard ("desktop mode"). Edit this .in file, then run `sw-mode`.
+; pair / stack / title codes = label + translation, filled in per mode (see the list in sw-mode).
+; Must define a window named "dashboard": hyprland.lua opens it on empty workspaces.
+; Look: each section is an Imperial control panel (after Ahren Hart's "Imperial Control Panel"):
+; chamfered gunmetal frame, navy-black face, thin white circuit traces, glowing lamps. See eww.css.in.
+; Docs: https://elkowar.github.io/eww/configuration.html
+;
+; Data: EWW_CPU, EWW_RAM, EWW_DISK built in; stats = scripts/stats.sh (shared with halo-ce)
+
+(defpoll stats :interval "2s"
+  :initial '{"cpu_temp":0,"gpu_temp":0,"gpu_util":0,"uptime":"","mode":"","power":"","bat":0,"bat_status":"","nvme_read":0,"hdd_read":0,"hdd_write":0,"rx":0,"tx":0}'
+  "~/.config/eww/scripts/stats.sh")
+
+; Panel = frame > face > traced plate. Whatever you put inside goes in the plate.
+(defwidget panel [?vexpand]
+  (box :class "frame" :vexpand {vexpand ?: false}
+    (box :class "face" :hexpand true
+      (box :class "traces" :orientation "v" :space-evenly false :spacing 6 :hexpand true
+        (children)))))
+
+; Square lamp: color = white / red / blue / off
+(defwidget lamp [color]
+  (box :class "lamp ${color}" :valign "center"))
+
+; Hexagon lamp (a glyph, so it can't be a box): color = white / red / blue / off
+(defwidget hex [color]
+  (label :class "hex ${color}" :valign "center" :text "⬢"))
+
+; Copper rotary dial: a toothed ring (dashed border) around a dark hub
+(defwidget dial []
+  (box :class "dial" :valign "center"
+    (box :class "hub" :halign "center" :valign "center")))
+
+; Section header: hex status lamp, title + translation, tag on a white tile
+; state: "ok" (blue), "warn" (white), "hot" (red)
+(defwidget head [title ?tag ?state]
+  (box :class "head" :space-evenly false :spacing 8
+    (hex :color {state == "hot" ? "red" : state == "warn" ? "white" : "blue"})
+    (label :class "head-title" :xalign 0 :hexpand true :markup title)
+    (label :class "tag" :valign "start" :text {tag ?: ""})))
+
+; One meter cell, lit when the value reaches its threshold
+(defwidget cell [percent at]
+  (box :class "cell ${percent >= at ? 'on' : ''}" :hexpand true))
+
+; 10-cell meter: white (or blue) glowing cells, red when past 'hot'
+(defwidget tiles [percent ?hot ?color]
+  (box :class "tiles ${color ?: ''} ${percent >= (hot ?: 85) ? 'hot' : ''}" :spacing 3 :hexpand true :valign "center"
+    (cell :percent percent :at 5)  (cell :percent percent :at 15) (cell :percent percent :at 25)
+    (cell :percent percent :at 35) (cell :percent percent :at 45) (cell :percent percent :at 55)
+    (cell :percent percent :at 65) (cell :percent percent :at 75) (cell :percent percent :at 85)
+    (cell :percent percent :at 95)))
+
+; Row: LABEL [■■■■■■□□□□] 63%
+(defwidget row [label percent ?hot ?color]
+  (box :class "row" :space-evenly false :spacing 8
+    (label :class "label" :xalign 0 :width 80 :markup label)
+    (tiles :percent percent :hot hot :color color)
+    (label :class "value" :xalign 1 :width 40 :text "${round(percent, 0)}%")))
+
+; Vertical slider: blue, white when warm, red when hot
+(defwidget slider [label value warm hot]
+  (box :class "slider-col" :orientation "v" :space-evenly false :spacing 4 :hexpand true
+    (progress :class "slider ${value >= hot ? 'hot' : value >= warm ? 'warm' : ''}"
+              :orientation "v" :flipped true :value value :halign "center")
+    (box :space-evenly false :spacing 6 :halign "center"
+      (label :class "value ${value >= hot ? 'hot' : ''}" :text "${value}°")
+      (label :class "label" :markup label))))
+
+(defwidget dashboard []
+  (box :class "wall" :orientation "v" :space-evenly false :spacing 4
+
+    ; Banner: Lenovo LEGION Y540 = this laptop. Laid out like the reference: hexagons + dial on top, lamp row below, title
+    (panel
+      (box :space-evenly false :spacing 10
+        (box :class "lamp-row" :space-evenly false :spacing 6 :hexpand true
+          (hex :color "blue") (hex :color "off") (box :class "gap")
+          (lamp :color "white") (box :class "gap")
+          (lamp :color "white") (lamp :color "white") (lamp :color "red")
+          (box :hexpand true)
+          (dial))
+        ; The column of small dots, one of them blinking
+        (box :class "dots" :orientation "v" :spacing 4 :valign "center"
+          (box :class "dot") (box :class "dot blink") (box :class "dot")
+          (box :class "dot") (box :class "dot")))
+      (label :class "banner-title" :xalign 0 :markup "{{title:IMPERIAL LEGION}}")
+      (box :space-evenly false
+        (label :class "muted" :xalign 0 :hexpand true :markup "{{stack:TERMINAL Y540}}")
+        (label :class "muted" :valign "start" :text {stats.uptime})))
+
+    ; Power cell = battery: big number + 10 cells
+    (panel
+      (head :title "{{stack:POWER CELL}}"
+            :tag {stats.bat_status == "Discharging" ? "CELL" : "LINE"}
+            :state {stats.bat <= 15 ? "hot" : stats.bat <= 30 ? "warn" : "ok"})
+      (box :space-evenly false
+        (label :class "big ${stats.bat <= 15 ? 'hot' : ''}" :xalign 0 :text "${stats.bat}")
+        (label :class "unit" :valign "end" :text "%")
+        (label :class "state" :xalign 1 :hexpand true :valign "center"
+               :text {stats.bat_status == "Charging" ? "CHARGING" : stats.bat_status == "Discharging" ? stats.power : "STABLE"}))
+      (box :class "power ${stats.bat <= 15 ? 'hot' : stats.bat <= 30 ? 'warn' : ''}"
+        (tiles :percent {stats.bat} :hot 101)))   ; color comes from .power.warn / .power.hot
+
+    ; Reactor = CPU, memory, GPU
+    (panel
+      (head :title "{{stack:REACTOR CORE}}"
+            :tag {stats.mode == "low-power" ? "LOW" : stats.mode == "performance" ? "FULL" : "NOMINAL"}
+            :state {EWW_CPU.avg >= 85 ? "hot" : EWW_CPU.avg >= 60 ? "warn" : "ok"})
+      (row :label "{{stack:CPU}}" :percent {EWW_CPU.avg})
+      (row :label "{{stack:MEMORY}}" :percent {EWW_RAM.used_mem_perc})
+      (row :label "{{stack:GPU}}" :percent {stats.gpu_util} :color "blue"))
+
+    ; Comms = network: a little screen with the 30 s traffic graph
+    (panel :vexpand true
+      (head :title "{{stack:COMMS ARRAY}}" :tag "LIVE")
+      (box
+        (label :class "value" :xalign 0 :text "RX ${stats.rx >= 1000 ? round(stats.rx / 1000, 1) : stats.rx} ${stats.rx >= 1000 ? 'MB/s' : 'KB/s'}")
+        (label :class "value tx" :xalign 1 :text "TX ${stats.tx >= 1000 ? round(stats.tx / 1000, 1) : stats.tx} ${stats.tx >= 1000 ? 'MB/s' : 'KB/s'}"))
+      ; The screen is a box because eww's overlay ignores min-height
+      (box :class "screen" :vexpand true
+        (overlay :hexpand true :vexpand true
+          (graph :class "graph" :value {stats.rx} :time-range "30s" :hexpand true :vexpand true
+                 :min 0 :max 100 :dynamic true :thickness 1 :line-style "miter")
+          (graph :class "graph tx" :value {stats.tx} :time-range "30s" :hexpand true :vexpand true
+                 :min 0 :max 100 :dynamic true :thickness 1 :line-style "miter"))))
+
+    ; Data vault = drives
+    (panel
+      (head :title "{{stack:DATA VAULT}}" :tag "02"
+            :state {EWW_DISK["/"].used_perc >= 90 || EWW_DISK["/data"].used_perc >= 90 ? "warn" : "ok"})
+      (row :label "{{stack:SYSTEM}}" :percent {EWW_DISK["/"].used_perc} :hot 90)
+      (row :label "{{stack:ARCHIVE}}" :percent {EWW_DISK["/data"].used_perc} :hot 90))
+
+    ; Thermal: two vertical sliders
+    (panel
+      (head :title "{{stack:THERMAL EXHAUST}}"
+            :tag {stats.cpu_temp >= 85 || stats.gpu_temp >= 80 ? "ALERT" : "NOMINAL"}
+            :state {stats.cpu_temp >= 85 || stats.gpu_temp >= 80 ? "hot" : stats.cpu_temp >= 70 || stats.gpu_temp >= 65 ? "warn" : "ok"})
+      (box :spacing 12
+        (slider :label "{{pair:CPU}}" :value {stats.cpu_temp} :warm 70 :hot 85)
+        (slider :label "{{pair:GPU}}" :value {stats.gpu_temp} :warm 65 :hot 80)))))
+
+; "bg" = Hyprland's background layer: windows always draw on top of it.
+(defwindow dashboard
+  :monitor 0
+  :geometry (geometry :x "0px" :y "0px" :width "320px" :height "100%" :anchor "center left")
+  :stacking "bg"
+  :exclusive false
+  :focusable false
+  (dashboard))

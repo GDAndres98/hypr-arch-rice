@@ -1,0 +1,26 @@
+# mako TEMPLATE: Imperial console notifications. Edit this .in file, then run `sw-mode`.
+# Title = %s (shown with its translation), body = %b. Docs: man 5 mako   Reload: makoctl reload
+
+font=@BODY@ 10
+background-color=#0b0c0ef2
+text-color=#c9ccd1
+border-size=2
+border-color=#2a2d31
+border-radius=0
+progress-color=over #1a1c20
+width=340
+padding=10,12
+margin=6
+anchor=top-right
+max-icon-size=32
+
+format=<span foreground="#ffffff">{{stack:%s}}</span>\n%b
+
+default-timeout=5000
+
+[urgency=normal]
+border-color=#6b7078
+
+[urgency=critical]
+border-color=#d81e28
+default-timeout=0

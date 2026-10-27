@@ -1,0 +1,3 @@
+#!/bin/sh
+# Run by `theme imperial`: build the configs for the saved mode (the theme script reloads apps after).
+exec ~/dotfiles/bin/sw-mode --no-reload

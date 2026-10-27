@@ -1,0 +1,7 @@
+# Built by sw-mode from the *.in templates: edit the .in file instead
+waybar/config.jsonc
+waybar/style.css
+mako/config
+eww/eww.yuck
+eww/eww.css
+hypr/hyprlock.conf

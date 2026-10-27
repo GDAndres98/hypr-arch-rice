@@ -1,0 +1,3 @@
+#!/bin/sh
+# Run by `theme <other>`: undo crazy mode's changes outside the theme (system fonts, kitty font).
+rm -f ~/.config/fontconfig/conf.d/99-imperial-crazy.conf ~/dotfiles/kitty/mode-font.conf

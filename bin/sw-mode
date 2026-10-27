@@ -1,0 +1,97 @@
+#!/bin/sh
+# sw-mode: language mode of the Imperial theme.
+#   1 = Latin text, Aurebesh subtitle
+#   2 = Aurebesh text, Latin subtitle
+#   3 = everything in Aurebesh, no subtitles, also apps and terminal ("crazy")
+# Usage: sw-mode [1|2|3] [--no-reload]
+#   no number   = rebuild with the saved mode (e.g. after editing a template)
+#   --no-reload = only rebuild files, don't restart anything (used by `theme`)
+#
+# How it works: the theme's *.in files are templates. This script fills in fonts for the
+# chosen mode and writes the real config next to each one (style.css.in -> style.css).
+# Template codes:
+#   {{pair:TEXT}}   TEXT + translation on the same line
+#   {{stack:TEXT}}  TEXT + translation on the next line
+#   {{title:TEXT}}  like stack, but the Aurebesh side uses the Oma Tres heading font (UPPERCASE only,
+#                   no numbers: it has no lowercase and its digits look Latin)
+#   @VAL@ / @BIG@   font for live values (numbers) / big numbers: Latin in mode 1, Aurebesh in 2 and 3
+#   @BODY@          font for reading text (notification body, window title, tooltips): Aurebesh only in 3
+#   @AUR@ / @DISP@  always Aurebesh / always Oma Tres
+
+set -e
+T=~/dotfiles/themes/imperial
+STATE=${XDG_STATE_HOME:-$HOME/.local/state}/sw-mode
+
+LAT="JetBrainsMono Nerd Font"
+AUR="Aurebesh"
+DISP="Aurebesh_OmaTres_beta"   # Oma Tres heading font
+
+mode=; reload=1
+for a in "$@"; do
+    case $a in
+        1|2|3) mode=$a ;;
+        --no-reload) reload=0 ;;
+        *) echo "usage: sw-mode [1|2|3] [--no-reload]" >&2; exit 1 ;;
+    esac
+done
+[ -n "$mode" ] || mode=$(cat "$STATE" 2>/dev/null || echo 1)
+mkdir -p "${STATE%/*}"
+echo "$mode" > "$STATE"
+
+# main/sub = fonts for labels, tmain/tsub = fonts for headings. sub empty = no subtitle.
+# val/big = numbers, body = reading text. Numbers never use $DISP: its digits are Latin-shaped.
+case $mode in
+    1) main=$LAT; sub=$AUR; tmain=$LAT;  tsub=$DISP; val=$LAT; big=$LAT;  body=$LAT ;;
+    2) main=$AUR; sub=$LAT; tmain=$DISP; tsub=$LAT;  val=$AUR; big=$AUR;  body=$LAT ;;
+    3) main=$AUR; sub=;     tmain=$DISP; tsub=;      val=$AUR; big=$AUR;  body=$AUR ;;
+esac
+
+# render FILE.in -> FILE
+render() {
+    nl='\\n'; hash='#'                        # newline as \n (JSON, mako)
+    case $1 in
+        *hyprlock.conf.in) nl='<br/>'; hash='##' ;;   # hyprlock: <br/>, and # must be ##
+        *.yuck.in) nl='\n' ;;                          # eww shows \n literally: insert a real line break
+    esac
+    m="<span font_family='$main'>\1</span>"
+    tm="<span font_family='$tmain'>\1</span>"
+    if [ -n "$sub" ]; then
+        s="<span font_family='$sub' size='small' foreground='${hash}6b7078'>\1</span>"
+        ts="<span font_family='$tsub' size='small' foreground='${hash}6b7078'>\1</span>"
+        pair="$m $s"; stack="$m$nl$s"; title="$tm$nl$ts"
+    else
+        pair=$m; stack=$m; title=$tm
+    fi
+    sed -e "s|{{pair:\([^}]*\)}}|$pair|g" \
+        -e "s|{{stack:\([^}]*\)}}|$stack|g" \
+        -e "s|{{title:\([^}]*\)}}|$title|g" \
+        -e "s|@VAL@|$val|g" -e "s|@BIG@|$big|g" \
+        -e "s|@BODY@|$body|g" -e "s|@AUR@|$AUR|g" -e "s|@DISP@|$DISP|g" \
+        "$1" > "${1%.in}"
+}
+find "$T" -name '*.in' | while read -r f; do render "$f"; done
+
+# Crazy mode outside the theme, only while Imperial is the active theme
+active=0
+[ "$(readlink ~/dotfiles/current)" = themes/imperial ] && active=1
+link=~/.config/fontconfig/conf.d/99-imperial-crazy.conf
+kittyfont=~/dotfiles/kitty/mode-font.conf
+if [ $active = 1 ] && [ "$mode" = 3 ]; then
+    mkdir -p "${link%/*}"
+    ln -sfn "$T/fontconfig/99-imperial-crazy.conf" "$link"
+    echo "font_family family=\"$AUR\"" > "$kittyfont"
+else
+    rm -f "$link" "$kittyfont"
+fi
+
+if [ $reload = 1 ] && [ $active = 1 ]; then
+    pkill -USR2 -x waybar || true        # SIGUSR2 = waybar reloads config + style
+    makoctl reload
+    eww reload >/dev/null 2>&1 || true   # fails harmlessly if the dashboard daemon isn't running
+    pkill -USR1 -x kitty || true         # SIGUSR1 = kitty reloads its config
+fi
+
+echo "Imperial mode $mode set."
+[ $active = 1 ] || echo "(Imperial isn't the active theme: files rebuilt, nothing reloaded. Run: theme imperial)"
+[ $active = 1 ] && echo "Restart other apps (Firefox, dolphin...) to pick up the font change."
+exit 0

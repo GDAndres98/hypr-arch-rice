@@ -8,3 +8,6 @@
 *token*
 *credentials*
 *.local.*
+
+# Written by `sw-mode 3` (Imperial crazy mode): switches the font to Aurebesh. Not in git.
+kitty/mode-font.conf

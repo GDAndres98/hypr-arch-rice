@@ -1,0 +1,107 @@
+/* Waybar style TEMPLATE: Imperial control panels (after Ahren Hart's "Imperial Control Panel").
+   Edit this .in file, then run `sw-mode` to rebuild style.css. @VAL@ / @BODY@: see sw-mode.
+   A panel = gunmetal frame (border) + darker inner lip (inset shadow) + navy-black face.
+   Lamps glow: text-shadow on glyphs, box-shadow on boxes.
+   Palette: wall #161719, frame #2e2f33, lip #1c1d20, face #0e1018, trace #8a8d93,
+            white lamp #f2f2f2, red lamp #ff2a2a, blue lamp #4433ff, unlit #3c3d40, copper #9a4a2a. */
+
+* {
+    font-family: "@VAL@", "JetBrainsMono Nerd Font";
+    font-size: 12px;
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+}
+
+window#waybar {
+    background: #161719;   /* corridor wall */
+    color: #c9ccd1;
+}
+
+tooltip label {
+    font-family: "@BODY@", "JetBrainsMono Nerd Font";
+}
+tooltip {
+    background: #0e1018;
+    border: 2px solid #2e2f33;
+}
+
+/* Every module is a framed panel */
+#custom-lamps, #workspaces, #clock, #pulseaudio, #backlight, #network, #battery, #tray {
+    background: #0e1018;
+    border: 2px solid #2e2f33;
+    box-shadow: inset 0 0 0 1px #1c1d20, inset 0 1px 0 2px #3a3b40;   /* lip + top highlight */
+    margin: 3px 2px;
+    padding: 0 10px;
+}
+
+#custom-lamps {
+    margin-left: 4px;
+    text-shadow: 0 0 4px rgba(255, 42, 42, 0.6);
+}
+
+/* The red "eye": a dark button with a red core that pulses */
+#custom-beacon {
+    color: #ff2a2a;
+    padding: 0 6px 0 2px;
+    animation: eye 3s ease-in-out infinite;
+}
+@keyframes eye {
+    0%   { color: #ff2a2a; text-shadow: 0 0 6px #ff2a2a; }
+    50%  { color: #4a0f0f; text-shadow: none; }
+    100% { color: #ff2a2a; text-shadow: 0 0 6px #ff2a2a; }
+}
+
+/* Workspaces: unlit grey tiles; the active one lights up white, urgent glows red */
+#workspaces { padding: 0 4px; }
+#workspaces button {
+    min-width: 18px;
+    padding: 0;
+    margin: 4px 2px;
+    color: #8a8d93;
+    background: #3c3d40;
+    box-shadow: none;
+}
+#workspaces button.active {
+    background: #f2f2f2;
+    color: #0e1018;
+    box-shadow: 0 0 6px rgba(242, 242, 242, 0.7);
+}
+#workspaces button.urgent {
+    background: #ff2a2a;
+    color: #ffffff;
+    box-shadow: 0 0 6px rgba(255, 42, 42, 0.8);
+}
+#workspaces button:hover {
+    background: #4433ff;
+    color: #ffffff;
+}
+
+/* Window title: a label stencilled on the wall, no panel */
+#window {
+    padding: 0 12px;
+    color: #6b7078;
+}
+
+#clock { text-shadow: 0 0 4px rgba(68, 51, 255, 0.7); }
+
+/* Lit meter cells take the module color and glow */
+#pulseaudio { color: #f2f2f2; text-shadow: 0 0 4px rgba(242, 242, 242, 0.5); }
+#backlight  { color: #f2f2f2; text-shadow: 0 0 4px rgba(242, 242, 242, 0.5); }
+#network    { color: #4433ff; text-shadow: 0 0 4px rgba(68, 51, 255, 0.8); }
+#battery    { color: #f2f2f2; text-shadow: 0 0 4px rgba(242, 242, 242, 0.5); }
+#battery.warning:not(.charging)  { color: #8a8d93; text-shadow: none; }
+#battery.critical:not(.charging) {
+    color: #ff2a2a;
+    text-shadow: 0 0 5px #ff2a2a;
+    animation: alarm 1s steps(1) infinite;
+}
+@keyframes alarm {
+    0%  { border-color: #ff2a2a; }
+    50% { border-color: #2e2f33; }
+}
+
+#pulseaudio.muted, #network.disconnected {
+    color: #ff2a2a;
+    text-shadow: 0 0 4px rgba(255, 42, 42, 0.7);
+}

@@ -1,0 +1,174 @@
+/* eww TEMPLATE: Imperial control-panel dashboard. Edit this .in file, then run `sw-mode`.
+   @VAL@ = font for values, @BIG@ = font for big numbers (see sw-mode).
+   After Ahren Hart's "Imperial Control Panel": chamfered gunmetal frame, navy-black face,
+   thin white circuit traces, glowing lamps (box-shadow / text-shadow = glow).
+   Chamfers: GTK CSS can't cut corners, so four hard-edged corner gradients paint
+   the corners in the color behind the panel.
+   Palette: wall #161719, frame #2e2f33, face #0e1018, trace rgba(220,220,220,0.35),
+            white lamp #f2f2f2, red lamp #ff2a2a, blue lamp #4433ff, unlit #3c3d40, copper #9a4a2a. */
+
+* {
+    all: unset;
+    font-family: "@VAL@", "JetBrainsMono Nerd Font";
+    color: #c9ccd1;
+}
+
+/* The corridor wall behind the panels */
+.wall {
+    background: #161719;
+    border-right: 2px solid #2e2f33;
+    padding: 8px 12px 10px 12px;
+}
+
+/* Panel: gunmetal frame with cut corners (wall color painted over each corner) */
+.frame {
+    background-color: #2e2f33;
+    background-image:
+        linear-gradient(135deg, #161719 10px, transparent 10px),
+        linear-gradient(225deg, #161719 10px, transparent 10px),
+        linear-gradient(315deg, #161719 10px, transparent 10px),
+        linear-gradient(45deg,  #161719 10px, transparent 10px);
+    padding: 5px;
+}
+/* Face: navy-black, its own smaller cut corners (frame color painted over them) */
+.face {
+    background-color: #0e1018;
+    background-image:
+        linear-gradient(135deg, #2e2f33 6px, transparent 6px),
+        linear-gradient(225deg, #2e2f33 6px, transparent 6px),
+        linear-gradient(315deg, #2e2f33 6px, transparent 6px),
+        linear-gradient(45deg,  #2e2f33 6px, transparent 6px);
+    padding: 5px;
+}
+/* The thin, worn white outline printed on the face */
+.traces {
+    border: 1px solid rgba(220, 220, 220, 0.35);
+    padding: 5px 8px;
+}
+
+/* Banner */
+.banner-title {
+    font-size: 20px;
+    color: #ffffff;
+}
+.muted, .unit, .state {
+    color: #6b7078;
+    font-size: 11px;
+}
+.gap { min-width: 6px; }
+
+/* Square lamps: lit ones glow */
+.lamp {
+    min-width: 16px;
+    min-height: 16px;
+    background: #3c3d40;
+    border: 2px solid #1c1d20;   /* the dark bezel around each button */
+}
+.lamp.white { background: #f2f2f2; box-shadow: 0 0 7px rgba(242, 242, 242, 0.75); }
+.lamp.red   { background: #ff2a2a; box-shadow: 0 0 7px rgba(255, 42, 42, 0.85); }
+.lamp.blue  { background: #4433ff; box-shadow: 0 0 7px rgba(68, 51, 255, 0.85); }
+
+/* Hexagon lamps (glyphs) */
+.hex       { font-family: "JetBrainsMono Nerd Font"; font-size: 18px; color: #3c3d40; }
+.hex.white { color: #f2f2f2; text-shadow: 0 0 6px rgba(242, 242, 242, 0.8); }
+.hex.red   { color: #ff2a2a; text-shadow: 0 0 6px rgba(255, 42, 42, 0.9); }
+.hex.blue  { color: #4433ff; text-shadow: 0 0 6px rgba(68, 51, 255, 0.9); }
+
+/* Copper dial: dashed border = the teeth around the ring */
+.dial {
+    min-width: 22px;
+    min-height: 22px;
+    border-radius: 15px;
+    border: 4px dashed #9a4a2a;
+    background: #4a2214;
+}
+.hub {
+    min-width: 8px;
+    min-height: 8px;
+    border-radius: 6px;
+    background: #050506;
+    border: 2px solid #6b3220;
+}
+
+/* Small grey dots, one blinks */
+.dots { padding: 0 2px; }
+.dot {
+    min-width: 5px;
+    min-height: 5px;
+    border-radius: 3px;
+    background: #6a6b6e;
+}
+.dot.blink { animation: blink 2.6s steps(1) infinite; }
+@keyframes blink {
+    0%  { background: #f2f2f2; box-shadow: 0 0 4px #f2f2f2; }
+    50% { background: #6a6b6e; box-shadow: none; }
+}
+
+/* Section headers */
+.head {
+    border-bottom: 1px solid rgba(220, 220, 220, 0.25);
+    padding-bottom: 3px;
+}
+.head .hex { font-size: 17px; }
+.lamp-row .hex { font-size: 24px; }
+.head-title {
+    font-size: 12px;
+    color: #ffffff;
+}
+.tag {   /* white lamp-tile with black text */
+    background: #f2f2f2;
+    color: #0e1018;
+    font-size: 10px;
+    padding: 1px 5px;
+    box-shadow: 0 0 5px rgba(242, 242, 242, 0.5);
+}
+
+.label { font-size: 11px; color: #9aa0a8; }
+.value { font-size: 12px; color: #ffffff; }
+
+.big {
+    font-family: "@BIG@", "JetBrainsMono Nerd Font";
+    font-size: 26px;
+    color: #ffffff;
+}
+.hot { color: #ff2a2a; }
+
+/* Meter cells: unlit grey, lit white with glow; blue variant; red when hot */
+.cell {
+    min-height: 10px;
+    background: #3c3d40;
+    border: 1px solid #1c1d20;
+}
+.cell.on                  { background: #f2f2f2; box-shadow: 0 0 4px rgba(242, 242, 242, 0.6); }
+.tiles.blue .cell.on      { background: #4433ff; box-shadow: 0 0 4px rgba(68, 51, 255, 0.8); }
+.tiles.hot .cell.on       { background: #ff2a2a; box-shadow: 0 0 4px rgba(255, 42, 42, 0.8); }
+
+/* Battery: white, dim grey when low, red when critical */
+.power.warn .cell.on { background: #8a8d93; box-shadow: none; }
+.power.hot .cell.on  { background: #ff2a2a; box-shadow: 0 0 4px rgba(255, 42, 42, 0.8); }
+
+/* Network screen: dark glass, RX white, TX red */
+.screen {
+    background: #07080c;
+    border: 1px solid rgba(220, 220, 220, 0.25);
+    min-height: 20px;
+}
+.graph    { color: #f2f2f2; }
+.graph.tx { color: #ff2a2a; }
+.value.tx { color: #ff2a2a; }
+
+/* Vertical sliders: blue bar in a dark slot, white when warm, red when hot */
+.slider trough {
+    background: #3c3d40;
+    border: 2px solid #1c1d20;
+    padding: 0 2px;
+    min-width: 10px;
+    min-height: 32px;
+}
+.slider progress {
+    background: #4433ff;
+    min-width: 10px;
+    box-shadow: 0 0 6px rgba(68, 51, 255, 0.8);
+}
+.slider.warm progress { background: #f2f2f2; box-shadow: 0 0 6px rgba(242, 242, 242, 0.7); }
+.slider.hot progress  { background: #ff2a2a; box-shadow: 0 0 6px rgba(255, 42, 42, 0.9); }
