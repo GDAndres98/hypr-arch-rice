@@ -1,0 +1,252 @@
+/* eww dashboard v3: MJOLNIR Mark V style HUD, after GDAndres98/halo-ce-latam-audio
+   (docs/ui-design-system.md). Same palette as waybar / mako / hyprlock:
+     panel #061230 · well #020818 · frame #2f8cff · dim frame #1d4e8f · hairline #17345f
+     menu blue #4da3ff (labels) · near-white #dce9f8 (values) · muted #8fa9cc
+     light blue #6fb6ff (meters, graphs) · amber #f2c25c · coral #ff8f80 · green #97d468
+   Fonts: Michroma (title, big numbers), Saira (everything else). */
+
+* {
+    all: unset;                      /* drop the GTK theme, start clean */
+    font-family: "Saira", sans-serif;
+    font-size: 10px;
+    color: #dce9f8;
+}
+
+/* GTK gives every horizontal progress bar a hidden 150px minimum width;
+   drop it so two meters fit side by side. (GTK logs a harmless
+   "deprecated" warning for this line; it's still the only switch for it.) */
+progressbar {
+    -GtkProgressBar-min-horizontal-bar-width: 1;
+}
+
+/* The HUD: a full-height translucent navy strip on the left screen edge,
+   with the bright 2px frame only on its open (right) side */
+.hud {
+    background-color: rgba(6, 18, 48, 0.82);
+    border-right: 2px solid #2f8cff;
+    box-shadow: inset -12px 0 24px -12px rgba(47, 140, 255, 0.25);
+    padding: 12px 14px;
+}
+
+/* Header: wide title over a muted status line */
+.header {
+    padding-bottom: 4px;
+    border-bottom: 1px solid #1d4e8f;
+}
+
+.title {
+    font-family: "Michroma", sans-serif;
+    font-size: 13px;
+    letter-spacing: 2px;
+    font-weight: bold;               /* Michroma has one weight: Pango thickens it ("fake bold") */
+    color: #4da3ff;
+}
+
+.tag {
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: #8fa9cc;
+}
+
+.muted, .small, .axis label {
+    font-size: 9px;
+    color: #8fa9cc;
+}
+
+/* Section header: a small lit pip, the title, a hairline underneath */
+.head {
+    padding-bottom: 2px;
+    border-bottom: 1px solid #17345f;
+}
+
+.pip {
+    min-width: 10px;
+    min-height: 4px;
+    margin-right: 7px;
+    background-color: #4da3ff;
+    box-shadow: 0 0 6px rgba(77, 163, 255, 0.8);
+}
+
+.head-title {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #4da3ff;
+}
+
+/* Labels: bold uppercase menu blue. Values: near-white. */
+.label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #4da3ff;
+}
+
+.value {
+    font-weight: 600;
+}
+
+.state {
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: #8fa9cc;
+}
+
+/* Big readouts: wide display face with a soft glow */
+.big {
+    font-family: "Michroma", sans-serif;
+    font-size: 14px;
+    color: #dce9f8;
+    text-shadow: 0 0 8px rgba(77, 163, 255, 0.6);
+}
+
+.big.warm { color: #f2c25c; text-shadow: 0 0 8px rgba(242, 194, 92, 0.5); }
+.big.hot  { color: #ff8f80; text-shadow: 0 0 8px rgba(255, 143, 128, 0.5); }
+.big.tx, .label.tx { color: #f2c25c; }
+.big.tx { text-shadow: 0 0 8px rgba(242, 194, 92, 0.5); }
+
+.unit {
+    font-size: 9px;
+    color: #8fa9cc;
+    margin: 0 0 4px 4px;
+}
+
+.num {
+    font-family: "Michroma", sans-serif;
+    font-size: 9px;
+    color: #8fa9cc;
+    margin-right: 6px;
+}
+
+/* Energy shield: a framed well holding the Halo CE health bar */
+.shield-frame {
+    padding: 5px 10px 6px;
+    border: 1px solid #1d4e8f;
+    border-radius: 8px;
+    background-color: rgba(2, 8, 24, 0.6);
+}
+
+/* Health bar (Halo CE): cross + slanted tiles. Each tile is a 70deg
+   linear-gradient = a parallelogram: bright edge | darker fill | bright edge.
+   The color class (red / yellow / blue) sits on the whole row. */
+/* Slanted cross, drawn with 4 gradient layers (GTK CSS can't skew a glyph):
+   on top, the fill of the slanted 70deg vertical arm and of the horizontal arm;
+   underneath, the same two arms a bit wider in the edge color. Edges below fills
+   = one outline around the whole cross, with no lines through the middle.
+   The fill layers are slightly shorter (88%) so the arm ends show an edge too. */
+.cross {
+    min-width: 16px;
+    min-height: 16px;
+    margin-right: 4px;
+    background-size: 100% 88%, 88% 100%, 100% 100%, 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.tile {
+    min-width: 13px;
+    min-height: 16px;
+}
+.tile.off {
+    background-image: none;          /* lost health simply disappears */
+}
+
+.health.blue .cross {
+    background-image: linear-gradient(70deg, transparent 41%, #4ab4ff 41%, #4ab4ff 59%, transparent 59%),
+                      linear-gradient(180deg, transparent 40%, #4ab4ff 40%, #4ab4ff 60%, transparent 60%),
+                      linear-gradient(70deg, transparent 36%, #9ad6ff 36%, #9ad6ff 64%, transparent 64%),
+                      linear-gradient(180deg, transparent 34%, #9ad6ff 34%, #9ad6ff 66%, transparent 66%);
+}
+.health.blue .tile:not(.off) {
+    background-image: linear-gradient(70deg, transparent 22%, #9ad6ff 22%, #9ad6ff 31%, #2a8ff0 31%, #4aaaff 50%, #2a8ff0 69%, #9ad6ff 69%, #9ad6ff 78%, transparent 78%);
+}
+
+.health.yellow .cross {
+    background-image: linear-gradient(70deg, transparent 41%, #ff8a2a 41%, #ff8a2a 59%, transparent 59%),
+                      linear-gradient(180deg, transparent 40%, #ff8a2a 40%, #ff8a2a 60%, transparent 60%),
+                      linear-gradient(70deg, transparent 36%, #ffc07a 36%, #ffc07a 64%, transparent 64%),
+                      linear-gradient(180deg, transparent 34%, #ffc07a 34%, #ffc07a 66%, transparent 66%);
+}
+.health.yellow .tile:not(.off) {
+    background-image: linear-gradient(70deg, transparent 22%, #fff27a 22%, #fff27a 31%, #e0c010 31%, #f5d820 50%, #e0c010 69%, #fff27a 69%, #fff27a 78%, transparent 78%);
+}
+
+.health.red .cross {
+    background-image: linear-gradient(70deg, transparent 41%, #ff4d5e 41%, #ff4d5e 59%, transparent 59%),
+                      linear-gradient(180deg, transparent 40%, #ff4d5e 40%, #ff4d5e 60%, transparent 60%),
+                      linear-gradient(70deg, transparent 36%, #ff9aa4 36%, #ff9aa4 64%, transparent 64%),
+                      linear-gradient(180deg, transparent 34%, #ff9aa4 34%, #ff9aa4 66%, transparent 66%);
+}
+.health.red .tile:not(.off) {
+    background-image: linear-gradient(70deg, transparent 22%, #ff6a6a 22%, #ff6a6a 31%, #d80e0e 31%, #f42020 50%, #d80e0e 69%, #ff6a6a 69%, #ff6a6a 78%, transparent 78%);
+}
+
+/* Charging: the cross and tiles pulse slowly, like shields recharging */
+@keyframes recharge {
+    from { opacity: 1; }
+    to   { opacity: 0.45; }
+}
+.health.charging .cross,
+.health.charging .tile {
+    animation: recharge 1.2s ease-in-out infinite alternate;
+}
+
+/* Graphs: a recessed well with a faint grid. In eww's graph,
+   'color' = the line, 'background-color' = the fill under it. */
+.well {
+    min-height: 36px;                /* minimum; the graphs grow to fill the panel */
+    border: 1px solid #17345f;
+    background-color: #020818;
+    background-image: linear-gradient(90deg, rgba(23, 52, 95, 0.7) 1px, transparent 1px),
+                      linear-gradient(180deg, rgba(23, 52, 95, 0.7) 1px, transparent 1px);
+    background-size: 34px 15px;
+}
+
+.graph {
+    color: #6fb6ff;
+    background-color: rgba(47, 140, 255, 0.18);
+}
+
+.graph.tx {
+    color: #f2c25c;
+    background-color: transparent;
+}
+
+.axis label {
+    font-size: 8px;
+    letter-spacing: 1px;
+}
+
+/* Segmented HUD meter: slanted stripes (7px lit, 3px gap).
+   trough = the empty bar, progress = the filled part. */
+.bar trough {
+    min-height: 7px;
+    background-image: repeating-linear-gradient(115deg, rgba(47, 140, 255, 0.18) 0px, rgba(47, 140, 255, 0.18) 7px, transparent 7px, transparent 10px);
+}
+
+.bar progress {
+    min-height: 7px;
+    background-image: repeating-linear-gradient(115deg, #6fb6ff 0px, #6fb6ff 7px, transparent 7px, transparent 10px);
+    box-shadow: 0 0 6px rgba(77, 163, 255, 0.5);
+}
+
+.bar.warm progress {
+    background-image: repeating-linear-gradient(115deg, #f2c25c 0px, #f2c25c 7px, transparent 7px, transparent 10px);
+    box-shadow: 0 0 6px rgba(242, 194, 92, 0.45);
+}
+
+.bar.hot progress {
+    background-image: repeating-linear-gradient(115deg, #ff8f80 0px, #ff8f80 7px, transparent 7px, transparent 10px);
+    box-shadow: 0 0 6px rgba(255, 143, 128, 0.45);
+}
+
+/* Drives: a hairline between them */
+.drive + .drive {
+    padding-top: 6px;
+    border-top: 1px solid #17345f;
+}
+
+/* Fn+Q power mode */
+.mode-low-power   { color: #97d468; }   /* green: saving */
+.mode-balanced    { color: #dce9f8; }
+.mode-performance { color: #ff8f80; }   /* coral: full power */

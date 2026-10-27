@@ -1,0 +1,75 @@
+// Waybar config: Halo CE menu style. Labels use Pango markup: <span color='#4da3ff'>LABEL</span> value
+// (menu-blue label, near-white value, like the HUD meters in halo-ce-latam-audio).
+// Docs: man 5 waybar, and man waybar-<module> (e.g. man waybar-battery)
+{
+    "layer": "top",
+    "position": "top",
+    "height": 25,      // 2/3 of the old auto height (38)
+    "spacing": 0,
+
+    "modules-left": ["hyprland/workspaces"],
+    "modules-center": ["clock"],
+    "modules-right": ["pulseaudio", "backlight", "network", "battery#icon", "battery#h1", "battery#h2", "battery#h3", "battery#h4", "battery#h5", "battery#h6", "battery#h7", "battery#h8", "battery#h9", "battery#h10", "battery#pct", "tray"],
+
+    "hyprland/workspaces": {
+        "format": "{id}"
+    },
+    "clock": {
+        "format": "{:%a %d %b  %H:%M}",
+        "tooltip-format": "{calendar}"
+    },
+    "pulseaudio": {
+        "format": "<span color='#4da3ff'>VOL</span> {volume}%",
+        "format-muted": "<span color='#4da3ff'>VOL</span> MUTED",
+        "on-click": "pavucontrol"
+    },
+    "backlight": {
+        "format": "<span color='#4da3ff'>󰃟</span> {percent}%",   // Nerd Font: brightness (U+F00DF)
+        "tooltip-format": "Brightness {percent}%"
+    },
+    "network": {
+        "format-wifi": "<span color='#4da3ff'>WIFI</span> {essid}",
+        "format-ethernet": "<span color='#4da3ff'>ETH</span>",
+        "format-disconnected": "<span color='#4da3ff'>NET</span> OFF",
+        "tooltip-format": "{ifname} {ipaddr}"
+    },
+    // Battery = several copies of the same module: cross | 10 health tiles | percentage.
+    // "battery#icon" is styled in CSS as #battery.icon (same for .h1 ... .h10 and .pct).
+    // Halo CE health HUD: cross icon + bar + number, all colored by state
+    // (states pick the lowest threshold >= capacity: 14% -> red, 50% -> yellow, 80% -> blue)
+    "battery#icon": {
+        "format": " ",                // empty: the slanted cross is drawn in style.css
+        "states": { "blue": 100, "yellow": 60, "red": 30 }
+    },
+    // Health tiles h1..h10 (10% each, h1 next to the cross), drawn in style.css.
+    // A tile is "off" (hidden) when capacity <= its threshold; otherwise it gets the
+    // color state (red <= 30, yellow <= 60, blue <= 100). Only color thresholds
+    // above the tile's own "off" threshold are listed, because the lowest matching one wins.
+    "battery#h1": { "format": " ", "tooltip-format": "Battery {capacity}%  {timeTo}",
+                    "states": { "off": 0, "red": 30, "yellow": 60, "blue": 100 } },
+    "battery#h2": { "format": " ", "tooltip-format": "Battery {capacity}%  {timeTo}",
+                    "states": { "off": 10, "red": 30, "yellow": 60, "blue": 100 } },
+    "battery#h3": { "format": " ", "tooltip-format": "Battery {capacity}%  {timeTo}",
+                    "states": { "off": 20, "red": 30, "yellow": 60, "blue": 100 } },
+    "battery#h4": { "format": " ", "tooltip-format": "Battery {capacity}%  {timeTo}",
+                    "states": { "off": 30, "yellow": 60, "blue": 100 } },
+    "battery#h5": { "format": " ", "tooltip-format": "Battery {capacity}%  {timeTo}",
+                    "states": { "off": 40, "yellow": 60, "blue": 100 } },
+    "battery#h6": { "format": " ", "tooltip-format": "Battery {capacity}%  {timeTo}",
+                    "states": { "off": 50, "yellow": 60, "blue": 100 } },
+    "battery#h7": { "format": " ", "tooltip-format": "Battery {capacity}%  {timeTo}",
+                    "states": { "off": 60, "blue": 100 } },
+    "battery#h8": { "format": " ", "tooltip-format": "Battery {capacity}%  {timeTo}",
+                    "states": { "off": 70, "blue": 100 } },
+    "battery#h9": { "format": " ", "tooltip-format": "Battery {capacity}%  {timeTo}",
+                    "states": { "off": 80, "blue": 100 } },
+    "battery#h10": { "format": " ", "tooltip-format": "Battery {capacity}%  {timeTo}",
+                     "states": { "off": 90, "blue": 100 } },
+    "battery#pct": {
+        "format": "{capacity}%",
+        "states": { "blue": 100, "yellow": 60, "red": 30 }
+    },
+    "tray": {
+        "spacing": 8
+    }
+}

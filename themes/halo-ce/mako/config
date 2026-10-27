@@ -1,0 +1,29 @@
+# mako: notifications, Halo CE menu look (after halo-ce-latam-audio's design system).
+# Docs: zcat /usr/share/man/man5/mako.5.gz | less   Reload: makoctl reload
+# A notification = the "CONTROLLER CONFIGURATION" pop-up: navy panel, bright blue
+# rounded 2px frame, wide blue title, near-white text.
+
+font=Saira 11
+background-color=#061230e6
+text-color=#dce9f8
+border-size=2
+border-color=#2f8cff
+border-radius=10
+progress-color=over #0b1d45
+width=330
+padding=10,12
+margin=8
+anchor=top-right
+max-icon-size=32
+
+# Title in the wide display face (Michroma), menu blue; body underneath
+format=<span font_family="Michroma" size="small" color="#4da3ff">%s</span>\n%b
+
+default-timeout=5000
+
+[urgency=low]
+border-color=#1d4e8f
+
+[urgency=critical]
+border-color=#ff8f80
+default-timeout=0

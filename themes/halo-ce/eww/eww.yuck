@@ -1,0 +1,174 @@
+; eww: desktop dashboard ("desktop mode"), v3: a MJOLNIR Mark V style HUD.
+; Same palette and fonts as the rest of the theme (halo-ce-latam-audio design system):
+; menu-blue labels, near-white values, segmented slanted meters, 30-second graphs.
+; Docs: https://elkowar.github.io/eww/configuration.html
+; Open: eww open dashboard   Close: eww close dashboard   Reload: eww reload
+;
+; Data:
+;   EWW_CPU, EWW_RAM, EWW_DISK  built into eww (refresh every 2 s)
+;   stats                       scripts/stats.sh (temps, GPU, battery, uptime, disk + network speeds)
+
+(defpoll stats :interval "2s"
+  :initial '{"cpu_temp":0,"gpu_temp":0,"gpu_util":0,"uptime":"","mode":"","power":"","bat":0,"bat_status":"","nvme_read":0,"hdd_read":0,"hdd_write":0,"rx":0,"tx":0}'
+  "~/.config/eww/scripts/stats.sh")
+
+; Bytes -> GB (powers of 1000, like the drive's label)
+(defvar gb 1000000000)
+
+; Section header:  ▬ TITLE ............ TAG
+(defwidget head [title ?tag]
+  (box :class "head" :space-evenly false
+    (box :class "pip" :valign "center")
+    (label :class "head-title" :xalign 0 :hexpand true :text title)
+    (label :class "tag" :xalign 1 :show-truncated false :text {tag ?: ""})))
+
+; Segmented meter: amber from 'warm', coral from 'hot'
+(defwidget bar [percent ?warm ?hot]
+  (progress :class "bar ${percent >= (hot ?: 85) ? 'hot' : percent >= (warm ?: 70) ? 'warm' : ''}"
+            :value percent :orientation "h" :hexpand true :valign "center"))
+
+; Compact row: LABEL [▰▰▰▰▱▱▱] 63%
+(defwidget mini [label percent]
+  (box :class "mini" :space-evenly false :spacing 8
+    (label :class "label" :xalign 0 :width 64 :text label)
+    (bar :percent percent)
+    (label :class "value" :xalign 1 :width 34 :text "${round(percent, 0)}%")))
+
+; A 30-second graph on a dark gridded "well"
+; dynamic = the top of the graph follows the highest value seen (for speeds)
+; vexpand: the graphs take whatever height is left, so the panel fills
+; the screen at any monitor scale
+(defwidget plot [value ?dynamic ?max]
+  (box :class "well" :vexpand true
+    (graph :class "graph" :value value :time-range "30s"
+           :min 0 :max {max ?: 100} :dynamic {dynamic ?: false} :thickness 1.5 :line-style "round")))
+
+(defwidget axis []
+  (box :class "axis"
+    (label :xalign 0 :text "-30S")
+    (label :text "-15S")
+    (label :xalign 1 :text "NOW")))
+
+; Halo CE health bar: a cross + 10 slanted tiles (10% each), filled left to right.
+; Unlit tiles are hidden, like the game. Color: red <= 30%, yellow <= 60%, else blue.
+(defwidget tile [n]
+  (box :class "tile ${stats.bat > (n - 1) * 10 ? '' : 'off'}"))
+
+(defwidget health []
+  (box :class "health ${stats.bat <= 30 ? 'red' : stats.bat <= 60 ? 'yellow' : 'blue'} ${stats.bat_status == 'Charging' ? 'charging' : ''}"
+       :space-evenly false :spacing 2
+    (box :class "cross")   ; slanted cross, drawn in eww.css
+    (tile :n 1) (tile :n 2) (tile :n 3) (tile :n 4) (tile :n 5)
+    (tile :n 6) (tile :n 7) (tile :n 8) (tile :n 9) (tile :n 10)))
+
+; Drive: name + read speed, used / total, segmented capacity bar
+(defwidget drive [num name mount read ?write]
+  (box :class "drive" :orientation "v" :space-evenly false :spacing 2
+    (box :space-evenly false
+      (label :class "num" :text num)
+      (label :class "label" :xalign 0 :hexpand true :text name)
+      (label :class "value" :text {write == "" ? "${read} MB/s ▾" : "▾ ${read}  ▴ ${write} MB/s"}))
+    (box :space-evenly false
+      (label :class "muted" :xalign 0 :hexpand true
+             :text "${round(EWW_DISK[mount].used / gb, 0)} / ${round(EWW_DISK[mount].total / gb, 0)} GB")
+      (label :class "muted" :text "${round(EWW_DISK[mount].used_perc, 0)}% USED"))
+    (bar :percent {EWW_DISK[mount].used_perc})))
+
+; Thermal column: name, big temperature, temperature meter (out of 100 °C)
+(defwidget thermal [name temp warm hot]
+  (box :class "thermal" :orientation "v" :space-evenly false :spacing 2 :hexpand true
+    (label :class "label" :xalign 0 :text name)
+    (box :space-evenly false
+      (label :class "big ${temp >= hot ? 'hot' : temp >= warm ? 'warm' : ''}" :text temp)
+      (label :class "unit" :valign "end" :text "°C"))
+    (bar :percent temp :warm warm :hot hot)))
+
+(defwidget dashboard []
+  (box :class "hud" :orientation "v" :space-evenly false :spacing 13
+
+    ; Header: LEGION · MARK V // Y540 · uptime
+    (box :class "header" :orientation "v" :space-evenly false
+      (box :space-evenly false
+        (label :class "title" :xalign 0 :hexpand true :text "LEGION")
+        (label :class "tag" :show-truncated false :text "MARK V // Y540"))
+      (box :space-evenly false
+        (label :class "muted" :xalign 0 :hexpand true :text "DIAGNOSTICS ONLINE")
+        (label :class "muted" :text {stats.uptime})))
+
+    ; Energy shield = battery
+    (box :class "section" :orientation "v" :space-evenly false :spacing 3
+      (head :title "ENERGY SHIELD / BATTERY"
+            :tag {stats.bat_status == "Discharging" ? "ON BATTERY" : "AC"})
+      (box :class "shield-frame" :orientation "v" :space-evenly false :spacing 4
+        (box :space-evenly false
+          (label :class "big" :xalign 0 :text "${stats.bat}%")
+          (label :class "state" :xalign 1 :hexpand true :valign "center"
+                 :text {stats.bat_status == "Charging" ? "CHARGING // AC" : stats.bat_status == "Discharging" ? "DRAINING" : stats.bat_status == "Full" ? "FULL // AC" : "HOLDING // AC"}))
+        (health)
+        (box :space-evenly false
+          (label :class "small" :xalign 0 :hexpand true
+                 :markup "RATE <span color='#f2c25c'>${stats.power}</span>")
+          (label :class "small" :text "PROFILE ")
+          (label :class "small mode-${stats.mode}"
+                 :text {stats.mode == "low-power" ? "LOW POWER" : stats.mode == "performance" ? "PERFORMANCE" : "BALANCED"}))))
+
+    ; CPU telemetry: big load number, then CPU, RAM and GPU meters
+    (box :class "section" :orientation "v" :space-evenly false :spacing 3
+      (head :title "CPU TELEMETRY" :tag "LIVE")
+      (box :space-evenly false
+        (label :class "big" :xalign 0
+               :text "${EWW_CPU.avg < 9.5 ? '00' : EWW_CPU.avg < 99.5 ? '0' : ''}${round(EWW_CPU.avg, 0)}")
+        (label :class "unit" :valign "end" :text "%")
+        (label :class "state" :xalign 1 :hexpand true :valign "center" :text "PROCESSOR LOAD"))
+      (mini :label "CPU" :percent {EWW_CPU.avg})
+      (mini :label "MEMORY" :percent {EWW_RAM.used_mem_perc})
+      (mini :label "GPU" :percent {stats.gpu_util}))
+
+    ; Network: download and upload on one 30 s graph (each line scales to its own peak)
+    (box :class "section" :orientation "v" :space-evenly false :spacing 3 :vexpand true
+      (head :title "NETWORK / COMMS" :tag "LIVE")
+      (box
+        (box :orientation "v" :space-evenly false
+          (label :class "label" :xalign 0 :text "▼ RX / DOWN")
+          (box :space-evenly false
+            (label :class "big" :text {stats.rx >= 1000 ? round(stats.rx / 1000, 1) : stats.rx})
+            (label :class "unit" :valign "end" :text {stats.rx >= 1000 ? "MB/s" : "KB/s"})))
+        (box :orientation "v" :space-evenly false
+          (label :class "label tx" :xalign 1 :text "▲ TX / UP")
+          (box :space-evenly false :halign "end"
+            (label :class "big tx" :text {stats.tx >= 1000 ? round(stats.tx / 1000, 1) : stats.tx})
+            (label :class "unit" :valign "end" :text {stats.tx >= 1000 ? "MB/s" : "KB/s"}))))
+      (overlay :vexpand true
+        (plot :value {stats.rx} :dynamic true)
+        (graph :class "graph tx" :value {stats.tx} :time-range "30s"
+               :min 0 :max 100 :dynamic true :thickness 1.5 :line-style "round"))
+      (axis))
+
+    ; Storage: both drives
+    (box :class "section" :orientation "v" :space-evenly false :spacing 4 :vexpand true
+      (head :title "STORAGE / I-O" :tag "02 UNITS")
+      (drive :num "01" :name "NVMe SYSTEM" :mount "/"     :read {stats.nvme_read})
+      (drive :num "02" :name "HDD DATA"    :mount "/data" :read {stats.hdd_read} :write {stats.hdd_write})
+      ; HDD activity: read (blue) and write (amber), in MB/s; the top follows the peak (min 1 MB/s)
+      (overlay :vexpand true
+        (plot :value {stats.hdd_read} :dynamic true :max 1)
+        (graph :class "graph tx" :value {stats.hdd_write} :time-range "30s"
+               :min 0 :max 1 :dynamic true :thickness 1.5 :line-style "round"))
+      (axis))
+
+    ; Thermals (the Y540 doesn't expose fan speeds to Linux)
+    (box :class "section" :orientation "v" :space-evenly false :spacing 3
+      (head :title "THERMAL"
+            :tag {stats.cpu_temp >= 85 || stats.gpu_temp >= 80 ? "HOT" : stats.cpu_temp >= 70 || stats.gpu_temp >= 65 ? "WARM" : "NORMAL"})
+      (box :spacing 16
+        (thermal :name "CPU CORE" :temp {stats.cpu_temp} :warm 70 :hot 85)
+        (thermal :name "GPU CORE" :temp {stats.gpu_temp} :warm 65 :hot 80)))))
+
+; "bg" = Hyprland's background layer: windows always draw on top of it.
+(defwindow dashboard
+  :monitor 0
+  :geometry (geometry :x "0px" :y "0px" :width "280px" :height "100%" :anchor "center left")
+  :stacking "bg"
+  :exclusive false
+  :focusable false
+  (dashboard))

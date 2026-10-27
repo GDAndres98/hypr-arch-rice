@@ -1,0 +1,200 @@
+/* Waybar style: Halo CE (Xbox, 2001) menu look, after GDAndres98/halo-ce-latam-audio
+   (docs/ui-design-system.md). Palette:
+     space navy #03091a · panel #061230 · frame #2f8cff · dim frame #1d4e8f · hairline #17345f
+     menu blue #4da3ff (labels) · near-white #dce9f8 (values) · cyan #7fe3ff
+     amber #f2c25c · coral #ff8f80 · green #97d468
+   Fonts: Michroma (wide titles), Saira (everything else). */
+* {
+    font-family: "Saira", "JetBrainsMono Nerd Font Propo", sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+}
+
+/* The bar: plain space navy */
+window#waybar {
+    background: #03091a;
+    color: #dce9f8;
+}
+
+/* Workspaces = menu items: blue words; the selected one near-white with a soft glow */
+#workspaces {
+    margin: 0 4px;
+}
+
+#workspaces button {
+    font-family: "Michroma", sans-serif;
+    font-size: 11px;
+    padding: 0 9px;
+    margin: 0 2px;
+    color: #4da3ff;
+    background: transparent;
+    box-shadow: none;
+}
+
+#workspaces button.active {
+    color: #ffffff;
+    text-shadow: 0 0 6px rgba(47, 140, 255, 0.9);
+}
+
+#workspaces button:hover {
+    color: #dce9f8;
+    background: transparent;
+}
+
+/* Clock = screen title: wide display face */
+#clock {
+    font-family: "Michroma", sans-serif;
+    font-size: 11px;
+    color: #4da3ff;
+}
+
+#pulseaudio,
+#backlight,
+#network,
+#tray {
+    padding: 0 10px;
+}
+
+#pulseaudio.muted,
+#network.disconnected {
+    color: #8fa9cc;
+}
+
+/* Battery = Halo CE health HUD: cross | tiles | number.
+   Blue when full, amber at mid, coral when low. */
+/* Slanted cross, drawn with 4 gradient layers (GTK CSS can't skew a glyph):
+   on top, the fill of the slanted 70deg vertical arm and of the horizontal arm;
+   underneath, the same two arms a bit wider in the edge color. Edges below fills
+   = one outline around the whole cross, with no lines through the middle.
+   The fill layers are slightly shorter (88%) so the arm ends show an edge too. */
+#battery.icon {
+    min-width: 15px;
+    margin: 5px 3px 5px 10px;
+    padding: 0;
+    font-size: 4px;   /* text is just a space; tiny font keeps the bar 25px */
+    background-size: 100% 88%, 88% 100%, 100% 100%, 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#battery.pct {
+    padding: 0 10px 0 0;
+}
+
+/* Cross colors: same as the eww health bar (orange cross at mid charge) */
+#battery.icon.blue {
+    background-image: linear-gradient(70deg, transparent 41%, #4ab4ff 41%, #4ab4ff 59%, transparent 59%),
+                      linear-gradient(180deg, transparent 40%, #4ab4ff 40%, #4ab4ff 60%, transparent 60%),
+                      linear-gradient(70deg, transparent 36%, #9ad6ff 36%, #9ad6ff 64%, transparent 64%),
+                      linear-gradient(180deg, transparent 34%, #9ad6ff 34%, #9ad6ff 66%, transparent 66%);
+}
+#battery.icon.yellow {
+    background-image: linear-gradient(70deg, transparent 41%, #ff8a2a 41%, #ff8a2a 59%, transparent 59%),
+                      linear-gradient(180deg, transparent 40%, #ff8a2a 40%, #ff8a2a 60%, transparent 60%),
+                      linear-gradient(70deg, transparent 36%, #ffc07a 36%, #ffc07a 64%, transparent 64%),
+                      linear-gradient(180deg, transparent 34%, #ffc07a 34%, #ffc07a 66%, transparent 66%);
+}
+#battery.icon.red {
+    background-image: linear-gradient(70deg, transparent 41%, #ff4d5e 41%, #ff4d5e 59%, transparent 59%),
+                      linear-gradient(180deg, transparent 40%, #ff4d5e 40%, #ff4d5e 60%, transparent 60%),
+                      linear-gradient(70deg, transparent 36%, #ff9aa4 36%, #ff9aa4 64%, transparent 64%),
+                      linear-gradient(180deg, transparent 34%, #ff9aa4 34%, #ff9aa4 66%, transparent 66%);
+}
+#battery.pct.blue   { color: #4ab4ff; }
+#battery.pct.yellow { color: #f5d820; }
+#battery.pct.red    { color: #ff4d5e; }
+
+/* Health tiles h1..h10: each a slanted parallelogram painted by a 70deg
+   linear-gradient: bright edge | darker fill | bright edge (hard stops = sharp edges).
+   Same look and colors as the eww dashboard. */
+#battery.h1, #battery.h2, #battery.h3, #battery.h4, #battery.h5, #battery.h6, #battery.h7, #battery.h8, #battery.h9, #battery.h10 {
+    min-width: 9px;
+    margin: 6px 0;
+    padding: 0;
+    font-size: 4px;   /* the tile's text is just a space; a tiny font keeps it from making the bar taller */
+}
+#battery.h1  { margin-left: 2px; }
+#battery.h10 { margin-right: 6px; }
+
+#battery.h1.blue,
+#battery.h2.blue,
+#battery.h3.blue,
+#battery.h4.blue,
+#battery.h5.blue,
+#battery.h6.blue,
+#battery.h7.blue,
+#battery.h8.blue,
+#battery.h9.blue,
+#battery.h10.blue {
+    background-image: linear-gradient(70deg, transparent 22%, #9ad6ff 22%, #9ad6ff 31%, #2a8ff0 31%, #4aaaff 50%, #2a8ff0 69%, #9ad6ff 69%, #9ad6ff 78%, transparent 78%);
+}
+#battery.h1.yellow,
+#battery.h2.yellow,
+#battery.h3.yellow,
+#battery.h4.yellow,
+#battery.h5.yellow,
+#battery.h6.yellow,
+#battery.h7.yellow,
+#battery.h8.yellow,
+#battery.h9.yellow,
+#battery.h10.yellow {
+    background-image: linear-gradient(70deg, transparent 22%, #fff27a 22%, #fff27a 31%, #e0c010 31%, #f5d820 50%, #e0c010 69%, #fff27a 69%, #fff27a 78%, transparent 78%);
+}
+#battery.h1.red,
+#battery.h2.red,
+#battery.h3.red,
+#battery.h4.red,
+#battery.h5.red,
+#battery.h6.red,
+#battery.h7.red,
+#battery.h8.red,
+#battery.h9.red,
+#battery.h10.red {
+    background-image: linear-gradient(70deg, transparent 22%, #ff6a6a 22%, #ff6a6a 31%, #d80e0e 31%, #f42020 50%, #d80e0e 69%, #ff6a6a 69%, #ff6a6a 78%, transparent 78%);
+}
+/* Lost health simply disappears, like the game */
+#battery.h1.off,
+#battery.h2.off,
+#battery.h3.off,
+#battery.h4.off,
+#battery.h5.off,
+#battery.h6.off,
+#battery.h7.off,
+#battery.h8.off,
+#battery.h9.off,
+#battery.h10.off {
+    background-image: none;
+}
+
+/* Charging: slow pulse on the cross and tiles, like shields recharging */
+@keyframes recharge {
+    from { opacity: 1; }
+    to   { opacity: 0.45; }
+}
+
+#battery.icon.charging,
+#battery.h1.charging,
+#battery.h2.charging,
+#battery.h3.charging,
+#battery.h4.charging,
+#battery.h5.charging,
+#battery.h6.charging,
+#battery.h7.charging,
+#battery.h8.charging,
+#battery.h9.charging,
+#battery.h10.charging {
+    animation: recharge 1.2s ease-in-out infinite alternate;
+}
+
+/* Tooltips: a small Halo panel */
+tooltip {
+    background: #061230;
+    border: 2px solid #2f8cff;
+    border-radius: 8px;
+}
+tooltip label {
+    color: #dce9f8;
+}

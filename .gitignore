@@ -1,0 +1,10 @@
+# This repo is PUBLIC. Never commit secrets or personal data.
+# Safety net for common secret files; still check `git diff --staged` before every commit.
+*.key
+*.pem
+*.env
+.env*
+*secret*
+*token*
+*credentials*
+*.local.*
