@@ -1,0 +1,58 @@
+/* GTK3 colors: Imperial control panel. Linked from ~/.config/gtk-3.0 (through current).
+   GTK3 apps here: Firefox, file dialogs (xdg-desktop-portal-gtk), nm-connection-editor,
+   and also waybar and eww. Those two bring their own full CSS, so this file is PALETTE ONLY
+   on purpose: just named colors, no widget selectors, nothing that can leak into the bar.
+   Font: system default (not set here). Dark mode: settings.ini next to this file.
+   Palette: wall #161719, frame #2e2f33, lip #1c1d20, face #0e1018, text #c9ccd1,
+            white lamp #f2f2f2, red lamp #ff2a2a, blue lamp #4433ff, unlit #3c3d40, muted #6b7078. */
+
+/* New-style names, same as gtk-4.0/gtk.css. GTK3's built-in Adwaita ignores them (it has
+   its colors baked in); the adw-gtk3 theme reads them and paints every widget with them. */
+@define-color window_bg_color #161719;
+@define-color window_fg_color #c9ccd1;
+@define-color view_bg_color #0e1018;
+@define-color view_fg_color #c9ccd1;
+@define-color headerbar_bg_color #161719;
+@define-color headerbar_fg_color #c9ccd1;
+@define-color headerbar_backdrop_color #161719;
+@define-color sidebar_bg_color #1c1d20;
+@define-color sidebar_fg_color #c9ccd1;
+@define-color sidebar_backdrop_color #1c1d20;
+@define-color popover_bg_color #0e1018;
+@define-color popover_fg_color #c9ccd1;
+@define-color dialog_bg_color #1c1d20;
+@define-color dialog_fg_color #c9ccd1;
+@define-color card_bg_color #0e1018;
+@define-color card_fg_color #c9ccd1;
+@define-color accent_color #f2f2f2;
+@define-color accent_bg_color #4433ff;
+@define-color accent_fg_color #f2f2f2;
+@define-color destructive_bg_color #ff2a2a;
+@define-color destructive_color #ff2a2a;
+@define-color error_bg_color #ff2a2a;
+
+/* Classic GTK3 names: apps look these up by name (Firefox, for example) */
+@define-color theme_bg_color #161719;
+@define-color theme_fg_color #c9ccd1;
+@define-color theme_base_color #0e1018;
+@define-color theme_text_color #c9ccd1;
+@define-color theme_selected_bg_color #4433ff;   /* selection = blue lamp, white text */
+@define-color theme_selected_fg_color #f2f2f2;
+@define-color insensitive_bg_color #1c1d20;      /* disabled = unlit */
+@define-color insensitive_fg_color #6b7078;
+@define-color insensitive_base_color #161719;
+@define-color theme_unfocused_bg_color #161719;
+@define-color theme_unfocused_fg_color #c9ccd1;
+@define-color theme_unfocused_base_color #0e1018;
+@define-color theme_unfocused_text_color #c9ccd1;
+@define-color theme_unfocused_selected_bg_color #3c3d40;   /* window without focus: lamp goes unlit */
+@define-color theme_unfocused_selected_fg_color #f2f2f2;
+@define-color unfocused_insensitive_color #6b7078;
+@define-color borders #2e2f33;
+@define-color unfocused_borders #2e2f33;
+@define-color content_view_bg #0e1018;
+@define-color text_view_bg #0e1018;
+/* No amber or green lamp on this panel, so warning/success keep Adwaita's */
+@define-color error_color #ff2a2a;
+@define-color warning_color #f57900;
+@define-color success_color #26ab62;

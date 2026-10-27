@@ -32,7 +32,8 @@
         "format-ethernet": "<span color='#4da3ff'>ETH</span>",
         "format-disconnected": "<span color='#4da3ff'>NET</span> OFF",
         "tooltip-format": "{ifname} {ipaddr}",
-        "on-click": "~/dotfiles/bin/comms"   // nmtui in theme colors (replaces the nm-applet tray icon)
+        "on-click": "nm-connection-editor",      // saved connections (GTK3, themed)
+        "on-click-right": "~/dotfiles/bin/comms"  // nmtui in theme colors: scan and join Wi-Fi
     },
     // Battery = several copies of the same module: cross | 10 health tiles | percentage.
     // "battery#icon" is styled in CSS as #battery.icon (same for .h1 ... .h10 and .pct).

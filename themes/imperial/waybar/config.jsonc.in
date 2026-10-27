@@ -71,7 +71,8 @@
         "tooltip-format": "Audio: volume {volume}% on {desc}\nClick: mixer",
         "on-click": "pavucontrol"
     },
-    // Network = the NetworkManager button: click opens nmtui in theme colors (bin/comms).
+    // Network = the NetworkManager button: left-click = nm-connection-editor (saved connections, GTK3 themed),
+    // right-click = nmtui in theme colors (bin/comms), which can scan and join new Wi-Fi.
     // Down = red frame blinking (style.css.in), like the critical battery.
     "network": {
         "format-wifi": "<span font_family='@AUR@' foreground='#c9ccd1'>COMMS</span> {icon}",
@@ -83,10 +84,11 @@
             "<span font_family='JetBrainsMono Nerd Font'>●●●<span color='#3c3d40'>●</span></span>",
             "<span font_family='JetBrainsMono Nerd Font'>●●●●</span>"
         ],
-        "tooltip-format-wifi": "Comms: Wi-Fi {essid}, signal {signalStrength}%\nClick: network manager",
-        "tooltip-format-ethernet": "Comms: wired ({ifname})\nClick: network manager",
-        "tooltip-format-disconnected": "Comms: no network\nClick: network manager",
-        "on-click": "~/dotfiles/bin/comms"
+        "tooltip-format-wifi": "Comms: Wi-Fi {essid}, signal {signalStrength}%\nLeft-click: saved connections · Right-click: join Wi-Fi",
+        "tooltip-format-ethernet": "Comms: wired ({ifname})\nLeft-click: saved connections · Right-click: join Wi-Fi",
+        "tooltip-format-disconnected": "Comms: no network\nLeft-click: saved connections · Right-click: join Wi-Fi",
+        "on-click": "nm-connection-editor",
+        "on-click-right": "~/dotfiles/bin/comms"
     },
     // Battery: white cells, dimmer at 30%, red at 15% (CSS colors the lit cells)
     "battery": {
