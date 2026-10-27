@@ -1,0 +1,14 @@
+#!/bin/sh
+# comms: open nmtui (NetworkManager's terminal UI) in kitty, recolored to match the desktop.
+# Usage: comms     (waybar's network module runs it on click, in every theme)
+#
+# nmtui draws with the "newt" library, which reads its colors from NEWT_COLORS:
+#   element=text,background; ...   using the 16 basic terminal colors.
+# kitty maps those names to the active theme's palette, so "red" is the theme's red.
+# Elements: root = background, window/border/title = the box, listbox/actlistbox = menu
+# (act = the selected row), button/actbutton, entry = text fields, checkbox, scale = progress.
+
+NEWT_COLORS='root=white,black;window=white,black;border=gray,black;title=white,black;textbox=white,black;button=black,gray;actbutton=black,white;compactbutton=white,black;listbox=white,black;actlistbox=black,white;sellistbox=white,black;actsellistbox=black,red;checkbox=white,black;actcheckbox=black,white;entry=white,black;disentry=gray,black;label=white,black;emptyscale=,black;fullscale=,white;helpline=gray,black;roottext=gray,black'
+export NEWT_COLORS
+
+exec kitty --class comms nmtui

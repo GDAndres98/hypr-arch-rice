@@ -13,7 +13,7 @@ dotfiles/
 │   ├── theme.lua      ->  ../current/hypr/theme.lua
 │   └── hyprlock.conf  ->  ../current/hypr/hyprlock.conf
 ├── kitty/                 shared, linked from ~/.config/kitty
-├── bin/                   scripts, linked into ~/.local/bin: `theme`, `sw-mode`
+├── bin/                   scripts, linked into ~/.local/bin: `theme`, `sw-mode`, `comms` (nmtui in theme colors)
 ├── current  ->  themes/halo-ce      the ACTIVE theme (one link to switch)
 └── themes/
     ├── imperial/            Star Wars Imperial console, with Aurebesh (see below)
@@ -25,12 +25,13 @@ dotfiles/
         ├── rofi/clipboard.rasi  clipboard history on SUPER + SHIFT + V (imports config.rasi)
         ├── rofi/calc.rasi       calculator on SUPER + SHIFT + C (imports config.rasi)
         ├── imv/                 image viewer, linked from ~/.config/imv
+        ├── gtk-4.0/             GTK4 apps (= pavucontrol), linked from ~/.config/gtk-4.0
         ├── waybar/              linked from ~/.config/waybar (through current)
         ├── mako/                linked from ~/.config/mako
         └── eww/                 linked from ~/.config/eww
 ```
 
-`~/.config/waybar`, `mako`, `eww` and `imv` point at `~/dotfiles/current/...`, so they follow whichever theme is active.
+`~/.config/waybar`, `mako`, `eww`, `imv` and `gtk-4.0` point at `~/dotfiles/current/...`, so they follow whichever theme is active.
 
 ## Switch theme
 
@@ -61,6 +62,7 @@ Copy `themes/halo-ce` to `themes/<name>` and edit it. Each theme must provide:
 - `hypr/theme.lua`, `hypr/hyprlock.conf` and `hypr/hyprtoolkit.conf`
 - `rofi/config.rasi`, `rofi/clipboard.rasi`, `rofi/calc.rasi` (keybinds run them straight from `current/`, no `~/.config` link)
 - `imv/config`
+- `gtk-4.0/gtk.css` (pavucontrol colors; plain CSS, no template)
 - `waybar/`, `mako/config`, `eww/`
 - an eww window named `dashboard` (`hyprland.lua` opens it on empty workspaces)
 - optional executable hooks `enter` / `leave`, run by `theme` when switching to / away from it
@@ -72,7 +74,7 @@ git clone git@github.com:<you>/hypr-arch-rice.git ~/dotfiles
 ln -s ~/dotfiles/hypr ~/.config/hypr
 ln -s ~/dotfiles/kitty ~/.config/kitty
 for x in waybar eww mako; do ln -s ~/dotfiles/current/$x ~/.config/$x; done
-ln -s ~/dotfiles/bin/theme ~/dotfiles/bin/sw-mode ~/.local/bin/
+ln -s ~/dotfiles/bin/theme ~/dotfiles/bin/sw-mode ~/dotfiles/bin/comms ~/.local/bin/
 ln -s ~/dotfiles/themes/imperial/fonts ~/.local/share/fonts/imperial
 sw-mode --no-reload   # builds the Imperial configs from their templates
 ```

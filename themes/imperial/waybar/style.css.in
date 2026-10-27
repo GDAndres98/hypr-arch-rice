@@ -1,12 +1,12 @@
 /* Waybar style TEMPLATE: Imperial control panels (after Ahren Hart's "Imperial Control Panel").
-   Edit this .in file, then run `sw-mode` to rebuild style.css. @VAL@ / @BODY@: see sw-mode.
+   Edit this .in file, then run `sw-mode` to rebuild style.css. @AUR@ / @BODY@: see sw-mode.
    A panel = gunmetal frame (border) + darker inner lip (inset shadow) + navy-black face.
    Lamps glow: text-shadow on glyphs, box-shadow on boxes.
    Palette: wall #161719, frame #2e2f33, lip #1c1d20, face #0e1018, trace #8a8d93,
             white lamp #f2f2f2, red lamp #ff2a2a, blue lamp #4433ff, unlit #3c3d40, copper #9a4a2a. */
 
 * {
-    font-family: "@VAL@", "JetBrainsMono Nerd Font";
+    font-family: "@AUR@", "JetBrainsMono Nerd Font";   /* bar text is always Aurebesh */
     font-size: 12px;
     border: none;
     border-radius: 0;
@@ -27,7 +27,7 @@ tooltip {
 }
 
 /* Every module is a framed panel */
-#custom-lamps, #workspaces, #clock, #pulseaudio, #backlight, #network, #battery, #tray {
+#custom-lamps, #workspaces, #bluetooth, #sector, #pulseaudio, #network, #battery, #tray {
     background: #0e1018;
     border: 2px solid #2e2f33;
     box-shadow: inset 0 0 0 1px #1c1d20, inset 0 1px 0 2px #3a3b40;   /* lip + top highlight */
@@ -40,16 +40,26 @@ tooltip {
     text-shadow: 0 0 4px rgba(255, 42, 42, 0.6);
 }
 
-/* The red "eye": a dark button with a red core that pulses */
-#custom-beacon {
-    color: #ff2a2a;
-    padding: 0 6px 0 2px;
-    animation: eye 3s ease-in-out infinite;
-}
-@keyframes eye {
+/* The "eye" pulses in the power profile's color (class set by the module's script).
+   CSS animations can't take a color as a parameter, so each profile has its own keyframes. */
+#custom-beacon { padding: 0 6px 0 2px; }
+#custom-beacon.performance { animation: eye-red 3s ease-in-out infinite; }
+#custom-beacon.balanced    { animation: eye-amber 3s ease-in-out infinite; }
+#custom-beacon.low-power   { animation: eye-green 3s ease-in-out infinite; }
+@keyframes eye-red {
     0%   { color: #ff2a2a; text-shadow: 0 0 6px #ff2a2a; }
     50%  { color: #4a0f0f; text-shadow: none; }
     100% { color: #ff2a2a; text-shadow: 0 0 6px #ff2a2a; }
+}
+@keyframes eye-amber {
+    0%   { color: #ffb020; text-shadow: 0 0 6px #ffb020; }
+    50%  { color: #4a3208; text-shadow: none; }
+    100% { color: #ffb020; text-shadow: 0 0 6px #ffb020; }
+}
+@keyframes eye-green {
+    0%   { color: #3ddc5a; text-shadow: 0 0 6px #3ddc5a; }
+    50%  { color: #0f3a18; text-shadow: none; }
+    100% { color: #3ddc5a; text-shadow: 0 0 6px #3ddc5a; }
 }
 
 /* Workspaces: unlit grey tiles; the active one lights up white, urgent glows red */
@@ -77,17 +87,28 @@ tooltip {
     color: #ffffff;
 }
 
-/* Window title: a label stencilled on the wall, no panel */
-#window {
-    padding: 0 12px;
-    color: #6b7078;
+/* Comlink button (Bluetooth): framed like the other panels, lights up on hover.
+   The lamp is unlit, blue and blinking when connected (the "B" keeps its own color). */
+#bluetooth {
+    font-size: 14px;
+    color: #3c3d40;
+}
+#bluetooth:hover {
+    border-color: #4433ff;
+    box-shadow: inset 0 0 0 1px #1c1d20, 0 0 6px rgba(68, 51, 255, 0.6);
+}
+#bluetooth.connected { animation: link 1.6s steps(1) infinite; }
+@keyframes link {
+    0%  { color: #4433ff; text-shadow: 0 0 6px #4433ff; }
+    50% { color: #1a1460; text-shadow: none; }
 }
 
-#clock { text-shadow: 0 0 4px rgba(68, 51, 255, 0.7); }
+/* Center: one panel (#sector, the group) around the user name and the time */
+#custom-user { padding-right: 16px; }   /* gap between name and time */
+#custom-user, #clock { text-shadow: 0 0 4px rgba(68, 51, 255, 0.7); }
 
 /* Lit meter cells take the module color and glow */
 #pulseaudio { color: #f2f2f2; text-shadow: 0 0 4px rgba(242, 242, 242, 0.5); }
-#backlight  { color: #f2f2f2; text-shadow: 0 0 4px rgba(242, 242, 242, 0.5); }
 #network    { color: #4433ff; text-shadow: 0 0 4px rgba(68, 51, 255, 0.8); }
 #battery    { color: #f2f2f2; text-shadow: 0 0 4px rgba(242, 242, 242, 0.5); }
 #battery.warning:not(.charging)  { color: #8a8d93; text-shadow: none; }
@@ -105,3 +126,4 @@ tooltip {
     color: #ff2a2a;
     text-shadow: 0 0 4px rgba(255, 42, 42, 0.7);
 }
+#network.disconnected { animation: alarm 1s steps(1) infinite; }   /* red frame blinks */

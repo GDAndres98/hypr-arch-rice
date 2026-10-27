@@ -157,6 +157,13 @@
 .graph.tx { color: #ff2a2a; }
 .value.tx { color: #ff2a2a; }
 
+/* Comlinks: Bluetooth device names stay readable until mode 3 */
+.link-name {
+    font-family: "@BODY@", "JetBrainsMono Nerd Font";
+    font-size: 12px;
+    color: #ffffff;
+}
+
 /* Vertical sliders: blue bar in a dark slot, white when warm, red when hot */
 .slider trough {
     background: #3c3d40;

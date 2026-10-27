@@ -329,7 +329,7 @@ hl.on("workspace.active", update_mode_soon)
 hl.on("hyprland.start", function ()
   hl.exec_cmd("eww daemon")
   update_mode_soon()
-  hl.exec_cmd("nm-applet")
+  -- no nm-applet: the waybar network module opens nmtui on click
   hl.exec_cmd("systemctl --user start hyprpolkitagent")
   hl.exec_cmd("hypridle")
   hl.exec_cmd("wl-paste --watch cliphist store")   -- save every copy to the clipboard history

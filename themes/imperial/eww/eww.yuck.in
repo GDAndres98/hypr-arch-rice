@@ -5,11 +5,14 @@
 ; chamfered gunmetal frame, navy-black face, thin white circuit traces, glowing lamps. See eww.css.in.
 ; Docs: https://elkowar.github.io/eww/configuration.html
 ;
-; Data: EWW_CPU, EWW_RAM, EWW_DISK built in; stats = scripts/stats.sh (shared with halo-ce)
+; Data: EWW_CPU, EWW_RAM, EWW_DISK built in; stats = scripts/stats.sh, bt = scripts/bt.sh (shared with halo-ce)
 
 (defpoll stats :interval "2s"
   :initial '{"cpu_temp":0,"gpu_temp":0,"gpu_util":0,"uptime":"","mode":"","power":"","bat":0,"bat_status":"","nvme_read":0,"hdd_read":0,"hdd_write":0,"rx":0,"tx":0}'
   "~/.config/eww/scripts/stats.sh")
+
+; Connected Bluetooth devices = scripts/bt.sh
+(defpoll bt :interval "5s" :initial '[]' "~/.config/eww/scripts/bt.sh")
 
 ; Panel = frame > face > traced plate. Whatever you put inside goes in the plate.
 (defwidget panel [?vexpand]
@@ -110,8 +113,27 @@
       (row :label "{{stack:MEMORY}}" :percent {EWW_RAM.used_mem_perc})
       (row :label "{{stack:GPU}}" :percent {stats.gpu_util} :color "blue"))
 
-    ; Comms = network: a little screen with the 30 s traffic graph
-    (panel :vexpand true
+    ; Comlinks = connected Bluetooth devices: blue lamp + name, battery meter when reported.
+    ; Shown only while something is connected; otherwise the comms panel below takes its place.
+    ; :visible only works on built-in widgets (a custom one like panel ignores it), hence the wrapper boxes.
+    (box :visible {arraylength(bt) > 0}
+     (panel
+      (head :title "{{stack:COMLINKS}}" :tag {arraylength(bt) < 10 ? "0${arraylength(bt)}" : arraylength(bt)})
+      ; for can't be a direct child of a custom widget, so it sits in a box
+      (box :orientation "v" :space-evenly false :spacing 8
+        (for dev in bt
+          (box :orientation "v" :space-evenly false :spacing 3
+            (box :space-evenly false :spacing 8
+              (lamp :color "blue")
+              (label :class "link-name" :xalign 0 :hexpand true :limit-width 24 :text {dev.name}))
+            (box :class "power ${dev.battery <= 15 ? 'hot' : dev.battery <= 30 ? 'warn' : ''}"
+                 :visible {dev.battery >= 0} :space-evenly false :spacing 8
+              (tiles :percent {dev.battery} :hot 101)
+              (label :class "value" :xalign 1 :width 40 :text "${dev.battery}%")))))))
+
+    ; Comms = network: a little screen with the 30 s traffic graph (when no Bluetooth device is connected)
+    (box :vexpand true :visible {arraylength(bt) == 0}
+     (panel :vexpand true
       (head :title "{{stack:COMMS ARRAY}}" :tag "LIVE")
       (box
         (label :class "value" :xalign 0 :text "RX ${stats.rx >= 1000 ? round(stats.rx / 1000, 1) : stats.rx} ${stats.rx >= 1000 ? 'MB/s' : 'KB/s'}")
@@ -122,7 +144,7 @@
           (graph :class "graph" :value {stats.rx} :time-range "30s" :hexpand true :vexpand true
                  :min 0 :max 100 :dynamic true :thickness 1 :line-style "miter")
           (graph :class "graph tx" :value {stats.tx} :time-range "30s" :hexpand true :vexpand true
-                 :min 0 :max 100 :dynamic true :thickness 1 :line-style "miter"))))
+                 :min 0 :max 100 :dynamic true :thickness 1 :line-style "miter")))))
 
     ; Data vault = drives
     (panel
@@ -138,7 +160,10 @@
             :state {stats.cpu_temp >= 85 || stats.gpu_temp >= 80 ? "hot" : stats.cpu_temp >= 70 || stats.gpu_temp >= 65 ? "warn" : "ok"})
       (box :spacing 12
         (slider :label "{{pair:CPU}}" :value {stats.cpu_temp} :warm 70 :hot 85)
-        (slider :label "{{pair:GPU}}" :value {stats.gpu_temp} :warm 65 :hot 80)))))
+        (slider :label "{{pair:GPU}}" :value {stats.gpu_temp} :warm 65 :hot 80)))
+
+    ; With comlinks shown nothing stretches, so this empty wall takes the leftover height
+    (box :vexpand true :visible {arraylength(bt) > 0})))
 
 ; "bg" = Hyprland's background layer: windows always draw on top of it.
 (defwindow dashboard

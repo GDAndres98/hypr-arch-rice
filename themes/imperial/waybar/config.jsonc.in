@@ -1,6 +1,6 @@
 // Waybar config TEMPLATE: Imperial wall panels. Edit this .in file, then run `sw-mode` to rebuild config.jsonc.
-// pair code = label + translation (font order depends on the mode, see sw-mode). @VAL@ = font for live values.
-// Numbers use @VAL@ (Aurebesh in modes 2 and 3); the tooltips (@BODY@) show them readable.
+// Labels and numbers are always Aurebesh (@AUR@), in every mode; the tooltips say what each panel is
+// and show the values readable (tooltip font = @BODY@, Latin until mode 3).
 // Look: every module is a small Imperial control panel (gunmetal frame, glowing lamps), see style.css.in.
 // Reference: Ahren Hart, "Imperial Control Panel" (ArtStation).
 // LED meters ({icon}): lit squares have no color, so they take the module's CSS color
@@ -12,35 +12,54 @@
     "height": 32,
     "spacing": 0,
 
-    "modules-left": ["custom/lamps", "custom/beacon", "hyprland/workspaces", "hyprland/window"],
-    "modules-center": ["clock"],
-    "modules-right": ["pulseaudio", "backlight", "network", "battery", "tray"],
+    "modules-left": ["custom/lamps", "custom/beacon", "hyprland/workspaces", "bluetooth"],
+    "modules-center": ["group/sector"],
+    "modules-right": ["pulseaudio", "network", "battery", "tray"],
 
     // Decoration only, copied from the panels: red + unlit hexagon, white and red squares, copper dial
     "custom/lamps": {
         "format": "<span font_family='JetBrainsMono Nerd Font'><span color='#ff2a2a'>⬢</span><span color='#3c3d40'>⬢</span>  <span color='#f2f2f2'>■</span> <span color='#f2f2f2'>■</span><span color='#ff2a2a'>■</span>  <span color='#9a4a2a'>◉</span></span>",
         "tooltip": false
     },
-    // The red "eye" button that pulses (animation in style.css.in)
+    // The pulsing "eye" = power profile (Fn+Q): red performance, amber balanced, green low-power.
+    // Plain-text output: line 1 = text, line 2 = tooltip, line 3 = CSS class (colors in style.css.in)
     "custom/beacon": {
-        "format": "<span font_family='JetBrainsMono Nerd Font'>●</span>",
-        "tooltip": false
+        "exec": "p=$(cat /sys/firmware/acpi/platform_profile); printf '●\\nPower profile: %s (Fn+Q)\\n%s\\n' \"$p\" \"$p\"",
+        "interval": 2,
+        "format": "<span font_family='JetBrainsMono Nerd Font'>{}</span>"
     },
     "hyprland/workspaces": {
-        "format": "{id}"
+        "format": "<span font_family='@AUR@'>{id}</span>"
     },
-    "hyprland/window": {
-        "format": "<span font_family='@BODY@'>{}</span>",
-        "max-length": 50
+    // Comlink = Bluetooth button: lamp + Aurebesh "B". Lamp blue and blinking while a device is connected.
+    // Hover = connected devices + battery, click = bluetoothctl in a terminal.
+    "bluetooth": {
+        "format": "<span font_family='JetBrainsMono Nerd Font'>⬢</span> <span font_family='@AUR@' foreground='#c9ccd1'>B</span>",
+        "format-no-controller": "",
+        "tooltip-format": "Comlink: Bluetooth {status}, no device connected\nClick: bluetoothctl",
+        "tooltip-format-connected": "Comlink: Bluetooth devices\n{device_enumerate}\nClick: bluetoothctl",
+        "tooltip-format-enumerate-connected": "{device_alias}",
+        "tooltip-format-enumerate-connected-battery": "{device_alias}  {device_battery_percentage}%",
+        "on-click": "kitty bluetoothctl"
     },
-    // Center panel: the blue + unlit hexagon pair on each side of the time
+    // Center panel = one frame around two modules: user name + time, a hexagon pair on each side.
+    // The user name comes from `id -un` at runtime, so it isn't written in this public repo.
+    "group/sector": {
+        "orientation": "horizontal",
+        "modules": ["custom/user", "clock"]
+    },
+    "custom/user": {
+        "exec": "u=$(id -un); printf '%s\\nOperator: %s\\n' \"$u\" \"$u\"",
+        "interval": "once",
+        "format": "<span font_family='JetBrainsMono Nerd Font'><span color='#4433ff'>⬢</span><span color='#3c3d40'>⬢</span></span>  <span font_family='@AUR@' foreground='#c9ccd1'>{}</span>"
+    },
     "clock": {
-        "format": "<span font_family='JetBrainsMono Nerd Font'><span color='#4433ff'>⬢</span><span color='#3c3d40'>⬢</span></span>  <span foreground='#c9ccd1'>{{pair:SECTOR TIME}}</span>  <span font_family='@VAL@' foreground='#ffffff'>{:%H:%M}</span>  <span font_family='JetBrainsMono Nerd Font'><span color='#3c3d40'>⬢</span><span color='#4433ff'>⬢</span></span>",
-        "tooltip-format": "{:%A %d %B %Y  %H:%M}"
+        "format": "<span font_family='@AUR@' foreground='#ffffff'>{:%H:%M}</span>  <span font_family='JetBrainsMono Nerd Font'><span color='#3c3d40'>⬢</span><span color='#4433ff'>⬢</span></span>",
+        "tooltip-format": "Sector time\n{:%A %d %B %Y  %H:%M}"
     },
     "pulseaudio": {
-        "format": "<span foreground='#c9ccd1'>{{pair:AUDIO}}</span> {icon} <span font_family='@VAL@' foreground='#ffffff'>{volume}%</span>",
-        "format-muted": "<span foreground='#c9ccd1'>{{pair:AUDIO}}</span> <span font_family='@VAL@'>MUTED</span>",
+        "format": "<span font_family='@AUR@' foreground='#c9ccd1'>AUDIO</span> {icon} <span font_family='@AUR@' foreground='#ffffff'>{volume}%</span>",
+        "format-muted": "<span font_family='@AUR@' foreground='#c9ccd1'>AUDIO</span> <span font_family='@AUR@'>MUTED</span>",
         "format-icons": { "default": [
             "<span font_family='JetBrainsMono Nerd Font'><span color='#3c3d40'>■■■■■</span></span>",
             "<span font_family='JetBrainsMono Nerd Font'>■<span color='#3c3d40'>■■■■</span></span>",
@@ -49,36 +68,30 @@
             "<span font_family='JetBrainsMono Nerd Font'>■■■■<span color='#3c3d40'>■</span></span>",
             "<span font_family='JetBrainsMono Nerd Font'>■■■■■</span>"
         ] },
-        "tooltip-format": "Volume {volume}%",
+        "tooltip-format": "Audio: volume {volume}% on {desc}\nClick: mixer",
         "on-click": "pavucontrol"
     },
-    "backlight": {
-        "format": "<span foreground='#c9ccd1'>{{pair:LUMEN}}</span> {icon} <span font_family='@VAL@' foreground='#ffffff'>{percent}%</span>",
-        "format-icons": [
-            "<span font_family='JetBrainsMono Nerd Font'>■<span color='#3c3d40'>■■■■</span></span>",
-            "<span font_family='JetBrainsMono Nerd Font'>■■<span color='#3c3d40'>■■■</span></span>",
-            "<span font_family='JetBrainsMono Nerd Font'>■■■<span color='#3c3d40'>■■</span></span>",
-            "<span font_family='JetBrainsMono Nerd Font'>■■■■<span color='#3c3d40'>■</span></span>",
-            "<span font_family='JetBrainsMono Nerd Font'>■■■■■</span>"
-        ],
-        "tooltip-format": "Brightness {percent}%"
-    },
+    // Network = the NetworkManager button: click opens nmtui in theme colors (bin/comms).
+    // Down = red frame blinking (style.css.in), like the critical battery.
     "network": {
-        "format-wifi": "<span foreground='#c9ccd1'>{{pair:COMMS}}</span> {icon} <span font_family='@VAL@' foreground='#ffffff'>{signalStrength}%</span>",
-        "format-ethernet": "<span foreground='#c9ccd1'>{{pair:COMMS}}</span> <span font_family='@VAL@'>WIRED</span>",
-        "format-disconnected": "<span foreground='#c9ccd1'>{{pair:COMMS}}</span> <span font_family='@VAL@'>DOWN</span>",
+        "format-wifi": "<span font_family='@AUR@' foreground='#c9ccd1'>COMMS</span> {icon}",
+        "format-ethernet": "<span font_family='@AUR@' foreground='#c9ccd1'>COMMS</span> <span font_family='@AUR@'>WIRED</span>",
+        "format-disconnected": "<span font_family='@AUR@' foreground='#c9ccd1'>COMMS</span> <span font_family='@AUR@'>DOWN</span>",
         "format-icons": [
             "<span font_family='JetBrainsMono Nerd Font'>●<span color='#3c3d40'>●●●</span></span>",
             "<span font_family='JetBrainsMono Nerd Font'>●●<span color='#3c3d40'>●●</span></span>",
             "<span font_family='JetBrainsMono Nerd Font'>●●●<span color='#3c3d40'>●</span></span>",
             "<span font_family='JetBrainsMono Nerd Font'>●●●●</span>"
         ],
-        "tooltip-format": "{essid} {signalStrength}%  {ifname}"
+        "tooltip-format-wifi": "Comms: Wi-Fi {essid}, signal {signalStrength}%\nClick: network manager",
+        "tooltip-format-ethernet": "Comms: wired ({ifname})\nClick: network manager",
+        "tooltip-format-disconnected": "Comms: no network\nClick: network manager",
+        "on-click": "~/dotfiles/bin/comms"
     },
     // Battery: white cells, dimmer at 30%, red at 15% (CSS colors the lit cells)
     "battery": {
-        "format": "<span foreground='#c9ccd1'>{{pair:POWER}}</span> {icon} <span font_family='@VAL@' foreground='#ffffff'>{capacity}%</span>",
-        "format-charging": "<span foreground='#c9ccd1'>{{pair:POWER}}</span> {icon} <span font_family='@VAL@' foreground='#ffffff'>+{capacity}%</span>",
+        "format": "<span font_family='@AUR@' foreground='#c9ccd1'>POWER</span> {icon} <span font_family='@AUR@' foreground='#ffffff'>{capacity}%</span>",
+        "format-charging": "<span font_family='@AUR@' foreground='#c9ccd1'>POWER</span> {icon} <span font_family='@AUR@' foreground='#ffffff'>+{capacity}%</span>",
         "format-icons": [
             "<span font_family='JetBrainsMono Nerd Font'>▮<span color='#3c3d40'>▮▮▮▮▮▮▮▮▮</span></span>",
             "<span font_family='JetBrainsMono Nerd Font'>▮▮<span color='#3c3d40'>▮▮▮▮▮▮▮▮</span></span>",
@@ -92,7 +105,7 @@
             "<span font_family='JetBrainsMono Nerd Font'>▮▮▮▮▮▮▮▮▮▮</span>"
         ],
         "states": { "warning": 30, "critical": 15 },
-        "tooltip-format": "Battery {capacity}%  {timeTo}"
+        "tooltip-format": "Power cell: battery {capacity}%  {timeTo}"
     },
     "tray": {
         "spacing": 8

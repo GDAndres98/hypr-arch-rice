@@ -31,7 +31,8 @@
         "format-wifi": "<span color='#4da3ff'>WIFI</span> {essid}",
         "format-ethernet": "<span color='#4da3ff'>ETH</span>",
         "format-disconnected": "<span color='#4da3ff'>NET</span> OFF",
-        "tooltip-format": "{ifname} {ipaddr}"
+        "tooltip-format": "{ifname} {ipaddr}",
+        "on-click": "~/dotfiles/bin/comms"   // nmtui in theme colors (replaces the nm-applet tray icon)
     },
     // Battery = several copies of the same module: cross | 10 health tiles | percentage.
     // "battery#icon" is styled in CSS as #battery.icon (same for .h1 ... .h10 and .pct).
