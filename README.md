@@ -13,6 +13,7 @@ dotfiles/
 │   ├── theme.lua      ->  ../current/hypr/theme.lua
 │   └── hyprlock.conf  ->  ../current/hypr/hyprlock.conf
 ├── kitty/                 shared, linked from ~/.config/kitty
+├── xkb/                   local only (gitignored): this laptop's keyboard tweaks, linked from ~/.config/xkb
 ├── bin/                   scripts, linked into ~/.local/bin: `theme`, `sw-mode`, `comms` (nmtui in theme colors)
 ├── current  ->  themes/<name>       the ACTIVE theme (one link to switch)
 └── themes/

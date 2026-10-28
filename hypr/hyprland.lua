@@ -164,7 +164,8 @@ hl.config({
         kb_layout = "latam",
         kb_variant = "",
         kb_model   = "",
-        kb_options = "",
+        kb_options = "legion:f22_super",   -- screen-icon key next to AltGr = second SUPER (local ~/dotfiles/xkb, not in git; ignored if missing).
+                                            -- Its firmware fires a Ctrl+Shift macro ~0.6 s after release: wait ~1 s between presses.
         kb_rules   = "",
 
         follow_mouse = 1,

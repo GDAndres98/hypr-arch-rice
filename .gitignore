@@ -11,3 +11,9 @@
 
 # Written by `sw-mode 3` (Imperial crazy mode): switches the font to Aurebesh. Not in git.
 kitty/mode-font.conf
+
+# Laptop-specific keyboard tweaks (Legion Y540 F22 key = SUPER): kept local, not in git.
+xkb/
+
+# fontconfig writes a .uuid marker into font folders it scans. Not config.
+.uuid
