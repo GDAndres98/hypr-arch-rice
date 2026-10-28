@@ -6,6 +6,12 @@
 # complains). libsteam_api.so is renamed to .off in this copy, so the game
 # never contacts Steam. The game reads its Content/ folder relative to where
 # it runs, so cd there first. Saves live in ~/.config/StardewValley/.
+#
+# The game's runtimeconfig.json turns .NET tiered compilation off, so every
+# function is fully optimized before its first run (slow start). This env var
+# overrides that: quick compile first, hot code re-optimized in the background.
+# Faster launch; at most a few hitches in the first minute. Delete to undo.
+export DOTNET_TieredCompilation=1
 
 cd /data/games/stardew || exit 1
 exec "./Stardew Valley" "$@"
