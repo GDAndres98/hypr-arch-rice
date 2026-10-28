@@ -48,11 +48,12 @@ hyprlock reads its config each time it starts, so it needs no reload.
 ```bash
 sw-mode 1    # Latin text, Aurebesh subtitle
 sw-mode 2    # Aurebesh text, Latin subtitle
-sw-mode 3    # everything Aurebesh, also apps (fontconfig) and kitty. Type `sw-mode 1` blind to leave
+sw-mode 3    # everything Aurebesh, also apps (fontconfig), kitty and Dolphin's file list. Type `sw-mode 1` blind to leave
 sw-mode      # rebuild with the saved mode (after editing a template)
 ```
 
 The mode is saved in `~/.local/state/sw-mode` and survives reboots.
+Qt apps ignore the fontconfig rule, so mode 3 also sets Dolphin's view font in `~/.config/dolphinrc` (`kwriteconfig6`); close Dolphin before switching.
 Waybar, mako, eww, hyprlock, hyprtoolkit, rofi and imv files in `themes/imperial/` are **templates** (`*.in`). `sw-mode` fills in
 the fonts and writes the real file next to it (git ignores those). **Edit the `.in` file**, then run `sw-mode`.
 Fonts and their licenses: `themes/imperial/fonts/`.

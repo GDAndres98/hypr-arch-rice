@@ -72,6 +72,7 @@ local calculator  = "pkill -x rofi || rofi -show calc -modi calc -no-show-match 
 
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
+hl.env("QT_QPA_PLATFORMTHEME", "gtk3")   -- Qt apps (Dolphin) take colors + file dialogs from the GTK3 theme (~/.config/gtk-3.0)
 
 
 -----------------------
