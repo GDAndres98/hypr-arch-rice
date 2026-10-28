@@ -73,6 +73,7 @@ local calculator  = "pkill -x rofi || rofi -show calc -modi calc -no-show-match 
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
 hl.env("QT_QPA_PLATFORMTHEME", "gtk3")   -- Qt apps (Dolphin) take colors + file dialogs from the GTK3 theme (~/.config/gtk-3.0)
+hl.env("STEAM_FORCE_DESKTOPUI_SCALING", "1.25")   -- Steam draws its own UI at monitor scale (pairs with xwayland.force_zero_scaling)
 
 
 -----------------------
@@ -151,6 +152,15 @@ hl.config({
         disable_hyprland_logo   = true,  -- If true disables the random hyprland logo / anime girl background. :(
         disable_splash_rendering = true, -- no random quote at the bottom of the background
         allow_session_lock_restore = true,    -- lets you restart hyprlock if it ever crashes
+    },
+})
+
+-- XWayland apps (Steam, Proton games) can't do fractional scaling: Hyprland would
+-- stretch them by 1.25 and blur them. Render at native resolution instead;
+-- apps scale themselves (Steam: STEAM_FORCE_DESKTOPUI_SCALING above).
+hl.config({
+    xwayland = {
+        force_zero_scaling = true,
     },
 })
 
