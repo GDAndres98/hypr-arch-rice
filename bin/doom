@@ -1,0 +1,16 @@
+#!/bin/sh
+# doom / doom2: launch Crispy Doom with the WADs copied from Steam to the HDD.
+# Usage: doom  [crispy-doom options]    e.g. doom -warp 1 1 -skill 4
+#        doom2 [crispy-doom options]    e.g. doom2 -warp 7
+#
+# One script, two names: doom2 is a link to this file, and $0 is the name it
+# was called by, so the name picks the WAD. "$@" passes any extra options on.
+
+WADS=/data/games/doom
+
+case "$(basename "$0")" in
+    doom2) iwad=DOOM2.WAD ;;
+    *)     iwad=DOOM.WAD ;;
+esac
+
+exec crispy-doom -iwad "$WADS/$iwad" "$@"
