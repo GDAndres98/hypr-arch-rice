@@ -14,7 +14,7 @@ dotfiles/
 │   └── hyprlock.conf  ->  ../current/hypr/hyprlock.conf
 ├── kitty/                 shared, linked from ~/.config/kitty
 ├── xkb/                   local only (gitignored): this laptop's keyboard tweaks, linked from ~/.config/xkb
-├── bin/                   scripts, linked into ~/.local/bin: `theme`, `sw-mode`, `comms` (nmtui in theme colors), `doom`/`doom2` (Crispy Doom with the WADs in `/data/games/doom`)
+├── bin/                   scripts, linked into ~/.local/bin: `theme`, `sw-mode`, `comms` (nmtui in theme colors), `doom`/`doom2` (Crispy Doom with the WADs in `/data/games/doom`), `stardew` (Stardew Valley from `/data/games/stardew`, no Steam)
 ├── current  ->  themes/<name>       the ACTIVE theme (one link to switch)
 └── themes/
     ├── imperial/            Star Wars Imperial console, with Aurebesh (see below)
@@ -81,7 +81,7 @@ for x in waybar eww mako imv gtk-3.0 gtk-4.0; do ln -s ~/dotfiles/current/$x ~/.
 sudo pacman -S adw-gtk-theme   # GTK3 base theme that reads our palette
 gsettings set org.gnome.desktop.interface gtk-theme adw-gtk3-dark
 gsettings set org.gnome.desktop.interface color-scheme prefer-dark
-ln -s ~/dotfiles/bin/theme ~/dotfiles/bin/sw-mode ~/dotfiles/bin/comms ~/dotfiles/bin/doom ~/dotfiles/bin/doom2 ~/.local/bin/
+ln -s ~/dotfiles/bin/theme ~/dotfiles/bin/sw-mode ~/dotfiles/bin/comms ~/dotfiles/bin/doom ~/dotfiles/bin/doom2 ~/dotfiles/bin/stardew ~/.local/bin/
 ln -s ~/dotfiles/themes/imperial/fonts ~/.local/share/fonts/imperial
 sw-mode --no-reload   # builds the Imperial configs from their templates
 ```

@@ -1,0 +1,11 @@
+#!/bin/sh
+# stardew: launch Stardew Valley from the copy on the HDD, without Steam.
+# Usage: stardew
+#
+# Skips the game's own StardewValley script (it calls macOS's sw_vers and
+# complains). libsteam_api.so is renamed to .off in this copy, so the game
+# never contacts Steam. The game reads its Content/ folder relative to where
+# it runs, so cd there first. Saves live in ~/.config/StardewValley/.
+
+cd /data/games/stardew || exit 1
+exec "./Stardew Valley" "$@"
