@@ -31,7 +31,7 @@
     "hyprland/workspaces": {
         "format": "<span font_family='@AUR@'>{id}</span>"
     },
-    // Comlink = Bluetooth button: lamp + Aurebesh "B". Lamp blue and blinking while a device is connected.
+    // Comlink = Bluetooth button: lamp + Aurebesh "B". Lamp blinks blue while at least one device is connected.
     // Hover = connected devices + battery, click = bluetoothctl in a terminal.
     "bluetooth": {
         "format": "<span font_family='JetBrainsMono Nerd Font'>⬢</span> <span font_family='@AUR@' foreground='#c9ccd1'>B</span>",

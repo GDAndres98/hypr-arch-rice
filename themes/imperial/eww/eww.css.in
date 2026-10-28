@@ -98,10 +98,14 @@
     border-radius: 3px;
     background: #6a6b6e;
 }
-.dot.blink { animation: blink 2.6s steps(1) infinite; }
+/* Hard blink: GTK's steps(1) sticks on the 100% frame, so hold each color between close stops */
+.dot.blink { animation: blink 2.6s linear infinite; }
 @keyframes blink {
-    0%  { background: #f2f2f2; box-shadow: 0 0 4px #f2f2f2; }
-    50% { background: #6a6b6e; box-shadow: none; }
+    0%   { background: #f2f2f2; box-shadow: 0 0 4px #f2f2f2; }
+    49%  { background: #f2f2f2; box-shadow: 0 0 4px #f2f2f2; }
+    50%  { background: #6a6b6e; box-shadow: none; }
+    99%  { background: #6a6b6e; box-shadow: none; }
+    100% { background: #f2f2f2; box-shadow: 0 0 4px #f2f2f2; }
 }
 
 /* Section headers */
