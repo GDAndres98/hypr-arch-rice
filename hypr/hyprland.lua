@@ -314,6 +314,17 @@ hl.window_rule({
     move  = "20 monitor_h-120",
     float = true,
 })
+
+-- Steam's toasts place themselves in unscaled pixels (xwayland.force_zero_scaling),
+-- so they land mid-screen. Pin them to the bottom-right and keep focus on the game.
+hl.window_rule({
+    name  = "steam-toasts",
+    match = { class = "steam", title = "^notificationtoasts.*" },
+
+    float    = true,
+    move     = "monitor_w-window_w-6 monitor_h-window_h-6",
+    no_focus = true,
+})
 -- Desktop mode / work mode:
 -- empty workspace  -> eww dashboard, no waybar
 -- any window on it -> waybar, no dashboard
