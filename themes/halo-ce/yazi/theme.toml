@@ -1,0 +1,132 @@
+# yazi colors: Halo CE (Xbox, 2001) menu look. Linked from ~/.config/yazi (through current).
+# Only overrides: everything not set here comes from yazi's built-in dark theme.
+# Defaults + all keys: https://github.com/sxyazi/yazi/blob/main/yazi-config/preset/theme-dark.toml
+# Palette: space navy #03091a, panel #061230, frame #2f8cff, dim frame #1d4e8f, hairline #17345f,
+#          menu blue #4da3ff, near-white #dce9f8, muted #8fa9cc, cyan #7fe3ff, amber #f2c25c,
+#          coral #ff8f80, green #97d468.
+# Background stays kitty's. Selection = frame blue with navy text, like GTK. Square hover bar (square
+# windows), slanted status segments (Halo meters).
+
+[mgr]
+cwd = { fg = "#7fe3ff", bold = true }
+
+find_keyword  = { fg = "#f2c25c", bold = true, underline = true }
+find_position = { fg = "#4da3ff", bold = true }
+
+marker_copied   = { fg = "#97d468", bg = "#97d468" }
+marker_cut      = { fg = "#ff8f80", bg = "#ff8f80" }
+marker_marked   = { fg = "#7fe3ff", bg = "#7fe3ff" }
+marker_selected = { fg = "#f2c25c", bg = "#f2c25c" }
+
+count_copied   = { fg = "#03091a", bg = "#97d468" }
+count_cut      = { fg = "#03091a", bg = "#ff8f80" }
+count_selected = { fg = "#03091a", bg = "#f2c25c" }
+
+border_style = { fg = "#1d4e8f" }
+
+[indicator]
+padding = { open = "", close = "" }
+parent  = { fg = "#dce9f8", bg = "#1d4e8f" }
+current = { fg = "#03091a", bg = "#2f8cff", bold = true }
+preview = { fg = "#7fe3ff", underline = true }
+
+[tabs]
+active   = { fg = "#03091a", bg = "#2f8cff", bold = true }
+inactive = { fg = "#4da3ff", bg = "#061230" }
+
+[mode]
+normal_main = { fg = "#03091a", bg = "#2f8cff", bold = true }
+normal_alt  = { fg = "#4da3ff", bg = "#061230" }
+select_main = { fg = "#03091a", bg = "#f2c25c", bold = true }
+select_alt  = { fg = "#f2c25c", bg = "#061230" }
+unset_main  = { fg = "#03091a", bg = "#ff8f80", bold = true }
+unset_alt   = { fg = "#ff8f80", bg = "#061230" }
+
+[status]
+sep_left  = { open = "", close = "" }
+sep_right = { open = "", close = "" }
+perm_sep   = { fg = "#1d4e8f" }
+perm_type  = { fg = "#4da3ff" }
+perm_read  = { fg = "#f2c25c" }
+perm_write = { fg = "#ff8f80" }
+perm_exec  = { fg = "#97d468" }
+
+progress_normal = { fg = "#2f8cff", bg = "#061230" }
+progress_error  = { fg = "#ff8f80", bg = "#061230" }
+
+[which]
+border          = { fg = "#2f8cff" }
+cand            = { fg = "#7fe3ff" }
+rest            = { fg = "#1d4e8f" }
+desc            = { fg = "#4da3ff" }
+separator_style = { fg = "#1d4e8f" }
+
+[confirm]
+border  = { fg = "#2f8cff" }
+title   = { fg = "#7fe3ff" }
+btn_yes = { fg = "#03091a", bg = "#2f8cff" }
+
+[spot]
+border   = { fg = "#2f8cff" }
+title    = { fg = "#7fe3ff" }
+tbl_col  = { fg = "#4da3ff" }
+tbl_cell = { fg = "#03091a", bg = "#2f8cff" }
+
+[notify]
+title_info  = { fg = "#97d468" }
+title_warn  = { fg = "#f2c25c" }
+title_error = { fg = "#ff8f80" }
+
+[pick]
+border = { fg = "#2f8cff" }
+active = { fg = "#7fe3ff", bold = true }
+
+[input]
+border   = { fg = "#2f8cff" }
+title    = { fg = "#4da3ff" }
+selected = { fg = "#03091a", bg = "#2f8cff" }
+
+[cmp]
+border = { fg = "#2f8cff" }
+active = { fg = "#03091a", bg = "#2f8cff" }
+
+[tasks]
+border  = { fg = "#2f8cff" }
+hovered = { fg = "#7fe3ff", bold = true }
+
+[help]
+border  = { fg = "#2f8cff" }
+chord   = { fg = "#7fe3ff" }
+action  = { fg = "#8fa9cc" }
+hovered = { fg = "#03091a", bg = "#2f8cff", bold = true }
+
+# Name colors. A list replaces the whole default list, so every rule is here.
+[filetype]
+rules = [
+	{ mime = "**/image/*", fg = "#f2c25c" },
+	{ mime = "**/{audio,video}/*", fg = "#7fe3ff" },
+	{ mime = "**/application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", fg = "#ff8f80" },
+	{ mime = "**/application/{pdf,doc,rtf}", fg = "#8fa9cc" },
+	{ mime = "vfs/{absent,stale}", fg = "#1d4e8f" },
+	{ url = "*", is = "orphan", bg = "#ff8f80" },
+	{ url = "*", is = "exec", fg = "#97d468" },
+	{ url = "*", is = "dummy", bg = "#ff8f80" },
+	{ url = "*/", is = "dummy", bg = "#ff8f80" },
+	{ url = "*/", fg = "#4da3ff", bold = true },
+]
+
+# Icons: just folder / file / link / exec, no per-type rainbow. Without `fg` an icon takes
+# its file's color from [filetype]. For yazi's full per-type set, delete this section.
+[icon]
+globs = []
+dirs  = []
+files = []
+exts  = []
+conds = [
+	{ if = "orphan", text = "" },
+	{ if = "link", text = "" },
+	{ if = "dummy", text = "" },
+	{ if = "dir", text = "" },
+	{ if = "exec", text = "" },
+	{ if = "!dir", text = "" },
+]

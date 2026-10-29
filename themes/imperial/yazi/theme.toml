@@ -1,0 +1,156 @@
+# yazi colors: Imperial control panel (after Ahren Hart's "Imperial Control Panel", like waybar).
+# Linked from ~/.config/yazi (through current). Only overrides: the rest is yazi's built-in dark theme.
+# Defaults + all keys: https://github.com/sxyazi/yazi/blob/main/yazi-config/preset/theme-dark.toml
+# Palette (waybar's, face made neutral): face #121314, lip #1c1d20, frame #2e2f33, trace #8a8d93,
+#          text #c9ccd1, unlit #3c3d40, muted #6b7078,
+#          lamps: white #f2f2f2, red #ff2a2a, amber #ffb020, green #3ddc5a.
+# The window is one panel: very dark grey face, heavy gunmetal frames between the columns, a
+# lighter strip (lip) for the status bar. Files are lit like lamps: folders white, runnable green, media amber.
+# White lamp = selection and accents (dark text on it); no blue. Red lamp = alerts
+# (cut, errors, broken files). All shapes square. Font follows kitty, so `sw-mode 3` = Aurebesh.
+
+[app]
+overall = { bg = "#121314" }
+
+[mgr]
+cwd = { fg = "#f2f2f2", bold = true }
+
+find_keyword  = { fg = "#ffb020", bold = true, underline = true }
+find_position = { fg = "#8a8d93" }
+
+marker_copied   = { fg = "#3ddc5a", bg = "#3ddc5a" }
+marker_cut      = { fg = "#ff2a2a", bg = "#ff2a2a" }
+marker_marked   = { fg = "#ffb020", bg = "#ffb020" }
+marker_selected = { fg = "#f2f2f2", bg = "#f2f2f2" }
+marker_symbol   = "▌"
+
+count_copied   = { fg = "#121314", bg = "#3ddc5a", bold = true }
+count_cut      = { fg = "#f2f2f2", bg = "#ff2a2a", bold = true }
+count_selected = { fg = "#121314", bg = "#f2f2f2", bold = true }
+
+border_symbol = "┃"
+border_style  = { fg = "#2e2f33" }
+
+[indicator]
+padding = { open = "", close = "" }
+parent  = { fg = "#f2f2f2", bg = "#2e2f33" }
+current = { fg = "#121314", bg = "#f2f2f2", bold = true }
+preview = { fg = "#f2f2f2", bg = "#1c1d20" }
+
+[tabs]
+active    = { fg = "#121314", bg = "#f2f2f2", bold = true }
+inactive  = { fg = "#8a8d93", bg = "#2e2f33" }
+sep_inner = { open = "", close = "" }
+sep_outer = { open = "", close = "" }
+
+[mode]
+normal_main = { fg = "#121314", bg = "#f2f2f2", bold = true }
+normal_alt  = { fg = "#c9ccd1", bg = "#2e2f33" }
+select_main = { fg = "#121314", bg = "#ffb020", bold = true }
+select_alt  = { fg = "#ffb020", bg = "#2e2f33" }
+unset_main  = { fg = "#f2f2f2", bg = "#ff2a2a", bold = true }
+unset_alt   = { fg = "#ff2a2a", bg = "#2e2f33" }
+
+# Status bar = a metal strip (wall grey) with framed panels on it
+[status]
+overall   = { fg = "#c9ccd1", bg = "#1c1d20" }
+sep_left  = { open = "", close = "" }
+sep_right = { open = "", close = "" }
+
+perm_sep   = { fg = "#3c3d40" }
+perm_type  = { fg = "#f2f2f2" }
+perm_read  = { fg = "#8a8d93" }
+perm_write = { fg = "#ffb020" }
+perm_exec  = { fg = "#3ddc5a" }
+
+progress_label  = { fg = "#f2f2f2", bold = true }
+progress_normal = { fg = "#f2f2f2", bg = "#1c1d20" }
+progress_error  = { fg = "#ff2a2a", bg = "#1c1d20" }
+
+# Popups: gunmetal frame, face inside, white title like a panel label, white-lamp highlight like the file list.
+# Key hints are mid-tones on purpose: they must stay readable on the dark face AND on the white highlight
+# (white text vanishes on it). Keys = bold trace grey, descriptions = muted grey.
+[which]
+border          = { fg = "#2e2f33" }
+mask            = { bg = "#161719" }
+cand            = { fg = "#8a8d93", bold = true }
+rest            = { fg = "#3c3d40" }
+desc            = { fg = "#6b7078" }
+separator_style = { fg = "#3c3d40" }
+
+[confirm]
+border  = { fg = "#2e2f33" }
+title   = { fg = "#f2f2f2", bold = true }
+body    = { fg = "#c9ccd1" }
+btn_yes = { fg = "#121314", bg = "#f2f2f2", bold = true }
+btn_no  = { fg = "#8a8d93" }
+
+[spot]
+border   = { fg = "#2e2f33" }
+title    = { fg = "#f2f2f2", bold = true }
+tbl_col  = { fg = "#8a8d93" }
+tbl_cell = { fg = "#121314", bg = "#f2f2f2", bold = true }
+
+[notify]
+title_info  = { fg = "#3ddc5a" }
+title_warn  = { fg = "#ffb020" }
+title_error = { fg = "#ff2a2a" }
+
+[pick]
+border   = { fg = "#2e2f33" }
+active   = { fg = "#121314", bg = "#f2f2f2", bold = true }
+inactive = { fg = "#c9ccd1" }
+
+[input]
+border   = { fg = "#2e2f33" }
+title    = { fg = "#f2f2f2", bold = true }
+value    = { fg = "#f2f2f2" }
+selected = { fg = "#121314", bg = "#f2f2f2" }
+
+[cmp]
+border   = { fg = "#2e2f33" }
+active   = { fg = "#121314", bg = "#f2f2f2", bold = true }
+inactive = { fg = "#c9ccd1" }
+
+[tasks]
+border  = { fg = "#2e2f33" }
+title   = { fg = "#f2f2f2", bold = true }
+hovered = { fg = "#121314", bg = "#f2f2f2", bold = true }
+
+[help]
+border  = { fg = "#2e2f33" }
+chord   = { fg = "#8a8d93", bold = true }
+action  = { fg = "#6b7078" }
+hovered = { fg = "#121314", bg = "#f2f2f2", bold = true }
+
+# Name colors = lamps. A list replaces the whole default list, so every rule is here (first match wins).
+[filetype]
+rules = [
+	{ mime = "**/image/*", fg = "#ffb020" },
+	{ mime = "**/{audio,video}/*", fg = "#ffb020" },
+	{ mime = "**/application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", fg = "#8a8d93", italic = true },
+	{ mime = "vfs/{absent,stale}", fg = "#3c3d40" },
+	{ url = "*", is = "orphan", fg = "#ff2a2a", italic = true },
+	{ url = "*", is = "exec", fg = "#3ddc5a" },
+	{ url = "*", is = "dummy", fg = "#ff2a2a", italic = true },
+	{ url = "*/", is = "dummy", fg = "#ff2a2a", italic = true },
+	{ url = "*/", fg = "#f2f2f2", bold = true },
+	{ url = "*", fg = "#c9ccd1" },
+]
+
+# Icons: just folder / file / link / exec, no per-type rainbow. Without `fg` an icon takes
+# its file's color from [filetype]. For yazi's full per-type set, delete this section.
+[icon]
+globs = []
+dirs  = []
+files = []
+exts  = []
+conds = [
+	{ if = "orphan", text = "" },
+	{ if = "link", text = "" },
+	{ if = "dummy", text = "" },
+	{ if = "dir & hovered", text = "" },
+	{ if = "dir", text = "" },
+	{ if = "exec", text = "" },
+	{ if = "!dir", text = "" },
+]

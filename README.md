@@ -26,6 +26,7 @@ dotfiles/
         ├── rofi/clipboard.rasi  clipboard history on SUPER + SHIFT + V (imports config.rasi)
         ├── rofi/calc.rasi       calculator on SUPER + SHIFT + C (imports config.rasi)
         ├── imv/                 image viewer, linked from ~/.config/imv
+        ├── yazi/                terminal file manager (Super+E): colors only (theme.toml), linked from ~/.config/yazi
         ├── gtk-3.0/             GTK3 apps (file dialogs, Firefox dialogs): palette + dark, needs adw-gtk-theme; linked from ~/.config/gtk-3.0
         ├── gtk-4.0/             GTK4 apps (= pavucontrol) + dark preference, linked from ~/.config/gtk-4.0
         ├── waybar/              linked from ~/.config/waybar (through current)
@@ -33,7 +34,7 @@ dotfiles/
         └── eww/                 linked from ~/.config/eww
 ```
 
-`~/.config/waybar`, `mako`, `eww`, `imv`, `gtk-3.0` and `gtk-4.0` point at `~/dotfiles/current/...`, so they follow whichever theme is active.
+`~/.config/waybar`, `mako`, `eww`, `imv`, `yazi`, `gtk-3.0` and `gtk-4.0` point at `~/dotfiles/current/...`, so they follow whichever theme is active.
 
 ## Switch theme
 
@@ -49,12 +50,11 @@ hyprlock reads its config each time it starts, so it needs no reload.
 ```bash
 sw-mode 1    # Latin text, Aurebesh subtitle
 sw-mode 2    # Aurebesh text, Latin subtitle
-sw-mode 3    # everything Aurebesh, also apps (fontconfig), kitty and Dolphin's file list. Type `sw-mode 1` blind to leave
+sw-mode 3    # everything Aurebesh, also apps (fontconfig), kitty and yazi (uses kitty's font). Type `sw-mode 1` blind to leave
 sw-mode      # rebuild with the saved mode (after editing a template)
 ```
 
 The mode is saved in `~/.local/state/sw-mode` and survives reboots.
-Qt apps ignore the fontconfig rule, so mode 3 also sets Dolphin's view font in `~/.config/dolphinrc` (`kwriteconfig6`); close Dolphin before switching.
 Waybar, mako, eww, hyprlock, hyprtoolkit, rofi and imv files in `themes/imperial/` are **templates** (`*.in`). `sw-mode` fills in
 the fonts and writes the real file next to it (git ignores those). **Edit the `.in` file**, then run `sw-mode`.
 Fonts and their licenses: `themes/imperial/fonts/`.

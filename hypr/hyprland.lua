@@ -36,7 +36,7 @@ hl.monitor({
 
 -- Set programs that you use
 local terminal    = "kitty"
-local fileManager = "dolphin"
+local fileManager = "kitty --class yazi yazi"
 -- App finder: rofi with the active theme's config. Pressing SUPER + R again closes it (pkill finds it).
 local rofiDir     = os.getenv("HOME") .. "/dotfiles/current/rofi/"
 local menu        = "pkill -x rofi || rofi -show drun -config " .. rofiDir .. "config.rasi"
@@ -72,7 +72,7 @@ local calculator  = "pkill -x rofi || rofi -show calc -modi calc -no-show-match 
 
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
-hl.env("QT_QPA_PLATFORMTHEME", "gtk3")   -- Qt apps (Dolphin) take colors + file dialogs from the GTK3 theme (~/.config/gtk-3.0)
+hl.env("QT_QPA_PLATFORMTHEME", "gtk3")   -- Qt apps (hyprpolkitagent) take colors + file dialogs from the GTK3 theme (~/.config/gtk-3.0)
 hl.env("STEAM_FORCE_DESKTOPUI_SCALING", "1.25")   -- Steam draws its own UI at monitor scale (pairs with xwayland.force_zero_scaling)
 
 

@@ -87,23 +87,6 @@ else
     rm -f "$link" "$kittyfont"
 fi
 
-# Dolphin (Qt) ignores the fontconfig rule above: Qt picks its fonts itself. Its file view has
-# its own font setting in ~/.config/dolphinrc (outside the repo), set here with KDE's kwriteconfig6.
-# Only the file list turns Aurebesh; sidebar, tabs and menus use Qt's UI font and stay Latin.
-if command -v kwriteconfig6 >/dev/null; then
-    for view in IconsMode CompactMode DetailsMode; do
-        if [ $active = 1 ] && [ "$mode" = 3 ]; then
-            kwriteconfig6 --file dolphinrc --group $view --key UseSystemFont false
-            kwriteconfig6 --file dolphinrc --group $view --key ViewFont "$AUR,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1"
-        else
-            kwriteconfig6 --file dolphinrc --group $view --key UseSystemFont --delete
-            kwriteconfig6 --file dolphinrc --group $view --key ViewFont --delete
-        fi
-    done
-    # Dolphin saves dolphinrc when it closes, which would undo this
-    pgrep -x dolphin >/dev/null && echo "Dolphin is open: close it (its settings save on exit would undo the font change), then reopen."
-fi
-
 if [ $reload = 1 ] && [ $active = 1 ]; then
     pkill -USR2 -x waybar || true        # SIGUSR2 = waybar reloads config + style
     makoctl reload
@@ -113,5 +96,5 @@ fi
 
 echo "Imperial mode $mode set."
 [ $active = 1 ] || echo "(Imperial isn't the active theme: files rebuilt, nothing reloaded. Run: theme imperial)"
-[ $active = 1 ] && echo "Restart other apps (Firefox, dolphin...) to pick up the font change."
+[ $active = 1 ] && echo "Restart other apps (Firefox, Thunar...) to pick up the font change."
 exit 0
