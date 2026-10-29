@@ -28,6 +28,8 @@ hyprctl reload >/dev/null
 makoctl reload
 pkill -USR1 -x kitty
 pkill -x waybar
+pkill -x hyprpaper            # wallpaper: restart only if the new theme has one
+[ -e ~/.config/hypr/hyprpaper.conf ] && setsid -f hyprpaper >/dev/null 2>&1
 eww daemon >/dev/null 2>&1   # eww's socket follows the config path, so restart instead of reload
 sleep 0.5
 

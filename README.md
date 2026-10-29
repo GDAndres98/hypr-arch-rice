@@ -11,7 +11,8 @@ dotfiles/
 │   ├── hypridle.conf        idle timers
 │   ├── hyprtoolkit.conf ->  ../current/hypr/hyprtoolkit.conf   (look of Hyprland's own small apps)
 │   ├── theme.lua      ->  ../current/hypr/theme.lua
-│   └── hyprlock.conf  ->  ../current/hypr/hyprlock.conf
+│   ├── hyprlock.conf  ->  ../current/hypr/hyprlock.conf
+│   └── hyprpaper.conf ->  ../current/hypr/hyprpaper.conf  (wallpaper; a theme without one keeps its plain background color)
 ├── kitty/                 shared, linked from ~/.config/kitty
 ├── xkb/                   local only (gitignored): this laptop's keyboard tweaks, linked from ~/.config/xkb
 ├── bin/                   scripts, linked into ~/.local/bin: `theme`, `sw-mode`, `comms` (nmtui in theme colors), `doom`/`doom2` (Crispy Doom with the WADs in `/data/games/doom`), `stardew` (Stardew Valley from `/data/games/stardew`, no Steam)
@@ -59,6 +60,9 @@ Waybar, mako, eww, hyprlock, hyprtoolkit, rofi and imv files in `themes/imperial
 the fonts and writes the real file next to it (git ignores those). **Edit the `.in` file**, then run `sw-mode`.
 Fonts and their licenses: `themes/imperial/fonts/`.
 
+**Wallpaper**: Death Star wall lights, drawn by `themes/imperial/wallpaper/deathstar.py` (writes an SVG; `rsvg-convert` makes the PNG).
+The light pattern is measured from [Louie Mantia's Death Star wallpapers](https://lmnt.me/blog/wallpapers/death-star.html) and redrawn as vectors. All credit for the design goes to him.
+
 ## New theme
 
 Copy `themes/halo-ce` to `themes/<name>` and edit it. Each theme must provide:
@@ -70,6 +74,7 @@ Copy `themes/halo-ce` to `themes/<name>` and edit it. Each theme must provide:
 - `waybar/`, `mako/config`, `eww/`
 - an eww window named `dashboard` (`hyprland.lua` opens it on empty workspaces)
 - optional executable hooks `enter` / `leave`, run by `theme` when switching to / away from it
+- optional `hypr/hyprpaper.conf` for a wallpaper (without it, `misc.background_color` in `theme.lua` shows)
 
 ## New machine
 
