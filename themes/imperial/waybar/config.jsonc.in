@@ -32,15 +32,15 @@
         "format": "<span font_family='@AUR@'>{id}</span>"
     },
     // Comlink = Bluetooth button: lamp + Aurebesh "B". Lamp blinks blue while at least one device is connected.
-    // Hover = connected devices + battery, click = bluetoothctl in a terminal.
+    // Hover = connected devices + battery, click = bluetui in theme colors (bin/comlink).
     "bluetooth": {
         "format": "<span font_family='JetBrainsMono Nerd Font'>⬢</span> <span font_family='@AUR@' foreground='#c9ccd1'>B</span>",
         "format-no-controller": "",
-        "tooltip-format": "Comlink: Bluetooth {status}, no device connected\nClick: bluetoothctl",
-        "tooltip-format-connected": "Comlink: Bluetooth devices\n{device_enumerate}\nClick: bluetoothctl",
+        "tooltip-format": "Comlink: Bluetooth {status}, no device connected\nClick: open Comlink (bluetui)",
+        "tooltip-format-connected": "Comlink: Bluetooth devices\n{device_enumerate}\nClick: open Comlink (bluetui)",
         "tooltip-format-enumerate-connected": "{device_alias}",
         "tooltip-format-enumerate-connected-battery": "{device_alias}  {device_battery_percentage}%",
-        "on-click": "kitty bluetoothctl"
+        "on-click": "~/dotfiles/bin/comlink"
     },
     // Center panel = one frame around two modules: user name + time, a hexagon pair on each side.
     // The user name comes from `id -un` at runtime, so it isn't written in this public repo.

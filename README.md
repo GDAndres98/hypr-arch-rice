@@ -13,9 +13,9 @@ dotfiles/
 │   ├── theme.lua      ->  ../current/hypr/theme.lua
 │   ├── hyprlock.conf  ->  ../current/hypr/hyprlock.conf
 │   └── hyprpaper.conf ->  ../current/hypr/hyprpaper.conf  (wallpaper; a theme without one keeps its plain background color)
-├── kitty/                 shared, linked from ~/.config/kitty
+├── kitty/                 shared, linked from ~/.config/kitty; `theme.conf` -> current/kitty/theme.conf (per-theme overrides)
 ├── xkb/                   local only (gitignored): this laptop's keyboard tweaks, linked from ~/.config/xkb
-├── bin/                   scripts, linked into ~/.local/bin: `theme`, `sw-mode`, `comms` (nmtui in theme colors), `doom`/`doom2` (Crispy Doom with the WADs in `/data/games/doom`), `stardew` (Stardew Valley from `/data/games/stardew`, no Steam)
+├── bin/                   scripts, linked into ~/.local/bin: `theme`, `sw-mode`, `comms` (nmtui in theme colors), `comlink` (bluetui in theme colors), `doom`/`doom2` (Crispy Doom with the WADs in `/data/games/doom`), `stardew` (Stardew Valley from `/data/games/stardew`, no Steam)
 ├── current  ->  themes/<name>       the ACTIVE theme (one link to switch)
 └── themes/
     ├── imperial/            Star Wars Imperial console, with Aurebesh (see below)
@@ -28,6 +28,8 @@ dotfiles/
         ├── rofi/calc.rasi       calculator on SUPER + SHIFT + C (imports config.rasi)
         ├── imv/                 image viewer, linked from ~/.config/imv
         ├── yazi/                terminal file manager (Super+E): colors only (theme.toml), linked from ~/.config/yazi
+        ├── kitty/               theme.conf: kitty overrides (Imperial: dark grey background #121314)
+        ├── bluetui/             Bluetooth TUI colors: kitty.conf palette overrides, loaded by `bin/comlink` (bluetui itself has no color settings)
         ├── gtk-3.0/             GTK3 apps (file dialogs, Firefox dialogs): palette + dark, needs adw-gtk-theme; linked from ~/.config/gtk-3.0
         ├── gtk-4.0/             GTK4 apps (= pavucontrol) + dark preference, linked from ~/.config/gtk-4.0
         ├── waybar/              linked from ~/.config/waybar (through current)
@@ -86,7 +88,7 @@ for x in waybar eww mako imv gtk-3.0 gtk-4.0; do ln -s ~/dotfiles/current/$x ~/.
 sudo pacman -S adw-gtk-theme   # GTK3 base theme that reads our palette
 gsettings set org.gnome.desktop.interface gtk-theme adw-gtk3-dark
 gsettings set org.gnome.desktop.interface color-scheme prefer-dark
-ln -s ~/dotfiles/bin/theme ~/dotfiles/bin/sw-mode ~/dotfiles/bin/comms ~/dotfiles/bin/doom ~/dotfiles/bin/doom2 ~/dotfiles/bin/stardew ~/.local/bin/
+ln -s ~/dotfiles/bin/theme ~/dotfiles/bin/sw-mode ~/dotfiles/bin/comms ~/dotfiles/bin/comlink ~/dotfiles/bin/doom ~/dotfiles/bin/doom2 ~/dotfiles/bin/stardew ~/.local/bin/
 ln -s ~/dotfiles/themes/imperial/fonts ~/.local/share/fonts/imperial
 sw-mode --no-reload   # builds the Imperial configs from their templates
 ```

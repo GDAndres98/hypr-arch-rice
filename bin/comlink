@@ -1,0 +1,13 @@
+#!/bin/sh
+# comlink: open bluetui (Bluetooth TUI) in kitty, recolored to match the active theme.
+# Usage: comlink     (Imperial's waybar Bluetooth button runs it on click)
+#
+# bluetui has no color settings: it uses the 16 terminal colors, so the theme recolors it by
+# giving kitty a second config on top of the normal one (later --config files win).
+# The palette lives in themes/<name>/bluetui/kitty.conf; a theme without one gets plain kitty colors.
+
+theme=~/dotfiles/current/bluetui/kitty.conf
+if [ -f "$theme" ]; then
+    exec kitty --class comlink --config ~/.config/kitty/kitty.conf --config "$theme" bluetui
+fi
+exec kitty --class comlink bluetui

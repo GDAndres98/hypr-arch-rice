@@ -37,6 +37,8 @@ hl.monitor({
 -- Set programs that you use
 local terminal    = "kitty"
 local fileManager = "kitty --class yazi yazi"
+-- Bluetooth: bluetui in the theme's colors (same as the waybar Bluetooth button)
+local bluetooth   = os.getenv("HOME") .. "/dotfiles/bin/comlink"
 -- App finder: rofi with the active theme's config. Pressing SUPER + R again closes it (pkill finds it).
 local rofiDir     = os.getenv("HOME") .. "/dotfiles/current/rofi/"
 local menu        = "pkill -x rofi || rofi -show drun -config " .. rofiDir .. "config.rasi"
@@ -214,6 +216,7 @@ local closeWindowBind = hl.bind(mainMod .. " + C", hl.dsp.window.close())
 -- closeWindowBind:set_enabled(false)
 hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
+hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(bluetooth))
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd(clipboard))
