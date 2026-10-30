@@ -1,4 +1,4 @@
-# wiremix (PipeWire mixer TUI, replaces pavucontrol): Halo CE (Xbox, 2001) menu look.
+# wiremix (PipeWire mixer TUI, opened by the waybar volume click): Halo CE (Xbox, 2001) menu look.
 # Linked from ~/.config/wiremix (through current). Only overrides: the rest is wiremix's defaults.
 # All keys: https://github.com/tsowell/wiremix/blob/main/wiremix.toml
 # Palette (same as yazi): space navy #03091a, frame #2f8cff, dim frame #1d4e8f, hairline #17345f,

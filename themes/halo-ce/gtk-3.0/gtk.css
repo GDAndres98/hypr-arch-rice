@@ -7,7 +7,7 @@
             menu blue #4da3ff, near-white #dce9f8, muted #8fa9cc, cyan #7fe3ff, amber #f2c25c,
             coral #ff8f80, green #97d468. */
 
-/* New-style names, same as gtk-4.0/gtk.css. GTK3's built-in Adwaita ignores them (it has
+/* New-style names (the ones GTK4/libadwaita use). GTK3's built-in Adwaita ignores them (it has
    its colors baked in); the adw-gtk3 theme reads them and paints every widget with them. */
 @define-color window_bg_color #03091a;
 @define-color window_fg_color #dce9f8;

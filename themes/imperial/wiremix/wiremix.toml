@@ -1,4 +1,4 @@
-# wiremix (PipeWire mixer TUI, replaces pavucontrol): Imperial control panel.
+# wiremix (PipeWire mixer TUI, opened by the waybar volume click): Imperial control panel.
 # Linked from ~/.config/wiremix (through current). Only overrides: the rest is wiremix's defaults.
 # All keys: https://github.com/tsowell/wiremix/blob/main/wiremix.toml
 # Palette (same as yazi): face #121314 (kitty), frame #2e2f33, trace #8a8d93, text #c9ccd1,

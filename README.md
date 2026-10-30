@@ -29,18 +29,17 @@ dotfiles/
         ├── rofi/calc.rasi       calculator on SUPER + SHIFT + C (imports config.rasi)
         ├── imv/                 image viewer, linked from ~/.config/imv
         ├── yazi/                terminal file manager (Super+E): colors only (theme.toml), linked from ~/.config/yazi
-        ├── wiremix/             PipeWire mixer TUI (waybar volume click, replaces pavucontrol): own theme + char set, linked from ~/.config/wiremix
+        ├── wiremix/             PipeWire mixer TUI (waybar volume click; pavucontrol stays, unthemed): own theme + char set, linked from ~/.config/wiremix
         ├── helix/               theme.toml: Helix editor colors (`theme` sends SIGUSR1 so open editors reload)
         ├── kitty/               theme.conf: kitty overrides (Imperial: dark grey background #121314)
         ├── bluetui/             Bluetooth TUI colors: kitty.conf palette overrides, loaded by `bin/comlink` (bluetui itself has no color settings)
         ├── gtk-3.0/             GTK3 apps (file dialogs, Firefox dialogs): palette + dark, needs adw-gtk-theme; linked from ~/.config/gtk-3.0
-        ├── gtk-4.0/             GTK4 apps (= pavucontrol) + dark preference, linked from ~/.config/gtk-4.0
         ├── waybar/              linked from ~/.config/waybar (through current)
         ├── mako/                linked from ~/.config/mako
         └── eww/                 linked from ~/.config/eww
 ```
 
-`~/.config/waybar`, `mako`, `eww`, `imv`, `yazi`, `wiremix`, `gtk-3.0` and `gtk-4.0` point at `~/dotfiles/current/...`, so they follow whichever theme is active.
+`~/.config/waybar`, `mako`, `eww`, `imv`, `yazi`, `wiremix` and `gtk-3.0` point at `~/dotfiles/current/...`, so they follow whichever theme is active.
 
 ## Switch theme
 
@@ -75,7 +74,6 @@ Copy `themes/halo-ce` to `themes/<name>` and edit it. Each theme must provide:
 - `rofi/config.rasi`, `rofi/clipboard.rasi`, `rofi/calc.rasi` (keybinds run them straight from `current/`, no `~/.config` link)
 - `imv/config`
 - `gtk-3.0/gtk.css` + `settings.ini` (GTK3 palette: `@define-color` only, no selectors, so waybar/eww are untouched; only works on the `adw-gtk3-dark` base theme)
-- `gtk-4.0/gtk.css` + `settings.ini` (pavucontrol colors; plain CSS, no template)
 - `waybar/`, `mako/config`, `eww/`
 - an eww window named `dashboard` (`hyprland.lua` opens it on empty workspaces)
 - optional executable hooks `enter` / `leave`, run by `theme` when switching to / away from it
@@ -88,7 +86,7 @@ git clone git@github.com:<you>/hypr-arch-rice.git ~/dotfiles
 ln -s ~/dotfiles/hypr ~/.config/hypr
 ln -s ~/dotfiles/kitty ~/.config/kitty
 ln -s ~/dotfiles/helix ~/.config/helix
-for x in waybar eww mako imv yazi wiremix gtk-3.0 gtk-4.0; do ln -s ~/dotfiles/current/$x ~/.config/$x; done
+for x in waybar eww mako imv yazi wiremix gtk-3.0; do ln -s ~/dotfiles/current/$x ~/.config/$x; done
 sudo pacman -S adw-gtk-theme   # GTK3 base theme that reads our palette
 gsettings set org.gnome.desktop.interface gtk-theme adw-gtk3-dark
 gsettings set org.gnome.desktop.interface color-scheme prefer-dark

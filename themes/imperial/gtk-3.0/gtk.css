@@ -6,7 +6,7 @@
    Palette: wall #161719, frame #2e2f33, lip #1c1d20, face #0e1018, text #c9ccd1,
             white lamp #f2f2f2, red lamp #ff2a2a, blue lamp #4433ff, unlit #3c3d40, muted #6b7078. */
 
-/* New-style names, same as gtk-4.0/gtk.css. GTK3's built-in Adwaita ignores them (it has
+/* New-style names (the ones GTK4/libadwaita use). GTK3's built-in Adwaita ignores them (it has
    its colors baked in); the adw-gtk3 theme reads them and paints every widget with them. */
 @define-color window_bg_color #161719;
 @define-color window_fg_color #c9ccd1;
