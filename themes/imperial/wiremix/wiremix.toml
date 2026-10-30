@@ -1,0 +1,52 @@
+# wiremix (PipeWire mixer TUI, replaces pavucontrol): Imperial control panel.
+# Linked from ~/.config/wiremix (through current). Only overrides: the rest is wiremix's defaults.
+# All keys: https://github.com/tsowell/wiremix/blob/main/wiremix.toml
+# Palette (same as yazi): face #121314 (kitty), frame #2e2f33, trace #8a8d93, text #c9ccd1,
+#          unlit #3c3d40, muted #6b7078, lamps: white #f2f2f2, red #ff2a2a, amber #ffb020, green #3ddc5a.
+# Everything is a lamp: unlit = #3c3d40, lit = white (volume, selection), green (signal), red (overload).
+# No blue. Square shapes.
+
+theme = "imperial"
+char_set = "imperial"
+
+[themes.imperial]
+default_device = { fg = "#ffb020" }
+default_stream = { fg = "#ffb020" }
+selector       = { fg = "#f2f2f2" }
+tab            = { fg = "#6b7078" }
+tab_selected   = { fg = "#f2f2f2", add_modifier = "BOLD" }
+tab_marker     = { fg = "#ffb020" }
+list_more      = { fg = "#6b7078" }
+node_title     = { fg = "#c9ccd1" }
+node_target    = { fg = "#8a8d93" }
+volume         = { fg = "#f2f2f2", add_modifier = "BOLD" }
+volume_empty   = { fg = "#3c3d40" }
+volume_filled  = { fg = "#f2f2f2" }
+meter_inactive        = { fg = "#2e2f33" }
+meter_active          = { fg = "#3ddc5a" }
+meter_overload        = { fg = "#ff2a2a" }
+meter_center_inactive = { fg = "#3c3d40" }
+meter_center_active   = { fg = "#3ddc5a" }
+config_device     = { fg = "#c9ccd1" }
+config_profile    = { fg = "#8a8d93" }
+dropdown_icon     = { fg = "#ffb020" }
+dropdown_border   = { fg = "#8a8d93" }
+dropdown_item     = { fg = "#c9ccd1" }
+dropdown_selected = { fg = "#121314", bg = "#f2f2f2" }
+dropdown_more     = { fg = "#6b7078" }
+help_border       = { fg = "#8a8d93" }
+help_item         = { fg = "#c9ccd1" }
+help_more         = { fg = "#6b7078" }
+
+[char_sets.imperial]
+default_device   = "◆"
+default_stream   = "◆"
+selector_top     = "┃"
+selector_middle  = "┃"
+selector_bottom  = "┃"
+tab_marker_left  = "▐"
+tab_marker_right = "▌"
+volume_empty     = "■"
+volume_filled    = "■"
+dropdown_border  = "Thick"
+help_border      = "Thick"

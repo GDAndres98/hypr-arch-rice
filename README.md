@@ -29,6 +29,7 @@ dotfiles/
         ├── rofi/calc.rasi       calculator on SUPER + SHIFT + C (imports config.rasi)
         ├── imv/                 image viewer, linked from ~/.config/imv
         ├── yazi/                terminal file manager (Super+E): colors only (theme.toml), linked from ~/.config/yazi
+        ├── wiremix/             PipeWire mixer TUI (waybar volume click, replaces pavucontrol): own theme + char set, linked from ~/.config/wiremix
         ├── helix/               theme.toml: Helix editor colors (`theme` sends SIGUSR1 so open editors reload)
         ├── kitty/               theme.conf: kitty overrides (Imperial: dark grey background #121314)
         ├── bluetui/             Bluetooth TUI colors: kitty.conf palette overrides, loaded by `bin/comlink` (bluetui itself has no color settings)
@@ -39,7 +40,7 @@ dotfiles/
         └── eww/                 linked from ~/.config/eww
 ```
 
-`~/.config/waybar`, `mako`, `eww`, `imv`, `yazi`, `gtk-3.0` and `gtk-4.0` point at `~/dotfiles/current/...`, so they follow whichever theme is active.
+`~/.config/waybar`, `mako`, `eww`, `imv`, `yazi`, `wiremix`, `gtk-3.0` and `gtk-4.0` point at `~/dotfiles/current/...`, so they follow whichever theme is active.
 
 ## Switch theme
 
@@ -87,7 +88,7 @@ git clone git@github.com:<you>/hypr-arch-rice.git ~/dotfiles
 ln -s ~/dotfiles/hypr ~/.config/hypr
 ln -s ~/dotfiles/kitty ~/.config/kitty
 ln -s ~/dotfiles/helix ~/.config/helix
-for x in waybar eww mako imv gtk-3.0 gtk-4.0; do ln -s ~/dotfiles/current/$x ~/.config/$x; done
+for x in waybar eww mako imv yazi wiremix gtk-3.0 gtk-4.0; do ln -s ~/dotfiles/current/$x ~/.config/$x; done
 sudo pacman -S adw-gtk-theme   # GTK3 base theme that reads our palette
 gsettings set org.gnome.desktop.interface gtk-theme adw-gtk3-dark
 gsettings set org.gnome.desktop.interface color-scheme prefer-dark

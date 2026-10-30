@@ -1,0 +1,52 @@
+# wiremix (PipeWire mixer TUI, replaces pavucontrol): Halo CE (Xbox, 2001) menu look.
+# Linked from ~/.config/wiremix (through current). Only overrides: the rest is wiremix's defaults.
+# All keys: https://github.com/tsowell/wiremix/blob/main/wiremix.toml
+# Palette (same as yazi): space navy #03091a, frame #2f8cff, dim frame #1d4e8f, hairline #17345f,
+#          menu blue #4da3ff, near-white #dce9f8, muted #8fa9cc, cyan #7fe3ff (focus), amber #f2c25c,
+#          coral #ff8f80, green #97d468.
+# Volume = segmented meter like the peak meters (Halo HUD bars; ▰▱ render too small in JetBrains Mono), cyan = focus, square frames. Background stays kitty's.
+
+theme = "halo"
+char_set = "halo"
+
+[themes.halo]
+default_device = { fg = "#f2c25c" }
+default_stream = { fg = "#f2c25c" }
+selector       = { fg = "#7fe3ff" }
+tab            = { fg = "#4da3ff" }
+tab_selected   = { fg = "#7fe3ff", add_modifier = "BOLD" }
+tab_marker     = { fg = "#2f8cff" }
+list_more      = { fg = "#1d4e8f" }
+node_title     = { fg = "#dce9f8" }
+node_target    = { fg = "#8fa9cc" }
+volume         = { fg = "#7fe3ff" }
+volume_empty   = { fg = "#17345f" }
+volume_filled  = { fg = "#2f8cff" }
+meter_inactive        = { fg = "#17345f" }
+meter_active          = { fg = "#97d468" }
+meter_overload        = { fg = "#ff8f80" }
+meter_center_inactive = { fg = "#1d4e8f" }
+meter_center_active   = { fg = "#97d468" }
+config_device     = { fg = "#dce9f8" }
+config_profile    = { fg = "#8fa9cc" }
+dropdown_icon     = { fg = "#2f8cff" }
+dropdown_border   = { fg = "#2f8cff" }
+dropdown_item     = { fg = "#dce9f8" }
+dropdown_selected = { fg = "#03091a", bg = "#2f8cff" }
+dropdown_more     = { fg = "#1d4e8f" }
+help_border       = { fg = "#2f8cff" }
+help_item         = { fg = "#dce9f8" }
+help_more         = { fg = "#1d4e8f" }
+
+[char_sets.halo]
+default_device   = "◆"
+default_stream   = "◆"
+selector_top     = "▐"
+selector_middle  = "▐"
+selector_bottom  = "▐"
+tab_marker_left  = "["
+tab_marker_right = "]"
+volume_empty     = "▮"
+volume_filled    = "▮"
+dropdown_border  = "Plain"
+help_border      = "Plain"

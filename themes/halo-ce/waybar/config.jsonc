@@ -21,7 +21,7 @@
     "pulseaudio": {
         "format": "<span color='#4da3ff'>VOL</span> {volume}%",
         "format-muted": "<span color='#4da3ff'>VOL</span> MUTED",
-        "on-click": "pavucontrol"
+        "on-click": "kitty --class wiremix wiremix"   // PipeWire mixer TUI, colors from ~/.config/wiremix
     },
     "backlight": {
         "format": "<span color='#4da3ff'>󰃟</span> {percent}%",   // Nerd Font: brightness (U+F00DF)

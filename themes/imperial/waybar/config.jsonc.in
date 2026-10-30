@@ -68,8 +68,8 @@
             "<span font_family='JetBrainsMono Nerd Font'>■■■■<span color='#3c3d40'>■</span></span>",
             "<span font_family='JetBrainsMono Nerd Font'>■■■■■</span>"
         ] },
-        "tooltip-format": "Audio: volume {volume}% on {desc}\nClick: mixer",
-        "on-click": "pavucontrol"
+        "tooltip-format": "Audio: volume {volume}% on {desc}\nClick: mixer (wiremix)",
+        "on-click": "kitty --class wiremix wiremix"
     },
     // Network = the NetworkManager button: left-click = nm-connection-editor (saved connections, GTK3 themed),
     // right-click = nmtui in theme colors (bin/comms), which can scan and join new Wi-Fi.
