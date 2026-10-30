@@ -1,0 +1,14 @@
+# Helix editor (command: `helix`). Linked from ~/.config/helix.
+# Docs: `helix --tutor`, https://docs.helix-editor.com/configuration.html
+# Colors: themes/current.toml -> current/helix/theme.toml, so they follow `theme`
+# (it sends SIGUSR1, which makes running Helix windows reload this file).
+
+theme = "current"
+
+[editor]
+color-modes = true  # color the mode box in the status bar (NOR/INS/SEL)
+
+[editor.cursor-shape]
+insert = "bar"      # thin cursor while typing, like kitty's beam
+normal = "block"
+select = "underline"

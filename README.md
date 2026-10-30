@@ -14,6 +14,7 @@ dotfiles/
 │   ├── hyprlock.conf  ->  ../current/hypr/hyprlock.conf
 │   └── hyprpaper.conf ->  ../current/hypr/hyprpaper.conf  (wallpaper; a theme without one keeps its plain background color)
 ├── kitty/                 shared, linked from ~/.config/kitty; `theme.conf` -> current/kitty/theme.conf (per-theme overrides)
+├── helix/                shared, linked from ~/.config/helix: config.toml (theme = "current"); `themes/current.toml` -> current/helix/theme.toml
 ├── xkb/                   local only (gitignored): this laptop's keyboard tweaks, linked from ~/.config/xkb
 ├── bin/                   scripts, linked into ~/.local/bin: `theme`, `sw-mode`, `comms` (nmtui in theme colors), `comlink` (bluetui in theme colors), `doom`/`doom2` (Crispy Doom with the WADs in `/data/games/doom`), `stardew` (Stardew Valley from `/data/games/stardew`, no Steam)
 ├── current  ->  themes/<name>       the ACTIVE theme (one link to switch)
@@ -28,6 +29,7 @@ dotfiles/
         ├── rofi/calc.rasi       calculator on SUPER + SHIFT + C (imports config.rasi)
         ├── imv/                 image viewer, linked from ~/.config/imv
         ├── yazi/                terminal file manager (Super+E): colors only (theme.toml), linked from ~/.config/yazi
+        ├── helix/               theme.toml: Helix editor colors (`theme` sends SIGUSR1 so open editors reload)
         ├── kitty/               theme.conf: kitty overrides (Imperial: dark grey background #121314)
         ├── bluetui/             Bluetooth TUI colors: kitty.conf palette overrides, loaded by `bin/comlink` (bluetui itself has no color settings)
         ├── gtk-3.0/             GTK3 apps (file dialogs, Firefox dialogs): palette + dark, needs adw-gtk-theme; linked from ~/.config/gtk-3.0
@@ -84,6 +86,7 @@ Copy `themes/halo-ce` to `themes/<name>` and edit it. Each theme must provide:
 git clone git@github.com:<you>/hypr-arch-rice.git ~/dotfiles
 ln -s ~/dotfiles/hypr ~/.config/hypr
 ln -s ~/dotfiles/kitty ~/.config/kitty
+ln -s ~/dotfiles/helix ~/.config/helix
 for x in waybar eww mako imv gtk-3.0 gtk-4.0; do ln -s ~/dotfiles/current/$x ~/.config/$x; done
 sudo pacman -S adw-gtk-theme   # GTK3 base theme that reads our palette
 gsettings set org.gnome.desktop.interface gtk-theme adw-gtk3-dark

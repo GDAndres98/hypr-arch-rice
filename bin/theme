@@ -27,6 +27,7 @@ ln -sfn "themes/$1" "$D/current"
 hyprctl reload >/dev/null
 makoctl reload
 pkill -USR1 -x kitty
+pkill -USR1 -x helix         # Helix reloads its config (and theme) on SIGUSR1
 pkill -x waybar
 pkill -x hyprpaper            # wallpaper: restart only if the new theme has one
 [ -e ~/.config/hypr/hyprpaper.conf ] && setsid -f hyprpaper >/dev/null 2>&1

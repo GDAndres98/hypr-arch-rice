@@ -1,0 +1,115 @@
+# Helix colors: Halo CE (Xbox, 2001) menus (same palette as yazi). Linked through current.
+# Keys: https://docs.helix-editor.com/themes.html
+# Background stays kitty's black. Blue menu frames, cyan/near-white text, amber and green
+# highlights like the HUD. Mode in the status bar: frame blue = normal, green = insert, amber = select.
+
+# SYNTAX
+"attribute"                 = "amber"
+"comment"                   = { fg = "muted", modifiers = ["italic"] }
+"constant"                  = "sky"           # ALL_CAPS names; numbers stay amber
+"constant.builtin"          = { fg = "amber", modifiers = ["bold"] }
+"constant.character.escape" = "cyan"
+"constant.numeric"          = "amber"
+"constructor"               = "sky"
+"function"                  = "cyan"
+"function.builtin"          = "cyan"
+"function.macro"            = "sky"
+"keyword"                   = { fg = "menu", modifiers = ["bold"] }
+"keyword.directive"         = "menu"
+"label"                     = "amber"
+"namespace"                 = "sky"
+"operator"                  = "muted"
+"punctuation"               = "muted"
+"special"                   = "cyan"
+"string"                    = "green"
+"string.regexp"             = "amber"
+"string.special"            = "amber"
+"tag"                       = "menu"
+"type"                      = { fg = "sky", modifiers = ["bold"] }
+"type.builtin"              = { fg = "sky", modifiers = ["bold"] }
+"variable"                  = "white"
+"variable.builtin"          = { fg = "menu", modifiers = ["italic"] }
+"variable.parameter"        = { fg = "white", modifiers = ["italic"] }
+"variable.other.member"     = "white"
+
+# MARKUP (markdown)
+"markup.heading"       = { fg = "cyan", modifiers = ["bold"] }
+"markup.list"          = "menu"
+"markup.bold"          = { modifiers = ["bold"] }
+"markup.italic"        = { modifiers = ["italic"] }
+"markup.strikethrough" = { modifiers = ["crossed_out"] }
+"markup.link.url"      = { fg = "menu", underline.style = "line" }
+"markup.link.text"     = "cyan"
+"markup.quote"         = { fg = "muted", modifiers = ["italic"] }
+"markup.raw"           = "green"
+
+"diff.plus"  = "green"
+"diff.minus" = "coral"
+"diff.delta" = "amber"
+
+# UI
+"ui.background"            = { fg = "white" }
+"ui.text"                  = "white"
+"ui.text.focus"            = { fg = "cyan", modifiers = ["bold"] }
+"ui.text.inactive"         = "muted"
+"ui.text.directory"        = "menu"
+"ui.cursor"                = { fg = "navy", bg = "dim_frame" }
+"ui.cursor.primary"        = { fg = "navy", bg = "cursor" }
+"ui.cursor.match"          = { fg = "amber", modifiers = ["bold", "underlined"] }
+"ui.selection"             = { bg = "hairline" }
+"ui.selection.primary"     = { bg = "dim_frame" }
+"ui.cursorline.primary"    = { bg = "panel" }
+"ui.linenr"                = "hairline"
+"ui.linenr.selected"       = { fg = "menu", modifiers = ["bold"] }
+"ui.window"                = { fg = "dim_frame" }
+"ui.popup"                 = { fg = "white", bg = "panel" }
+"ui.popup.info"            = { fg = "white", bg = "panel" }
+"ui.help"                  = { fg = "white", bg = "panel" }
+"ui.menu"                  = { fg = "white", bg = "panel" }
+"ui.menu.selected"         = { fg = "navy", bg = "frame", modifiers = ["bold"] }
+"ui.menu.scroll"           = { fg = "menu", bg = "hairline" }
+"ui.picker.header"         = { fg = "menu", modifiers = ["bold"] }
+"ui.picker.header.column.active" = { fg = "cyan", underline.style = "line" }
+"ui.statusline"            = { fg = "white", bg = "panel" }
+"ui.statusline.inactive"   = { fg = "muted", bg = "panel" }
+"ui.statusline.normal"     = { fg = "navy", bg = "frame", modifiers = ["bold"] }
+"ui.statusline.insert"     = { fg = "navy", bg = "green", modifiers = ["bold"] }
+"ui.statusline.select"     = { fg = "navy", bg = "amber", modifiers = ["bold"] }
+"ui.statusline.separator"  = "dim_frame"
+"ui.bufferline"            = { fg = "menu", bg = "panel" }
+"ui.bufferline.active"     = { fg = "navy", bg = "frame", modifiers = ["bold"] }
+"ui.bufferline.background" = { bg = "navy" }
+"ui.virtual.whitespace"    = "hairline"
+"ui.virtual.wrap"          = "hairline"
+"ui.virtual.indent-guide"  = "hairline"
+"ui.virtual.ruler"         = { bg = "panel" }
+"ui.virtual.inlay-hint"    = { fg = "muted", modifiers = ["italic"] }
+"ui.virtual.jump-label"    = { fg = "amber", modifiers = ["bold"] }
+"ui.highlight"             = { bg = "panel" }
+
+"error"   = "coral"
+"warning" = "amber"
+"info"    = "cyan"
+"hint"    = "muted"
+"diagnostic.error"       = { underline = { color = "coral", style = "curl" } }
+"diagnostic.warning"     = { underline = { color = "amber", style = "curl" } }
+"diagnostic.info"        = { underline = { color = "cyan", style = "line" } }
+"diagnostic.hint"        = { underline = { color = "muted", style = "dotted" } }
+"diagnostic.unnecessary" = { modifiers = ["dim"] }
+"diagnostic.deprecated"  = { modifiers = ["crossed_out"] }
+
+[palette]
+navy      = "#03091a"   # space navy (text on bright bars)
+panel     = "#061230"   # menu panel: status bar, popups, current line
+hairline  = "#17345f"
+dim_frame = "#1d4e8f"
+frame     = "#2f8cff"   # frame blue
+menu      = "#4da3ff"   # menu blue
+cursor    = "#5ab4e5"   # = kitty cursor
+sky       = "#8fd6ff"
+cyan      = "#7fe3ff"
+white     = "#dce9f8"   # near-white
+muted     = "#8fa9cc"
+amber     = "#f2c25c"
+coral     = "#ff8f80"
+green     = "#97d468"

@@ -1,0 +1,116 @@
+# Helix colors: Imperial control panel (same palette as yazi/waybar). Linked through current.
+# Keys: https://docs.helix-editor.com/themes.html
+# Code is lit like the panel's lamps: keywords and names white, functions and types pale amber,
+# strings green, numbers amber, comments unlit. Red is only for errors. Mode lamp in the status bar:
+# white = normal, green = insert, amber = select.
+
+# SYNTAX
+"attribute"                 = "amber"
+"comment"                   = { fg = "muted", modifiers = ["italic"] }
+"constant"                  = "lamp"          # ALL_CAPS names; numbers stay amber
+"constant.builtin"          = { fg = "amber", modifiers = ["bold"] }
+"constant.character.escape" = "amber_pale"
+"constant.numeric"          = "amber"
+"constructor"               = "amber_pale"
+"function"                  = "amber_pale"
+"function.builtin"          = "amber_pale"
+"function.macro"            = "amber_pale"
+"keyword"                   = { fg = "lamp", modifiers = ["bold"] }
+"keyword.directive"         = "trace"
+"label"                     = "amber"
+"namespace"                 = "amber_pale"
+"operator"                  = "trace"
+"punctuation"               = "trace"
+"special"                   = "amber"
+"string"                    = "green"
+"string.regexp"             = "green_pale"
+"string.special"            = "green_pale"
+"tag"                       = "lamp"
+"type"                      = { fg = "amber_pale", modifiers = ["bold"] }
+"type.builtin"              = { fg = "amber_pale", modifiers = ["bold"] }
+"variable"                  = "text"
+"variable.builtin"          = { fg = "lamp", modifiers = ["italic"] }
+"variable.parameter"        = { fg = "text", modifiers = ["italic"] }
+"variable.other.member"     = "text"
+
+# MARKUP (markdown)
+"markup.heading"       = { fg = "lamp", modifiers = ["bold"] }
+"markup.list"          = "amber"
+"markup.bold"          = { modifiers = ["bold"] }
+"markup.italic"        = { modifiers = ["italic"] }
+"markup.strikethrough" = { modifiers = ["crossed_out"] }
+"markup.link.url"      = { fg = "trace", underline.style = "line" }
+"markup.link.text"     = "lamp"
+"markup.quote"         = { fg = "muted", modifiers = ["italic"] }
+"markup.raw"           = "green"
+
+"diff.plus"  = "green"
+"diff.minus" = "red"
+"diff.delta" = "amber"
+
+# UI
+"ui.background"            = { fg = "text", bg = "face" }
+"ui.text"                  = "text"
+"ui.text.focus"            = { fg = "lamp", modifiers = ["bold"] }
+"ui.text.inactive"         = "muted"
+"ui.text.directory"        = "lamp"
+"ui.cursor"                = { fg = "face", bg = "trace" }
+"ui.cursor.primary"        = { fg = "face", bg = "lamp" }
+"ui.cursor.match"          = { fg = "amber", modifiers = ["bold", "underlined"] }
+"ui.selection"             = { bg = "frame" }
+"ui.selection.primary"     = { bg = "unlit" }
+"ui.cursorline.primary"    = { bg = "lip" }
+"ui.linenr"                = "unlit"
+"ui.linenr.selected"       = { fg = "lamp", modifiers = ["bold"] }
+"ui.gutter"                = { bg = "face" }
+"ui.window"                = { fg = "frame" }
+"ui.popup"                 = { fg = "text", bg = "lip" }
+"ui.popup.info"            = { fg = "text", bg = "lip" }
+"ui.help"                  = { fg = "text", bg = "lip" }
+"ui.menu"                  = { fg = "text", bg = "lip" }
+"ui.menu.selected"         = { fg = "face", bg = "lamp", modifiers = ["bold"] }
+"ui.menu.scroll"           = { fg = "trace", bg = "frame" }
+"ui.picker.header"         = { fg = "trace", modifiers = ["bold"] }
+"ui.picker.header.column.active" = { fg = "lamp", underline.style = "line" }
+"ui.statusline"            = { fg = "text", bg = "lip" }
+"ui.statusline.inactive"   = { fg = "muted", bg = "lip" }
+"ui.statusline.normal"     = { fg = "face", bg = "lamp", modifiers = ["bold"] }
+"ui.statusline.insert"     = { fg = "face", bg = "green", modifiers = ["bold"] }
+"ui.statusline.select"     = { fg = "face", bg = "amber", modifiers = ["bold"] }
+"ui.statusline.separator"  = "frame"
+"ui.bufferline"            = { fg = "trace", bg = "frame" }
+"ui.bufferline.active"     = { fg = "face", bg = "lamp", modifiers = ["bold"] }
+"ui.bufferline.background" = { bg = "lip" }
+"ui.virtual.whitespace"    = "unlit"
+"ui.virtual.wrap"          = "unlit"
+"ui.virtual.indent-guide"  = "frame"
+"ui.virtual.ruler"         = { bg = "lip" }
+"ui.virtual.inlay-hint"    = { fg = "muted", modifiers = ["italic"] }
+"ui.virtual.jump-label"    = { fg = "amber", modifiers = ["bold"] }
+"ui.highlight"             = { bg = "lip" }
+
+"error"   = "red"
+"warning" = "amber"
+"info"    = "lamp"
+"hint"    = "trace"
+"diagnostic.error"       = { underline = { color = "red", style = "curl" } }
+"diagnostic.warning"     = { underline = { color = "amber", style = "curl" } }
+"diagnostic.info"        = { underline = { color = "lamp", style = "line" } }
+"diagnostic.hint"        = { underline = { color = "trace", style = "dotted" } }
+"diagnostic.unnecessary" = { modifiers = ["dim"] }
+"diagnostic.deprecated"  = { modifiers = ["crossed_out"] }
+
+[palette]
+face       = "#121314"   # panel face (= kitty background)
+lip        = "#1c1d20"   # lighter strip: status bar, popups, current line
+frame      = "#2e2f33"   # gunmetal frames
+unlit      = "#3c3d40"   # dark lamp
+muted      = "#6b7078"
+trace      = "#8a8d93"
+text       = "#c9ccd1"
+lamp       = "#f2f2f2"   # white lamp
+red        = "#ff2a2a"
+amber      = "#ffb020"
+amber_pale = "#ffd27a"   # amber lamp seen through frosted glass
+green      = "#3ddc5a"
+green_pale = "#8fe8a0"
