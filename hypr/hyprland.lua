@@ -353,7 +353,7 @@ hl.on("hyprland.start", function ()
   hl.exec_cmd("eww daemon")
   update_mode_soon()
   -- wallpaper only if the active theme has one (hyprpaper.conf -> current theme; dangling = none)
-  hl.exec_cmd("[ -e ~/.config/hypr/hyprpaper.conf ] && hyprpaper")
+  hl.exec_cmd('[ -e ~/.config/hypr/hyprpaper.conf ] && hyprpaper > "$XDG_RUNTIME_DIR/hyprpaper.log" 2>&1')
   -- no nm-applet: the waybar network module opens nmtui on click
   hl.exec_cmd("systemctl --user start hyprpolkitagent")
   hl.exec_cmd("hypridle")
