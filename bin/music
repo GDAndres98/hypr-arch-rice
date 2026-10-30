@@ -1,0 +1,27 @@
+#!/bin/sh
+# music: Spotify from the terminal. Usage: music     (SUPER + N)
+#
+# The official app plays the audio (third-party playback via librespot is blocked for this
+# account), spotify_player is the remote (Spotify Connect, `enable_streaming = "Never"`).
+#   1. Official app not running -> start it and hide it on the SUPER + S scratchpad ("magic").
+#   2. spotify_player already open -> focus it; else open it in kitty.
+# First run after starting the app: in spotify_player press D and pick the app's device.
+
+if ! pgrep -x spotify >/dev/null; then
+    setsid -f spotify-launcher >/dev/null 2>&1
+    # Spotify can set its class late (XWayland) and its case differs (Wayland "spotify",
+    # XWayland "Spotify"), so a window rule can miss it:
+    # wait for the window instead (the first start may also update Spotify, so be patient)
+    for _ in $(seq 60); do
+        addr=$(hyprctl clients -j | jq -r '.[] | select(.class | test("^spotify$"; "i")) | .address' | head -n1)
+        [ -n "$addr" ] && break
+        sleep 0.5
+    done
+    [ -n "$addr" ] && hyprctl dispatch "hl.dsp.window.move({ workspace = \"special:magic\", window = \"address:$addr\", follow = false })" >/dev/null
+fi
+
+if hyprctl clients -j | jq -e '.[] | select(.class == "spotify_player")' >/dev/null; then
+    hyprctl dispatch 'hl.dsp.focus({ window = "class:spotify_player" })' >/dev/null
+else
+    exec kitty --class spotify_player spotify_player
+fi

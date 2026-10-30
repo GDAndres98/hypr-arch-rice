@@ -39,6 +39,8 @@ local terminal    = "kitty"
 local fileManager = "kitty --class yazi yazi"
 -- Bluetooth: bluetui in the theme's colors (same as the waybar Bluetooth button)
 local bluetooth   = os.getenv("HOME") .. "/dotfiles/bin/comlink"
+-- Music: Spotify app hidden on the scratchpad + spotify_player in kitty (bin/music)
+local music       = os.getenv("HOME") .. "/dotfiles/bin/music"
 -- App finder: rofi with the active theme's config. Pressing SUPER + R again closes it (pkill finds it).
 local rofiDir     = os.getenv("HOME") .. "/dotfiles/current/rofi/"
 local menu        = "pkill -x rofi || rofi -show drun -config " .. rofiDir .. "config.rasi"
@@ -217,6 +219,7 @@ local closeWindowBind = hl.bind(mainMod .. " + C", hl.dsp.window.close())
 hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(bluetooth))
+hl.bind(mainMod .. " + N", hl.dsp.exec_cmd(music))
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd(clipboard))
