@@ -12,9 +12,16 @@
     "height": 32,
     "spacing": 0,
 
-    "modules-left": ["custom/lamps", "custom/beacon", "hyprland/workspaces", "bluetooth"],
+    "modules-left": ["group/console", "hyprland/workspaces", "bluetooth"],
     "modules-center": ["group/sector"],
     "modules-right": ["pulseaudio", "network", "battery", "tray"],
+
+    // Left corner = one panel (#console in CSS): the decorative lamp row, then two real lamps,
+    // the power-profile eye and the cell guard (battery conservation mode)
+    "group/console": {
+        "orientation": "horizontal",
+        "modules": ["custom/lamps", "custom/beacon", "custom/cellguard"]
+    },
 
     // Decoration only, copied from the panels: red + unlit hexagon, white and red squares, copper dial
     "custom/lamps": {
@@ -108,6 +115,14 @@
         ],
         "states": { "warning": 30, "critical": 15 },
         "tooltip-format": "Power cell: battery {capacity}%  {timeTo}"
+    },
+    // Cell guard = Lenovo battery conservation mode (ideapad_acpi): lamp lit white = ON (charging stops
+    // at ~60%), unlit = OFF. Same 3-line output as the beacon (text, tooltip, CSS class).
+    // No such file (not an IdeaPad/Legion) = prints nothing, so the module hides itself.
+    "custom/cellguard": {
+        "exec": "f=$(ls /sys/bus/platform/drivers/ideapad_acpi/*/conservation_mode 2>/dev/null | head -n1); [ -n \"$f\" ] || exit 0; if [ \"$(cat \"$f\")\" = 1 ]; then printf '⬢\\nCell guard: ON, charging stops at about 60%%\\non\\n'; else printf '⬢\\nCell guard: OFF, charging goes to 100%%\\noff\\n'; fi",
+        "interval": 10,
+        "format": "<span font_family='JetBrainsMono Nerd Font'>{}</span>"
     },
     "tray": {
         "spacing": 8
