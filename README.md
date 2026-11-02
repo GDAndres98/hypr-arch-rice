@@ -2,6 +2,15 @@
 
 Config for my Arch Linux + Hyprland setup, with switchable themes.
 
+## Themes
+
+| [Imperial](themes/imperial/README.md) | [Halo CE](themes/halo-ce/README.md) |
+|---|---|
+| [![Imperial](themes/imperial/screenshots/work.webp)](themes/imperial/README.md) | [![Halo CE](themes/halo-ce/screenshots/work.webp)](themes/halo-ce/README.md) |
+| Star Wars Imperial console: Death Star walls, lamp panels, Aurebesh in three modes | Halo: Combat Evolved (2001) Xbox menus: space navy, shield blue, MJOLNIR HUD dashboard |
+
+Each theme's README has screenshots of the dashboard, bar, rofi menus and (Imperial) the Aurebesh modes.
+
 ## Layout
 
 ```
@@ -22,6 +31,7 @@ dotfiles/
 └── themes/
     ├── imperial/            Star Wars Imperial console, with Aurebesh (see below)
     └── halo-ce/
+        ├── README.md            what the theme looks like, with screenshots/ (WebP)
         ├── hypr/theme.lua       borders, shadows, blur, animations, background color
         ├── hypr/hyprlock.conf   lock screen
         ├── hypr/hyprtoolkit.conf  look of hyprland-run and other hyprtoolkit apps
@@ -79,6 +89,7 @@ Copy `themes/halo-ce` to `themes/<name>` and edit it. Each theme must provide:
 - an eww window named `dashboard` (`hyprland.lua` opens it on empty workspaces)
 - optional executable hooks `enter` / `leave`, run by `theme` when switching to / away from it
 - optional `hypr/hyprpaper.conf` for a wallpaper (without it, `misc.background_color` in `theme.lua` shows)
+- optional `README.md` + `screenshots/` (keep personal data out of shots: user name, Wi-Fi name, home folder)
 
 ## New machine
 
