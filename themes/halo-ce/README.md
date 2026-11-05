@@ -45,6 +45,11 @@ Windows: square corners, 2 px frame blue (`#2f8cff`) border with a blue glow on 
 
 UNSC // Index, Ballistics and Comm Log: translucent navy over blur (a layer rule in `hypr/theme.lua`), Warthog-yellow results.
 
+## spotify_player
+
+`spotify-player/theme.toml`: menu-blue titles on dim blue frames, the menu's blue selection band, cyan for play/pause and
+the playing track, coral liked songs, a shield-blue progress bar.
+
 ## Palette and fonts
 
 | | Color |

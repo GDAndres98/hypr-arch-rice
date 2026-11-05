@@ -1,0 +1,31 @@
+# spotify_player theme: Halo CE menus. Linked as ~/.config/spotify-player/theme.toml (through current).
+# Every theme names itself "dotfiles", so app.toml (outside this repo: it holds the Spotify client_id)
+# only needs `theme = "dotfiles"`. spotify_player reads this at startup: reopen it (Super+N) after `theme`.
+# Menu blue labels, near-white values, cyan = focus/now playing, selection = the menu's blue band.
+# Palette left out on purpose: it falls back to kitty's colors.
+# Docs: https://github.com/aome510/spotify-player/blob/master/docs/config.md#themes
+
+[[themes]]
+name = "dotfiles"
+
+[themes.component_style]
+block_title = { fg = "#4da3ff", modifiers = ["Bold"] }
+border = { fg = "#1d4e8f" }
+playback_status = { fg = "#7fe3ff", modifiers = ["Bold"] }
+playback_track = { fg = "#dce9f8", modifiers = ["Bold"] }
+playback_artists = { fg = "#4da3ff" }
+playback_album = { fg = "#8fa9cc" }
+playback_genres = { fg = "#8fa9cc", modifiers = ["Italic"] }
+playback_metadata = { fg = "#8fa9cc" }
+playback_progress_bar = { fg = "#2f8cff", bg = "#17345f" }      # shield blue on a dim track
+playback_progress_bar_unfilled = { fg = "#17345f" }
+current_playing = { fg = "#7fe3ff", modifiers = ["Bold"] }
+page_desc = { fg = "#dce9f8", modifiers = ["Bold"] }
+playlist_desc = { fg = "#8fa9cc" }
+table_header = { fg = "#4da3ff", modifiers = ["Bold"] }
+selection = { fg = "#ffffff", bg = "#1d4e8f", modifiers = ["Bold"] }   # menu selection band
+secondary_row = { bg = "#050d22" }
+like = { fg = "#ff8f80" }
+lyrics_played = { fg = "#3d5a80" }
+lyrics_playing = { fg = "#7fe3ff", modifiers = ["Bold"] }
+visualization = { low = "#1d4e8f", mid = "#4da3ff", high = "#7fe3ff" }

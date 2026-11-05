@@ -40,6 +40,11 @@ Windows: 1 px border, Imperial red on the focused window, grey on the others, 2 
 
 Imperial Index, Targeting Computer and Intercepted Transmissions: each app's name also appears in Aurebesh.
 
+## spotify_player
+
+`spotify-player/theme.toml`: white titles on gunmetal frames, a white-lamp selection bar (no blue, like yazi), red lamp for
+play/pause, the playing track and liked songs, a white progress strip on an unlit track.
+
 ## Aurebesh modes (`sw-mode`)
 
 | Mode | Look |

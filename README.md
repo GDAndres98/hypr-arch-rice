@@ -40,6 +40,7 @@ dotfiles/
         ├── rofi/calc.rasi       calculator on SUPER + SHIFT + C (imports config.rasi)
         ├── imv/                 image viewer, linked from ~/.config/imv
         ├── yazi/                terminal file manager (Super+E): colors only (theme.toml), linked from ~/.config/yazi
+        ├── spotify-player/      theme.toml for spotify_player, linked as ~/.config/spotify-player/theme.toml; every theme is named "dotfiles" (app.toml stays private: it holds the client_id). Reopen spotify_player after `theme`
         ├── wiremix/             PipeWire mixer TUI (waybar volume click; pavucontrol stays, unthemed): own theme + char set, linked from ~/.config/wiremix
         ├── helix/               theme.toml: Helix editor colors (`theme` sends SIGUSR1 so open editors reload)
         ├── kitty/               theme.conf: kitty overrides (Imperial: dark grey background #121314)
@@ -86,6 +87,7 @@ Copy `themes/halo-ce` to `themes/<name>` and edit it. Each theme must provide:
 - `imv/config`
 - `gtk-3.0/gtk.css` + `settings.ini` (GTK3 palette: `@define-color` only, no selectors, so waybar/eww are untouched; only works on the `adw-gtk3-dark` base theme)
 - `waybar/`, `mako/config`, `eww/`
+- `spotify-player/theme.toml` with one theme named `dotfiles`
 - an eww window named `dashboard` (`hyprland.lua` opens it on empty workspaces)
 - optional executable hooks `enter` / `leave`, run by `theme` when switching to / away from it
 - optional `hypr/hyprpaper.conf` for a wallpaper (without it, `misc.background_color` in `theme.lua` shows)
@@ -100,6 +102,7 @@ ln -s ~/dotfiles/kitty ~/.config/kitty
 ln -s ~/dotfiles/helix ~/.config/helix
 ln -s ~/dotfiles/spotify-launcher/spotify-launcher.conf ~/.config/spotify-launcher.conf
 for x in waybar eww mako imv yazi wiremix gtk-3.0; do ln -s ~/dotfiles/current/$x ~/.config/$x; done
+ln -s ~/dotfiles/current/spotify-player/theme.toml ~/.config/spotify-player/theme.toml   # and theme = "dotfiles" in its app.toml
 sudo pacman -S adw-gtk-theme   # GTK3 base theme that reads our palette
 gsettings set org.gnome.desktop.interface gtk-theme adw-gtk3-dark
 gsettings set org.gnome.desktop.interface color-scheme prefer-dark

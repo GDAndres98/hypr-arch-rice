@@ -1,0 +1,31 @@
+# spotify_player theme: Imperial console. Linked as ~/.config/spotify-player/theme.toml (through current).
+# Every theme names itself "dotfiles", so app.toml (outside this repo: it holds the Spotify client_id)
+# only needs `theme = "dotfiles"`. spotify_player reads this at startup: reopen it (Super+N) after `theme`.
+# Lamps: white = normal/selected (no blue, like yazi), red = live (playing, liked), unlit grey = frames.
+# Palette left out on purpose: it falls back to kitty's colors (dark grey #121314 face).
+# Docs: https://github.com/aome510/spotify-player/blob/master/docs/config.md#themes
+
+[[themes]]
+name = "dotfiles"
+
+[themes.component_style]
+block_title = { fg = "#f2f2f2", modifiers = ["Bold"] }
+border = { fg = "#3c3d40" }
+playback_status = { fg = "#ff2a2a", modifiers = ["Bold"] }      # the play/pause lamp
+playback_track = { fg = "#f2f2f2", modifiers = ["Bold"] }
+playback_artists = { fg = "#c9ccd1" }
+playback_album = { fg = "#8a8d93" }
+playback_genres = { fg = "#8a8d93", modifiers = ["Italic"] }
+playback_metadata = { fg = "#8a8d93" }
+playback_progress_bar = { fg = "#f2f2f2", bg = "#3c3d40" }      # lit strip on an unlit track
+playback_progress_bar_unfilled = { fg = "#3c3d40" }
+current_playing = { fg = "#ff2a2a", modifiers = ["Bold"] }
+page_desc = { fg = "#f2f2f2", modifiers = ["Bold"] }
+playlist_desc = { fg = "#8a8d93" }
+table_header = { fg = "#8a8d93", modifiers = ["Bold"] }
+selection = { fg = "#121314", bg = "#f2f2f2", modifiers = ["Bold"] }   # white lamp, like yazi
+secondary_row = { bg = "#17181a" }
+like = { fg = "#ff2a2a" }
+lyrics_played = { fg = "#5a5c61" }
+lyrics_playing = { fg = "#f2f2f2", modifiers = ["Bold"] }
+visualization = { low = "#8a8d93", mid = "#f2f2f2", high = "#ff2a2a" }
