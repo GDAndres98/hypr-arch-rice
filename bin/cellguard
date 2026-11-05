@@ -1,0 +1,36 @@
+#!/bin/sh
+# cellguard: Lenovo battery conservation mode (IdeaPad/Legion, ideapad_acpi driver).
+# ON = the laptop stops charging at about 60%, which slows battery wear when it lives on the charger.
+# Usage: cellguard            toggle
+#        cellguard on|off     set
+#        cellguard status     print on / off
+#
+# The setting is a file in /sys owned by root. A udev rule makes it writable for the wheel group,
+# so no sudo is needed (see the README, "New machine"):
+#   /etc/udev/rules.d/90-ideapad-conservation.rules
+# The firmware keeps the setting across reboots. After a change, the waybar lamp (custom/cellguard)
+# is refreshed right away with signal RTMIN+8 instead of waiting for its 10 s interval.
+
+f=$(ls /sys/bus/platform/drivers/ideapad_acpi/*/conservation_mode 2>/dev/null | head -n1)
+[ -n "$f" ] || { echo "cellguard: no conservation_mode on this machine (not an IdeaPad/Legion?)" >&2; exit 1; }
+
+cur=$(cat "$f")
+case ${1:-toggle} in
+    status) if [ "$cur" = 1 ]; then echo on; else echo off; fi; exit 0 ;;
+    on)     new=1 ;;
+    off)    new=0 ;;
+    toggle) if [ "$cur" = 1 ]; then new=0; else new=1; fi ;;
+    *)      echo "usage: cellguard [on|off|toggle|status]" >&2; exit 1 ;;
+esac
+
+if ! echo "$new" 2>/dev/null > "$f"; then
+    msg="No write access to $f (is the udev rule installed?)"
+    echo "cellguard: $msg" >&2
+    notify-send -a cellguard -u critical "Cell guard" "$msg"
+    exit 1
+fi
+
+pkill -RTMIN+8 -x waybar
+if [ "$new" = 1 ]; then msg="ON: charging stops at about 60%"; else msg="OFF: charging goes to 100%"; fi
+echo "cellguard: $msg"
+notify-send -a cellguard "Cell guard" "$msg"

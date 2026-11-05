@@ -24,7 +24,7 @@ says what each one is, in readable text.
 
 | Panel | What it shows |
 |---|---|
-| Left corner lamps | decoration, then two real lamps: the **eye** pulses in the power profile's color (Fn+Q: red performance, amber balanced, green low-power) and the **cell guard** is lit white while Lenovo battery conservation mode is on |
+| Left corner lamps | decoration, then two real lamps: the **eye** pulses in the power profile's color (Fn+Q: red performance, amber balanced, green low-power) and the **cell guard** is lit white while Lenovo battery conservation mode is on; click it to toggle (`bin/cellguard`) |
 | Workspaces | grey tiles, the active one lit white, urgent red |
 | Comlink | Bluetooth lamp, blinks blue while a device is connected; click opens bluetui |
 | Center | operator name (`id -un` at runtime, shown here as TK-935) + time, between blue lamps |

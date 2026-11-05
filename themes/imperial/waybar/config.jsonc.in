@@ -119,9 +119,12 @@
     // Cell guard = Lenovo battery conservation mode (ideapad_acpi): lamp lit white = ON (charging stops
     // at ~60%), unlit = OFF. Same 3-line output as the beacon (text, tooltip, CSS class).
     // No such file (not an IdeaPad/Legion) = prints nothing, so the module hides itself.
+    // Click = toggle (bin/cellguard), which then sends signal 8 so the lamp updates at once.
     "custom/cellguard": {
-        "exec": "f=$(ls /sys/bus/platform/drivers/ideapad_acpi/*/conservation_mode 2>/dev/null | head -n1); [ -n \"$f\" ] || exit 0; if [ \"$(cat \"$f\")\" = 1 ]; then printf '⬢\\nCell guard: ON, charging stops at about 60%%\\non\\n'; else printf '⬢\\nCell guard: OFF, charging goes to 100%%\\noff\\n'; fi",
+        "exec": "f=$(ls /sys/bus/platform/drivers/ideapad_acpi/*/conservation_mode 2>/dev/null | head -n1); [ -n \"$f\" ] || exit 0; if [ \"$(cat \"$f\")\" = 1 ]; then printf '⬢\\nCell guard: ON, charging stops at about 60%% (click: turn off)\\non\\n'; else printf '⬢\\nCell guard: OFF, charging goes to 100%% (click: turn on)\\noff\\n'; fi",
         "interval": 10,
+        "signal": 8,
+        "on-click": "~/dotfiles/bin/cellguard",
         "format": "<span font_family='JetBrainsMono Nerd Font'>{}</span>"
     },
     "tray": {

@@ -26,7 +26,7 @@ dotfiles/
 ├── helix/                shared, linked from ~/.config/helix: config.toml (theme = "current"); `themes/current.toml` -> current/helix/theme.toml
 ├── spotify-launcher/     shared, linked from ~/.config/spotify-launcher.conf: run Spotify natively on Wayland (sharp at scale 1.25)
 ├── xkb/                   local only (gitignored): this laptop's keyboard tweaks, linked from ~/.config/xkb
-├── bin/                   scripts, linked into ~/.local/bin: `theme`, `sw-mode`, `comms` (nmtui in theme colors), `comlink` (bluetui in theme colors), `music` (Spotify app hidden on the scratchpad + spotify_player in kitty, Super+N), `doom`/`doom2` (Crispy Doom with the WADs in `/data/games/doom`), `stardew` (Stardew Valley from `/data/games/stardew`, no Steam)
+├── bin/                   scripts, linked into ~/.local/bin: `theme`, `sw-mode`, `comms` (nmtui in theme colors), `comlink` (bluetui in theme colors), `music` (Spotify app hidden on the scratchpad + spotify_player in kitty, Super+N), `doom`/`doom2` (Crispy Doom with the WADs in `/data/games/doom`), `stardew` (Stardew Valley from `/data/games/stardew`, no Steam), `cellguard` (toggle Lenovo battery conservation mode; also the Imperial bar's cell guard lamp click)
 ├── current  ->  themes/<name>       the ACTIVE theme (one link to switch)
 └── themes/
     ├── imperial/            Star Wars Imperial console, with Aurebesh (see below)
@@ -103,7 +103,9 @@ for x in waybar eww mako imv yazi wiremix gtk-3.0; do ln -s ~/dotfiles/current/$
 sudo pacman -S adw-gtk-theme   # GTK3 base theme that reads our palette
 gsettings set org.gnome.desktop.interface gtk-theme adw-gtk3-dark
 gsettings set org.gnome.desktop.interface color-scheme prefer-dark
-ln -s ~/dotfiles/bin/theme ~/dotfiles/bin/sw-mode ~/dotfiles/bin/comms ~/dotfiles/bin/comlink ~/dotfiles/bin/music ~/dotfiles/bin/doom ~/dotfiles/bin/doom2 ~/dotfiles/bin/stardew ~/.local/bin/
+ln -s ~/dotfiles/bin/theme ~/dotfiles/bin/sw-mode ~/dotfiles/bin/comms ~/dotfiles/bin/comlink ~/dotfiles/bin/music ~/dotfiles/bin/doom ~/dotfiles/bin/doom2 ~/dotfiles/bin/stardew ~/dotfiles/bin/cellguard ~/.local/bin/
 ln -s ~/dotfiles/themes/imperial/fonts ~/.local/share/fonts/imperial
 sw-mode --no-reload   # builds the Imperial configs from their templates
+# Lenovo IdeaPad/Legion only: let the wheel group write conservation_mode, so `cellguard` needs no sudo
+printf '%s\n' 'ACTION=="add|bind", SUBSYSTEM=="platform", DRIVER=="ideapad_acpi", RUN+="/bin/sh -c '"'"'chgrp wheel /sys%p/conservation_mode && chmod g+w /sys%p/conservation_mode'"'"'"' | sudo tee /etc/udev/rules.d/90-ideapad-conservation.rules
 ```
