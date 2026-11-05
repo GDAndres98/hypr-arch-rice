@@ -54,12 +54,14 @@
 (defwidget tile [n]
   (box :class "tile ${stats.bat > (n - 1) * 10 ? '' : 'off'}"))
 
+; Like Halo CE, the bar sits on the right and drains from the LEFT: tile 1 (lit while > 0%) is the
+; rightmost, tile 10 (lit only above 90%) the leftmost. Lost tiles keep their width, so the rest stay put.
 (defwidget health []
   (box :class "health ${stats.bat <= 30 ? 'red' : stats.bat <= 60 ? 'yellow' : 'blue'} ${stats.bat_status == 'Charging' ? 'charging' : ''}"
-       :space-evenly false :spacing 2
+       :space-evenly false :spacing 2 :halign "end"
     (box :class "cross")   ; slanted cross, drawn in eww.css
-    (tile :n 1) (tile :n 2) (tile :n 3) (tile :n 4) (tile :n 5)
-    (tile :n 6) (tile :n 7) (tile :n 8) (tile :n 9) (tile :n 10)))
+    (tile :n 10) (tile :n 9) (tile :n 8) (tile :n 7) (tile :n 6)
+    (tile :n 5) (tile :n 4) (tile :n 3) (tile :n 2) (tile :n 1)))
 
 ; Drive: name + read speed, used / total, segmented capacity bar
 (defwidget drive [num name mount read ?write]

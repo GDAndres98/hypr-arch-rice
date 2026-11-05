@@ -13,47 +13,81 @@
     min-height: 0;
 }
 
-/* The bar: plain space navy */
+/* The bar: translucent space navy over frosted glass (blur = layer rule in hypr/theme.lua),
+   a hairline along the bottom like the menu's title rule */
 window#waybar {
-    background: #03091a;
+    background: linear-gradient(to bottom, rgba(3, 9, 26, 0.78), rgba(3, 9, 26, 0.55));
+    border-bottom: 1px solid rgba(23, 52, 95, 0.9);
     color: #dce9f8;
 }
 
-/* Workspaces = menu items: blue words; the selected one near-white with a soft glow */
+/* Panels: the Halo CE menu frame, shrunk to a strip: translucent navy, bright 1 px frame,
+   rounded corners, soft blue glow */
+#workspaces,
+#clock,
+#systems,
+#health {
+    background: rgba(6, 18, 48, 0.72);
+    border: 1px solid #2f8cff;
+    border-radius: 5px;
+    box-shadow: 0 0 6px rgba(47, 140, 255, 0.45), inset 0 0 6px rgba(47, 140, 255, 0.12);
+    margin: 2px 4px;
+}
+
+/* Workspaces = menu items: blue words; the selected one gets the menu's selection band:
+   a blue gradient fading to the right with a bright cyan left edge */
 #workspaces {
-    margin: 0 4px;
+    padding: 0 3px;
 }
 
 #workspaces button {
     font-family: "Michroma", sans-serif;
-    font-size: 11px;
-    padding: 0 9px;
-    margin: 0 2px;
+    font-size: 10px;
+    padding: 0 10px;
+    margin: 1px 1px;
     color: #4da3ff;
     background: transparent;
+    border-radius: 3px;
     box-shadow: none;
 }
 
 #workspaces button.active {
     color: #ffffff;
-    text-shadow: 0 0 6px rgba(47, 140, 255, 0.9);
+    background: linear-gradient(to right, rgba(47, 140, 255, 0.65), rgba(47, 140, 255, 0.12));
+    box-shadow: inset 2px 0 0 #7fe3ff;
+    text-shadow: 0 0 6px rgba(127, 227, 255, 0.9);
+}
+
+#workspaces button.urgent {
+    color: #ff8f80;
 }
 
 #workspaces button:hover {
     color: #dce9f8;
-    background: transparent;
+    background: rgba(47, 140, 255, 0.18);
 }
 
-/* Clock = screen title: wide display face */
+/* Clock = the screen title: wide display face, near-white time with a glow */
 #clock {
     font-family: "Michroma", sans-serif;
-    font-size: 11px;
-    color: #4da3ff;
+    font-size: 10px;
+    padding: 0 14px;
+    color: #dce9f8;
+    text-shadow: 0 0 6px rgba(47, 140, 255, 0.8);
 }
 
+/* Systems panel: VOL / brightness / COMMS meters, separated by hairlines */
 #pulseaudio,
 #backlight,
-#network,
+#network {
+    padding: 0 10px;
+    font-size: 11px;
+}
+#backlight,
+#network {
+    border-left: 1px solid #17345f;
+}
+
 #tray {
     padding: 0 10px;
 }
@@ -72,7 +106,7 @@ window#waybar {
    The fill layers are slightly shorter (88%) so the arm ends show an edge too. */
 #battery.icon {
     min-width: 15px;
-    margin: 5px 3px 5px 10px;
+    margin: 3px 3px 3px 10px;
     padding: 0;
     font-size: 4px;   /* text is just a space; tiny font keeps the bar 25px */
     background-size: 100% 88%, 88% 100%, 100% 100%, 100% 100%;
@@ -112,7 +146,7 @@ window#waybar {
    Same look and colors as the eww dashboard. */
 #battery.h1, #battery.h2, #battery.h3, #battery.h4, #battery.h5, #battery.h6, #battery.h7, #battery.h8, #battery.h9, #battery.h10 {
     min-width: 9px;
-    margin: 6px 0;
+    margin: 4px 0;
     padding: 0;
     font-size: 4px;   /* the tile's text is just a space; a tiny font keeps it from making the bar taller */
 }

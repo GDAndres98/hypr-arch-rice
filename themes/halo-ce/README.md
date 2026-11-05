@@ -19,9 +19,21 @@ An empty workspace shows the **eww dashboard** (no bar). As soon as a window ope
 power draw, power profile), CPU Telemetry (CPU / memory / GPU on slanted segment meters), Network / Comms and Storage / I-O
 (30-second graphs), Thermal (CPU / GPU core temperatures).
 
-**Bar** (`waybar/`): plain space navy. Workspaces as blue menu words (active one near-white with a glow), date and time
-centered in the wide title face, then volume (click: wiremix), brightness, Wi-Fi (shown here as UNSC-NET; left-click:
-saved connections, right-click: join a network) and the battery as a shield/health meter of 10 slanted segments.
+**Bar** (`waybar/`): a translucent HUD strip over frosted glass (layer rule in `hypr/theme.lua`), with four framed
+panels in the menu's soft blue glow: workspaces (the active one gets the menu's selection band, a blue gradient with a cyan
+left edge), date + time in the wide title face, a systems panel (volume, brightness and Wi-Fi signal as slanted segment
+meters; the network name only in the tooltip; click volume for wiremix, Wi-Fi left/right for saved connections / join),
+and the health panel: the battery as the game's health bar, a fixed cross and 10 slanted tiles that drain from the left.
+
+**Wallpaper** (`wallpaper/ring.py`, shown by hyprpaper and the lock screen): an original drawing of a ring world across a
+starfield. The far arc shows the inner surface (ocean, land, clouds), the near arc the dark hull with a sunlit rim, both
+drawn as crescents so the ring tapers in perspective; a distant sun and a banded gas giant. Rebuild:
+`./ring.py && rsvg-convert -o ring.png ring.svg`.
+
+![wallpaper](wallpaper/ring.png)
+
+**Lock screen** (`hypr/hyprlock.conf`): the wallpaper with big time, date, a framed password well and the
+"press enter to continue" prompt of the Xbox menus.
 
 Windows: square corners, 2 px frame blue (`#2f8cff`) border with a blue glow on the focused window only, no border on the others.
 

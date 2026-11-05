@@ -89,6 +89,14 @@ hl.config({
     },
 })
 
+-- Waybar: translucent HUD strip, the wallpaper shows through frosted glass (look in waybar/style.css)
+hl.layer_rule({
+    name         = "bar-glass",
+    match        = { namespace = "^waybar$" },
+    blur         = true,
+    ignore_alpha = 0.1,           -- don't blur the fully see-through gaps between panels
+})
+
 -- App finder (rofi, SUPER + R): a HUD panel that pops in over frosted, dimmed glass.
 -- Its look lives in rofi/config.rasi; this is how Hyprland draws it.
 hl.config({ decoration = { dim_around = 0.45 } })   -- how dark the rest of the screen gets
