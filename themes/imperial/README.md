@@ -28,7 +28,7 @@ says what each one is, in readable text.
 | Workspaces | grey tiles, the active one lit white, urgent red |
 | Comlink | Bluetooth lamp, blinks blue while a device is connected; click opens bluetui |
 | Center | operator name (`id -un` at runtime, shown here as TK-935) + time, between blue lamps |
-| Audio / Comms / Power | LED meters; click Audio for wiremix, Comms for the network editor; Power blinks red when the battery is critical |
+| VOL / NET / PWR | LED meters; NET shows `LAN` on a cable and `NET DOWN` (blinking red) offline, the network name only in the tooltip; click VOL for wiremix, NET for the network editor; PWR blinks red when the battery is critical |
 
 Windows: 1 px border, Imperial red on the focused window, grey on the others, 2 px gaps.
 

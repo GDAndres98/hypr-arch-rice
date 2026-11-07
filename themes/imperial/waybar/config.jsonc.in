@@ -65,8 +65,8 @@
         "tooltip-format": "Sector time\n{:%A %d %B %Y  %H:%M}"
     },
     "pulseaudio": {
-        "format": "<span font_family='@AUR@' foreground='#c9ccd1'>AUDIO</span> {icon} <span font_family='@AUR@' foreground='#ffffff'>{volume}%</span>",
-        "format-muted": "<span font_family='@AUR@' foreground='#c9ccd1'>AUDIO</span> <span font_family='@AUR@'>MUTED</span>",
+        "format": "<span font_family='@AUR@' foreground='#c9ccd1'>VOL</span> {icon} <span font_family='@AUR@' foreground='#ffffff'>{volume}%</span>",
+        "format-muted": "<span font_family='@AUR@' foreground='#c9ccd1'>VOL</span> <span font_family='@AUR@'>MUTE</span>",
         "format-icons": { "default": [
             "<span font_family='JetBrainsMono Nerd Font'><span color='#3c3d40'>■■■■■</span></span>",
             "<span font_family='JetBrainsMono Nerd Font'>■<span color='#3c3d40'>■■■■</span></span>",
@@ -82,9 +82,9 @@
     // right-click = nmtui in theme colors (bin/comms), which can scan and join new Wi-Fi.
     // Down = red frame blinking (style.css.in), like the critical battery.
     "network": {
-        "format-wifi": "<span font_family='@AUR@' foreground='#c9ccd1'>COMMS</span> {icon}",
-        "format-ethernet": "<span font_family='@AUR@' foreground='#c9ccd1'>COMMS</span> <span font_family='@AUR@'>WIRED</span>",
-        "format-disconnected": "<span font_family='@AUR@' foreground='#c9ccd1'>COMMS</span> <span font_family='@AUR@'>DOWN</span>",
+        "format-wifi": "<span font_family='@AUR@' foreground='#c9ccd1'>NET</span> {icon}",
+        "format-ethernet": "<span font_family='@AUR@' foreground='#c9ccd1'>LAN</span>",
+        "format-disconnected": "<span font_family='@AUR@' foreground='#c9ccd1'>NET</span> <span font_family='@AUR@'>DOWN</span>",
         "format-icons": [
             "<span font_family='JetBrainsMono Nerd Font'>●<span color='#3c3d40'>●●●</span></span>",
             "<span font_family='JetBrainsMono Nerd Font'>●●<span color='#3c3d40'>●●</span></span>",
@@ -99,8 +99,8 @@
     },
     // Battery: white cells, dimmer at 30%, red at 15% (CSS colors the lit cells)
     "battery": {
-        "format": "<span font_family='@AUR@' foreground='#c9ccd1'>POWER</span> {icon} <span font_family='@AUR@' foreground='#ffffff'>{capacity}%</span>",
-        "format-charging": "<span font_family='@AUR@' foreground='#c9ccd1'>POWER</span> {icon} <span font_family='@AUR@' foreground='#ffffff'>+{capacity}%</span>",
+        "format": "<span font_family='@AUR@' foreground='#c9ccd1'>PWR</span> {icon} <span font_family='@AUR@' foreground='#ffffff'>{capacity}%</span>",
+        "format-charging": "<span font_family='@AUR@' foreground='#c9ccd1'>PWR</span> {icon} <span font_family='@AUR@' foreground='#ffffff'>+{capacity}%</span>",
         "format-icons": [
             "<span font_family='JetBrainsMono Nerd Font'>▮<span color='#3c3d40'>▮▮▮▮▮▮▮▮▮</span></span>",
             "<span font_family='JetBrainsMono Nerd Font'>▮▮<span color='#3c3d40'>▮▮▮▮▮▮▮▮</span></span>",
